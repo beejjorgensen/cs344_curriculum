@@ -61,6 +61,10 @@ bar.jpg
 
 Do a `:%s/jpeg/jpg/` and see what happens. Fix with `:%s/jpeg$/jpg/`.
 
+Head over to regexr.com and mess around with that.
+
+* "Challenge yourself!" -- try to match some things but not others
+
 ## Post-class
 
 * Make sure gcc is running everywhere.
