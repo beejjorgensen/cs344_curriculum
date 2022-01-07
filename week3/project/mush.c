@@ -1,4 +1,4 @@
-// trash -- Training Shell
+// mush -- Mega Underwhelming Shell
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +9,7 @@
 #define MAX_CL_LEN 2048
 #define MAX_ARGS 128
 
-#define PROMPT "trash$ "
+#define PROMPT "mush$ "
 
 #define WHITESPACE " \t\n\r"
 
