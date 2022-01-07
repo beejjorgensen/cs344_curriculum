@@ -1,3 +1,5 @@
+// trash -- Training Shell
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,6 +8,8 @@
 
 #define MAX_CL_LEN 2048
 #define MAX_ARGS 128
+
+#define PROMPT "trash$ "
 
 #define WHITESPACE " \t\n\r"
 
@@ -78,7 +82,7 @@ int main(void)
     char *args[MAX_ARGS];
 
     for(;;) {
-        printf("bsh$ ");
+        printf("%s", PROMPT);
         fflush(stdout);
 
         fgets(cl, sizeof cl, stdin);
