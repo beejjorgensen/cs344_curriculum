@@ -1,0 +1,1 @@
+ls -a $1 | grep '[aeiouAEIOU]$'

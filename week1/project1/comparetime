@@ -1,0 +1,2 @@
+telnet time.nist.gov daytime 2> /dev/null | tail -n 1 | cut -d' ' -f 2,3
+date -u
