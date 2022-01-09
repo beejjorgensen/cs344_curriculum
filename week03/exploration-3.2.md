@@ -1,3 +1,5 @@
+<!-- Exploration 3.2: Multi-Level Feedback Queue -->
+
 ## Multi-Level Feedback Queue
 
 The MLFQ is a scheduler that attempts to solve two problems:

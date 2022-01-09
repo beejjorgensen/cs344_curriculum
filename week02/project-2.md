@@ -1,3 +1,5 @@
+<!-- Project 2: Programming Utilities in C -->
+
 ## Introduction
 
 We're going to write some utilities.

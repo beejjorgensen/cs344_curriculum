@@ -1,3 +1,5 @@
+<!-- Project 3: Write a Shell in C -->
+
 ## Introduction
 
 For this project, you're going to write a complete shell from scratch, a

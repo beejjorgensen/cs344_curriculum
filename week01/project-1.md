@@ -1,3 +1,5 @@
+<!-- Project 1: Shell Scripting -->
+
 ## Introduction
 
 For this project, we want to use the power of shell scripts to get work

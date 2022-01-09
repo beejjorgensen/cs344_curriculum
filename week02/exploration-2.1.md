@@ -1,4 +1,4 @@
-<!-- Processes and System Programming -->
+<!-- Exploration 2.1: Processes and System Programming -->
 
 ## Processes
 
