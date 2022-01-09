@@ -1,3 +1,5 @@
+<!-- Exploration 3.1: Scheduling -->
+
 ## Scheduling
 
 The _scheduler_ is a basic part of the OS kernel that answers a simple
