@@ -16,3 +16,5 @@ the HTML files into the Canvas HTML editor.
 
 * After pasting, look at the Canvas accessibility checker to see if
   there's anything that needs fixing (i.e. table captions).
+
+* The quizzes have to be pasted in a line at once. Bummer.
