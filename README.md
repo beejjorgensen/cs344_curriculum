@@ -1,19 +1,18 @@
-## HOWTO
+## HOW TO
 
 All the Markdown stuff here is for Canvas.
 
 Start all top-level headers for Canvas with `##` (header 2).
 
-The easiest way to get it in is to load it in VS Code and open the
-Markdown preview. Then cut and paste the preview into Canvas's rich
-editor.
+VS Code preview sadly doesn't copy out the `<pre>` attribute for code
+blocks in a way that Canvas understands.
 
-It should paste is without a hitch.
+Install `cmark-gfm` and `make` to build the `.html` files. You can paste
+the HTML files into the Canvas HTML editor.
 
-## Future directions
+`make clean` to get rid of the `.html` files.
 
-Other options are to process the files with something like `cmark` or
-`cmark-gfm` into HTML and upload those into Canvas's HTML editor.
+## Gotchas
 
-That's an extra step, but it gives us the opportunity to process the
-HTML entities with `style=` attributes, add headers and footers, etc.
+* After pasting, look at the Canvas accessibility checker to see if
+  there's anything that needs fixing (i.e. table captions).
