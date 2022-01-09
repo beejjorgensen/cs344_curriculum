@@ -397,12 +397,10 @@ you can use to get random numbers.
 <!--
 Rubric
 
-10 points each
-
-bigfiles works properly
-arg1 works properly
-geturl works properly
-bigfiles2 works properly
-vowelending works properly
-findlink works properly
+bigfiles works properly (10)
+arg1 works properly (5)
+geturl works properly (5)
+bigfiles2 works properly (10)
+vowelending works properly (10)
+findlink works properly (10)
 -->
