@@ -139,7 +139,7 @@ Submit the link to your GitHub repo.
 
 ## Grading Criteria
 
-This assignment is worth **TODO points**.
+This assignment is worth **70 points**.
 
 Due Sunday at midnight.
 
