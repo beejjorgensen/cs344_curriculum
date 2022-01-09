@@ -24,8 +24,8 @@ After the successful completion of this module, you will be able to:
   
 ## Explorations
 
-* Exploration 3.1
-* Exploration 3.2
+* [Exploration 3.1](https://canvas.oregonstate.edu/courses/1849663/assignments/8768738)
+* [Exploration 3.2](https://canvas.oregonstate.edu/courses/1849663/assignments/8769731)
 
 ## Task List
 
@@ -33,5 +33,5 @@ After the successful completion of this module, you will be able to:
   * [CPU Scheduling](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched.pdf)
   * [Multi-level
     Feedback](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-mlfq.pdf)
-* Complete Quiz 3
-* Complete Project 3
+* Complete [Quiz 3](https://canvas.oregonstate.edu/courses/1849663/quizzes/2756994)
+* Complete [Project 3](https://canvas.oregonstate.edu/courses/1849663/assignments/8769919)
