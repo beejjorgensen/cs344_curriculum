@@ -393,3 +393,16 @@ you can use to get random numbers.
 %  echo $RANDOM
 21342
 ```
+
+<!--
+Rubric
+
+10 points each
+
+bigfiles works properly
+arg1 works properly
+geturl works properly
+bigfiles2 works properly
+vowelending works properly
+findlink works properly
+-->
