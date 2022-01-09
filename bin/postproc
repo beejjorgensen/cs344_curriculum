@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+
+"""
+This program basically parses the HTML and outputs it as-is, except
+with certain modifications.
+
+You can put styles to add (separated by semicolons) in the
+add_styles dictionary.
+
+If you preface the style with an exclamation point, it will replace
+any existing style.
+"""
+
+add_styles = {
+    'h2': "border-bottom: 2px solid #dc4405",
+}
+
+import sys
+from html.parser import HTMLParser
+
+def html_str(tag, attrs, is_startend=False):
+    """
+    Rebuild the HTML string for a start or startend tag and given
+    attributes.
+    """
+
+    r = f"<{tag}"
+
+    if attrs != []:
+        for k, v in attrs:
+            r += f' {k}="{v}"'
+
+    if is_startend:
+        r += " /"
+
+    r += ">"
+
+    return r
+
+def add_style(style, attrs):
+    """Add a style element to attributes."""
+
+    replace = style != "" and style[0] == "!"
+    found = False
+
+    for i, (k, v) in enumerate(attrs):
+        if k == "style":
+            new_style = style[1:] if replace else v + f";{style}"
+            attrs[i] = (k, new_style)
+            found = True
+
+    if not found:
+        attrs.append(("style", style[1:] if replace else style))
+
+class CanvasHTMLParser(HTMLParser):
+    """Subclass built-in HTML Parser for nice Canvas output."""
+
+    def __init__(self, file=sys.stdout):
+        self.file = file
+        super().__init__(convert_charrefs=False)
+
+    def output(self, data):
+        """Write data output to a given file."""
+        self.file.write(data)
+
+    def handle_starttag(self, tag, attrs):
+        if tag in add_styles:
+            add_style(add_styles[tag], attrs)
+
+        self.output(html_str(tag, attrs))
+
+    def handle_endtag(self, tag):
+        self.output(f"</{tag}>")
+
+    def handle_startendtag(self, tag, attrs):
+        self.output(html_str(tag, attrs, is_startend=True))
+
+    def handle_data(self, data):
+        self.output(data)
+
+    def handle_entityref(self, name):
+        self.output(f"&{name};")
+
+    def handle_charref(name):
+        self.output(f"&#{data};")
+
+    def handle_comment(self, data):
+        self.output(f"<!--{data}-->")
+
+    def handle_decl(self, decl):
+        self.output(f"<!{decl}>")
+
+    def handle_pi(self, data):
+        self.output(f"<?{data}>")
+
+    def handle_unknowndecl(self, data):
+        self.output(f"<![{data}]>")
+
+def process_file(fp):
+    parser = CanvasHTMLParser()
+    data = fp.read()
+    parser.reset()
+    parser.feed(data)
+
+def main(argv):
+    
+    if len(argv) == 1:
+        process_file(sys.stdin)
+    else:
+        for filename in argv[1:]:
+            with open(filename) as fp:
+                process_file(fp)
+
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))
+
