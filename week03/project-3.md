@@ -200,3 +200,13 @@ if (feof(stdin))
 ```
 
 Then you can exit the shell with EOF as well as the `exit` command.
+
+<!--
+Rubric:
+
+Prints prompt, reads input (5)
+Runs single command (20)
+Runs single command and arguments (20)
+Handles cd command (20)
+Handles exit command (10)
+-->
