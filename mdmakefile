@@ -1,0 +1,19 @@
+# To be included from week directories
+
+#MD=cmark-gfm
+MD=cmark-gfm
+MDOPTS=--unsafe --strikethrough-double-tilde -e table -e strikethrough
+
+SRCS=$(wildcard *.md)
+TARGETS=$(SRCS:.md=.html)
+
+.PHONY: all clean
+
+all: $(TARGETS)
+
+clean:
+	rm -f $(TARGETS)
+
+%.html: %.md
+	$(MD) $(MDOPTS) $^ > $@
+    
