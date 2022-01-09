@@ -31,4 +31,7 @@ After the successful completion of this module, you will be able to:
 
 * In the Virtualization section of [the book](https://pages.cs.wisc.edu/~remzi/OSTEP/), read:
   * [CPU Scheduling](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched.pdf)
-  * [Multi-level Feedback](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-mlfq.pdf)
+  * [Multi-level
+    Feedback](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-mlfq.pdf)
+* Complete Quiz 3
+* Complete Project 3
