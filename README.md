@@ -2,6 +2,8 @@
 
 All the Markdown stuff here is for Canvas.
 
+Start all top-level headers for Canvas with `##` (header 2).
+
 The easiest way to get it in is to load it in VS Code and open the
 Markdown preview. Then cut and paste the preview into Canvas's rich
 editor.
