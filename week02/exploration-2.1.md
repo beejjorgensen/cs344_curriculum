@@ -12,6 +12,26 @@ keep track of a number of things:
   * Running
   * Blocked (by I/O or other reasons)
 
+## Simulation
+
+We're going to use a simulation of a CPU to see how it schedules
+processes.
+
+The Python file we'll run is
+[here](https://github.com/remzi-arpacidusseau/ostep-homework/tree/master/cpu-intro).
+
+If you want to clone the whole repo containing all the simualtion scripts:
+
+```
+git clone https://github.com/remzi-arpacidusseau/ostep-homework.git
+```
+
+And this script can be found in the `cpu-intro/` directory.
+
+See instructions at the end of the
+[_Processess_](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-intro.pdf)
+chapter in the book.
+
 ## Process API
 
 The kernel allows programs to do at least the following three main
