@@ -22,8 +22,8 @@ After the successful completion of this module, you will be able to:
 
 ## Explorations
 
-* [Exploration 2.1](https://canvas.oregonstate.edu/courses/1849663/pages/exploration-2-dot-1-processes-and-system-programming)
-* [Exploration 2.2](https://canvas.oregonstate.edu/courses/1849663/pages/exploration-2-dot-2-unix-process-api)
+* [Exploration 2.1](https://canvas.oregonstate.edu/courses/1849663/assignments/8752105)
+* [Exploration 2.2](https://canvas.oregonstate.edu/courses/1849663/assignments/8752125)
 
 ## Task List
 
