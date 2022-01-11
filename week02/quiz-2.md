@@ -105,9 +105,9 @@ A system call runs in privileged kernel mode, whereas a library function runs in
 
 A library function runs in privileged kernel mode, whereas a system call runs in unprivileged user mode.
 
-A system call runs in unprivileged kernel mode, whereas a library function runs in privileged user mode.
+A system call handles I/O, whereas a library function handles privileged hardware.
 
-A library function runs in unprivileged kernel mode, whereas a system call runs in privileged user mode.
+A library function is a low-level part of the OS that interfaces with hardware, whereas a system call is part of the C library.
 
 ---
 
