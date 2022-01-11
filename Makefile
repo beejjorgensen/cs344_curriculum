@@ -1,4 +1,4 @@
-DIRS=$(wildcard week??)
+DIRS=$(wildcard week??) bonus
 
 .PHONY: all clean force
 
