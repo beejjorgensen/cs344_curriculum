@@ -240,14 +240,14 @@ What gives?
 
 Well, there are actually two ways to look at our current directory.
 
-* "Logical" Working Directory: the path the contains the symlinks we
-  `cd`'d through. This is maintained by the shell; it tracks, Big
+* **"Logical" Working Directory**: the path that contains the symlinks
+  we `cd`'d through. This is maintained by the shell; it tracks, Big
   Brother-style, all our `cd`s and makes the path look nice by including
   the symlinks we `cd`'d into. This is what we see in the above example.
-* "Physical" Working Directory: the directory we're actually in, once
-  all symlinks are followed. This is just a reference to the current
-  directory's inode, maintained by the kernel. In the above example,
-  this would just be `~/tmp`, since we know we never left that
+* **"Physical" Working Directory**: the directory we're actually in,
+  once all symlinks are followed. This is just a reference to the
+  current directory's inode, maintained by the kernel. In the above
+  example, this would just be `~/tmp`, since we know we never left that
   directory.
 
 The shell stores the logical working directory in the shell variable
