@@ -254,8 +254,8 @@ upper or lowercase. Use `ls -a` to get the directory listing.
 ### 6: Grepping Part 2
 
 Write a shell script called `findlink` that takes a URL as an argument
-and prints the lines that match an anchor tag, one beginning with `<a`.
-Don't forget the single quotes around that regex!
+and prints the lines that match an anchor tag, that is, tags beginning
+with `<a`. Don't forget the single quotes around that regex!
 
 ## What to turn in
 
