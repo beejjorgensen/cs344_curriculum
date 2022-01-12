@@ -1,4 +1,4 @@
-<!-- Exploration 2.2: Unix Process API -->
+<!-- Exploration 2.2: Direct Execution, Unix Process API-->
 
 ## Limited Direct Execution
 
