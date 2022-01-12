@@ -26,8 +26,8 @@ the OS.
 
 The _Limited_ part refers to the fact that the process, even though it
 has control of the CPU, still doesn't have permission to interface
-directly with the hardware or other system resources. Those still hve to
-be requested through syscalls.
+directly with the hardware or other system resources. Those still have
+to be requested through syscalls.
 
 To make this happen, the CPU can be running in _user mode_ (limited), or
 _kernel mode_ (when running in the OS kernel).
