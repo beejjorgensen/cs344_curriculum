@@ -260,8 +260,9 @@ and `..` means the parent directory.
 ### 5. Grepping with Regexes
 
 Write a shell script called `vowelending` that will show all filenames
-of a directory specified on the command line that end with a vowel,
-upper or lowercase. Use `ls -a` to get the directory listing.
+(including the extension--`foo.txt` should not match) of a directory
+specified on the command line that end with a vowel, upper or lowercase.
+Use `ls -a` to get the directory listing.
 
 ### 6: Grepping Part 2
 
