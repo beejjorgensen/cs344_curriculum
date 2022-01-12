@@ -205,6 +205,18 @@ descending (reverse) order with the largest file first.
 Think of how you can pipe commands together to make this happen in a
 single line.
 
+Example output:
+
+```
+15181424 fileproviderctl
+12455552 parl5.30
+6045856 kmutil
+4693872 vim
+3898064 sqlite3
+3780304 dig
+3762464 delv
+```
+
 ### 2. Command Line Arguments
 
 A special variable `$1` holds the first command line argument for a
