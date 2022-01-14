@@ -205,6 +205,18 @@ descending (reverse) order with the largest file first.
 Think of how you can pipe commands together to make this happen in a
 single line.
 
+Example output:
+
+```
+15181424 fileproviderctl
+12455552 parl5.30
+6045856 kmutil
+4693872 vim
+3898064 sqlite3
+3780304 dig
+3762464 delv
+```
+
 ### 2. Command Line Arguments
 
 A special variable `$1` holds the first command line argument for a
@@ -248,14 +260,15 @@ and `..` means the parent directory.
 ### 5. Grepping with Regexes
 
 Write a shell script called `vowelending` that will show all filenames
-of a directory specified on the command line that end with a vowel,
-upper or lowercase. Use `ls -a` to get the directory listing.
+(including the extension--`foo.txt` should not match) of a directory
+specified on the command line that end with a vowel, upper or lowercase.
+Use `ls -a` to get the directory listing.
 
 ### 6: Grepping Part 2
 
 Write a shell script called `findlink` that takes a URL as an argument
-and prints the lines that match an anchor tag, one beginning with `<a`.
-Don't forget the single quotes around that regex!
+and prints the lines that match an anchor tag, that is, tags beginning
+with `<a`. Don't forget the single quotes around that regex!
 
 ## What to turn in
 
