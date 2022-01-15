@@ -197,10 +197,10 @@ process that calls `exec()`.
 ## Reading
 
 * In the Virtualization section of [the book](https://pages.cs.wisc.edu/~remzi/OSTEP/), read:
-  * [Lottery Scheduling/Proportional Share](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-lottery.pdf) section 9.7 to the end 
+  * [Lottery Scheduling/Proportional Share](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-lottery.pdf) sections 9.7-9.8
   
 Here is a link to the interactive demo from that chapter,
-[scheduler.py](https://github.com/remzi-arpacidusseau/ostep-homework/tree/master/cpu-sched).
+[lottery.py](https://github.com/remzi-arpacidusseau/ostep-homework/tree/master/cpu-sched-lottery).
 
 ## Reflect
 
