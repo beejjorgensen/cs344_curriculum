@@ -37,7 +37,8 @@ After the successful completion of this module, you will be able to:
 ## Task List
 
 * In the Virtualization section of [the book](https://pages.cs.wisc.edu/~remzi/OSTEP/), read:
-  * [Lottery Scheduling/Proportional Share](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-lottery.pdf) section 9.7 to the end * [Multi-CPU Scheduling](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-multi.pdf) sections 10.1-10.2
+  * [Lottery Scheduling/Proportional Share](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-lottery.pdf) section 9.7 to the end 
+  * [Multi-CPU Scheduling](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-multi.pdf) sections 10.1-10.2
 * Complete [Quiz 4]()
 * Complete [Project 4]()
 
