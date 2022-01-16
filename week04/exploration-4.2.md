@@ -53,6 +53,8 @@ Here are the four most common numbers to see there:
   read/execute
 * **`0700`**: user has read/write/execute, group and other have nothing
 
+More details are in the next section.
+
 ## Unit File Permissions and Octal
 
 If you `ls -l` a file, you'll see something on the left that looks like:
@@ -132,6 +134,8 @@ What's the octal permission for this?
 -r-xrw---x
 ```
 
+Answer at the bottom of this page.
+
 ## Reading
 
 * In the Virtualization section of [the book](https://pages.cs.wisc.edu/~remzi/OSTEP/), read:
@@ -143,3 +147,5 @@ Here is a link to the interactive demo from that chapter,
 ## Reflect
 
 * Questions?
+
+Answer to the permissions question: `0561`.
