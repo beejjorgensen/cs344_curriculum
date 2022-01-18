@@ -31,14 +31,14 @@ After the successful completion of this module, you will be able to:
 
 ## Explorations
 
-* [Exploration 4.1]()
-* [Exploration 4.2]()
+* [Exploration 4.1](https://canvas.oregonstate.edu/courses/1849663/assignments/8773239)
+* [Exploration 4.2](https://canvas.oregonstate.edu/courses/1849663/assignments/8773241)
 
 ## Task List
 
 * In the Virtualization section of [the book](https://pages.cs.wisc.edu/~remzi/OSTEP/), read:
   * [Lottery Scheduling/Proportional Share](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-lottery.pdf) sections 9.7-9.8
   * [Multi-CPU Scheduling](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-multi.pdf) sections 10.1-10.3
-* Complete [Quiz 4]()
-* Complete [Project 4]()
+* Complete [Quiz 4](https://canvas.oregonstate.edu/courses/1849663/quizzes/2757890)
+* Complete [Project 4](https://canvas.oregonstate.edu/courses/1849663/assignments/8773243)
 
