@@ -99,6 +99,10 @@ It's important because a process won't get an end-of-file indication on
 the read end of the pipe unless _all_ the process that had access to the
 write end have closed it.
 
+All this "file"-y stuff. Pipes sure sound like files, right? You
+`read()`, `write()`, and `close()` them, just like files. There's an old
+proverb: _everything in Unix is a file_. This is true of pipes, as well.
+
 ## The `pipe()` Syscall
 
 A pipe is created like this:
@@ -165,8 +169,14 @@ We can do this with the `dup2()` syscall, like this:
 dup2(pfd[0], 0);
 ```
 
+Internally, `dup2()` will close file descriptor `0` from whatever file
+it was attached to before (presumably the one representing the keyboard)
+then effectively reopen it as a copy of `pfd[0]`, representing the same
+file.
+
 At that point, the process can read from either of those descriptors to
-get information out of the pipe.
+get information out of the pipe, since `0` is now a duplicate of
+`pfd[0]`.
 
 And this is great for getting `wc` to read from the pipe, because it's
 going to read from file descriptor `0`.
