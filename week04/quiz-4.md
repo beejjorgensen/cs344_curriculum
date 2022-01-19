@@ -3,17 +3,13 @@
 
 ---
 
-How does the Completely Fair Scheduler (CFS) decide how much time to
-give a process?
+How does the Completely Fair Scheduler (CFS) decide how much time to give a process?
 
-A fixed length of time is divided up evenly between all processes that
-are ready to run.
+A fixed length of time is divided up evenly between all processes that are ready to run.
 
-A fixed length of time is divided up evenly between all processes that
-are ready to run or are blocked.
+A fixed length of time is divided up evenly between all processes that are ready to run or are blocked.
 
-Every process gets the same amount of time to run every time it gets
-scheduled.
+Every process gets the same amount of time to run every time it gets scheduled.
 
 Every process gets an equal slice of time in round-robin fashion.
 
@@ -21,17 +17,13 @@ Every process gets an equal slice of time in round-robin fashion.
 
 How does "nice" work with the Completely Fair Scheduler (CFS)?
 
-A negative nice gives a process a longer timeslice and makes it
-`vruntime` accumulate less quickly.
+A negative nice gives a process a longer timeslice and makes it vruntime accumulate less quickly.
 
-A positive nice gives a process a longer timeslice and makes it
-`vruntime` accumulate less quickly.
+A positive nice gives a process a longer timeslice and makes it vruntime accumulate less quickly.
 
-A negative nice gives a process a longer timeslice and makes it
-`vruntime` accumulate more quickly.
+A negative nice gives a process a longer timeslice and makes it vruntime accumulate more quickly.
 
-A positive nice gives a process a longer timeslice and makes it
-`vruntime` accumulate more quickly.
+A positive nice gives a process a longer timeslice and makes it vruntime accumulate more quickly.
 
 ---
 
@@ -115,7 +107,7 @@ To set up standard input and standard output to go through the pipe.
 
 To make a backup of the pipe's file descriptors before a fork().
 
-To make sure we don't lose our copies of file descriptors `0` and `1` when we open the pipe.
+To make sure we don't lose our copies of file descriptors 0 and 1 when we open the pipe.
 
 To get additional bandwidth through the pipe for performance reasons.
 
