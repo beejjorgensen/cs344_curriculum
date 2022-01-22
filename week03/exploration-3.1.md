@@ -117,6 +117,9 @@ strtok(s, " \t\n\r");  // split on space, tab, newline, return
 
 Leading and trailing split characters will be effectively stripped.
 
+This is really useful in conjunction with `fgets()` for getting rid of
+the trailing newline; just add `\n` to your delimiter string.
+
 `strtok()` returns `NULL` if there are no more tokens.
 
 Here's a contrived demo. Notice that on the first call we pass the
