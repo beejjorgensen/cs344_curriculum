@@ -64,6 +64,11 @@ descriptor._
 If the parent opens a file, both the parent and child can access that
 file through the same file descriptor.
 
+![File Descriptors with 2
+Processes](https://canvas.oregonstate.edu/courses/1849663/files/91695174/preview)
+
+(Images from _The Design of the UNIX Operating System_, by Maurice J. Bach)
+
 ## Unix Pipes
 
 In Unix, a _pipe_ is a one-directional communication conduit.
@@ -177,6 +182,8 @@ file.
 At that point, the process can read from either of those descriptors to
 get information out of the pipe, since `0` is now a duplicate of
 `pfd[0]`.
+
+![File Descriptors After dup](https://canvas.oregonstate.edu/courses/1849663/files/91695176/preview)
 
 And this is great for getting `wc` to read from the pipe, because it's
 going to read from file descriptor `0`.
