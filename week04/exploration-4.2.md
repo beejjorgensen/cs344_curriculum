@@ -177,7 +177,7 @@ represented by 3 bits, coincidentally.
 So if we convert those binary values to decimal, we get:
 
 ```
-    6   4   4     decimal
+    6   4   4     decimal/octal
   110 100 100     binary
 - rw- r-- r--
 ```
