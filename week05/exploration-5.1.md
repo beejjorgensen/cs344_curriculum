@@ -92,8 +92,8 @@ Some lesser-used ones are:
 * `calloc()` -- allocate a certain number of bytes and set them all to
   zero
 * `aligned_alloc()` -- allocate memory
-  [aligned](https://en.wikipedia.org/wiki/Data_structure_alignment) in a
-  certain way
+  [aligned](https://en.wikipedia.org/wiki/Data_structure_alignment)
+  aligned a certain way
 
 The memory allocation functions return pointers to the new memory.
 
@@ -131,34 +131,6 @@ n = malloc(sizeof(struct node));
 Note that using data after it has been `free()`d is undefined behavior.
 Insidiously, it might seem to work fine, but then crash when you're
 giving a demo.
-
-## Memory Allocation from the OS
-
-There are a couple common ways of getting more RAM straight from the OS:
-
-* `brk()` system call: puts more room at the end of the data segment. On
-  some systems, there is no way to free this memory, but a process can
-  reuse the memory it already has.
-* `mmap()` system call: "memory map" an anonymous section of memory for
-  general purpose use. This can be freed with `munmap()`.
-
-Under the hood, `malloc()` use one or the other or both of those
-syscalls.
-
-Since a syscall has overhead, it's common for `malloc()` to `brk()` a
-significant chunk of memory when it needs it, then it manages subchunks
-of that memory over various `malloc()` and `free()` calls. This has the
-advantage that most of that memory management takes place in user space
-and no context switch to kernel mode is necessary when `malloc()` anda
-`free()` are used.
-
-But since that memory might not be able to be freed from the system
-(there's no `unbrk()` call), if the user tries to `malloc()` a large
-chunk of RAM, `malloc()` might opt to call `mmap()` for that, instead.
-It's more overhead, but `free()` will be able to `munmap()` the data and
-give it back to the system later.
-
-Trade-offs.
 
 ## Reading
 
