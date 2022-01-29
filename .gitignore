@@ -1,3 +1,4 @@
 *.backup
 week*/*.html
 bonus/*.html
+.DS_Store
