@@ -140,4 +140,10 @@ giving a demo.
   
 ## Reflect
 
-* TODO questions
+* What's the difference between physical and virtual memory?
+* Will you always have more virtual memory than physical memory? Or will
+  it be the other way around?
+* What's the difference between the stack and the heap? What is stored
+  in each?
+* What's an automatic variable in C? Do they go on the stack or heap?
+* What kind of data goes on the heap?

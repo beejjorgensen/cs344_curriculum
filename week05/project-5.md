@@ -27,7 +27,17 @@ The commands are:
 * `dh`: delete the node from the head of the list
 * `p`: print the list to standard output
 
-Example run:
+Example runs:
+
+```
+./llist it 1 it 2 it 3 p
+1 -> 2 -> 3
+```
+
+```
+$ ./llist ih 1 ih 2 ih 3 p
+3 -> 2 -> 1
+```
 
 ```
 $ ./llist ih 12 ih 13 it 14 p dh p
@@ -35,7 +45,24 @@ $ ./llist ih 12 ih 13 it 14 p dh p
 12 -> 14
 ```
 
+```
+$ ./llist ih 20 ih 40 it 5 p dh p dh p dh p
+40 -> 20 -> 5
+20 -> 5
+5
+[empty]
+```
+
+```
+$ ./llist ih 20 p dh dh dh dh dh dh dh p
+20
+[empty]
+```
+
 ## What to Do
+
+You can use any C standard library functions or syscalls for this
+project.
 
 You're going to be implementing the functions in the following header
 file, `llist.h`. Don't modify this file, and `#include` it from your
@@ -97,6 +124,11 @@ And example usage, given `struct node *head`:
 * `llist_free(&head)`: call `node_free()` for every node in the list.
   `head` will be set to `NULL`.
 
+* `node_alloc(3490)`: allocate a new `struct node` with `value` 3490 and
+  a `next` of `NULL`.
+
+* `node_free(n)`: free a node previously allocated with `node_alloc()`.
+
 ### Suggested Approach
 
 * Write the command line parser first. Make sure you're getting the
@@ -110,8 +142,76 @@ And example usage, given `struct node *head`:
 * Write `llist_insert_head()` and get it working.
 * Followed by the other ones.
 
+## Parsing the Command Line
+
+The "ih" and "it" commands take an argument: an `int` value to insert in
+the list at that point.
+
+But all the values in `argv[]` are strings.
+
+You'll have to convert the argument in question to an `int` with a
+function like `atoi()`:
+
+```c
+char *s = "16";
+
+int x = atoi(s);
+
+printf("%d\n", x * 2);  // 32
+```
+
 ## What's That `struct node **` and Should I Be Nervous?
 
+Some of these functions will modify the head of the list. Because it
+might need to be modified, we have to pass a pointer to the head to a
+function.
+
+This is just like if we want to modify an integer in a function, we have
+to pass a pointer to that integer and modify the value via the pointer.
+
+``` c
+int add5(int *p)
+{
+    *p += 5;
+}
+
+int main(void)
+{
+    int x = 10;
+
+    add5(&x);
+
+    printf("%d\n", x);  // 15
+}
+```
+
+So we have the head of the list, which is a pointer to a `struct node`:
+
+``` c
+struct node *head = NULL;  // head points to empty list
+```
+
+And if we want a function to be able to modify it, we have to pass a
+pointer to it, a pointer to a `struct node *`.
+
+In other words, a `struct node **`.
+
+``` c
+void llist_insert_head(struct node **head, struct node *n) {
+    // TODO: code to insert at head
+}
+
+int main(void)
+{
+    struct node *head = NULL;
+
+    struct node *n = node_alloc(10);
+    llist_insert_head(&head, n);
+}
+```
+
+One way to think of it is that address-of (`&`) adds another level of
+pointer, and dereference (`*`) digs down a level.
 
 ## What to Turn In
 
@@ -119,7 +219,7 @@ Submit the link to your GitHub repo.
 
 ## Grading Criteria
 
-This assignment is worth **TODO points**.
+This assignment is worth **90 points**.
 
 Due Sunday at midnight.
 
@@ -129,3 +229,29 @@ submission.
 ## Extensions
 
 If you want more challenges:
+
+* Write a function to return the length of the list
+* Write a function to delete from the middle of the list by index
+* Write a function to delete from list by value
+* Write a function to reverse the list by juggling pointers
+  * If you wrote this function iteratively, rewrite it recursively. Or
+    vice-versa.
+
+<!--
+Rubric:
+
+llist_insert_head functions on empty list (10)
+llist_insert_head functions on non-empty list (5)
+llist_delete_head returns NULL on empty list (5)
+llist_delete_head functions on non-empty list (10)
+llist_insert_tail functions on empty list (10)
+llist_insert_tail functions on non-empty list (10)
+llist_print prints correctly (10)
+node_alloc properly allocates and initializes a node (5)
+node_free properly frees the node (5)
+command line 'ih' command functions properly (5)
+command line 'it' command functions properly (5)
+command line 'dh' command functions properly (5)
+command line 'p' command functions properly (5)
+
+-->

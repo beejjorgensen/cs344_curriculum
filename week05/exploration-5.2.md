@@ -51,4 +51,8 @@ Trade-offs.
   
 ## Reflect
 
-* TODO questions
+* If I've made 5 memory allocations with `malloc()`, how many times
+  should I call `free()`?
+* What's the difference between getting memory from `malloc()` and
+  getting it from `mmap()`?
+* What is a memory leak? How is it caused?

@@ -1,18 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "llist.h"
 
-struct node {
-    int value;
-    struct node *next;
+enum cmd {
+    CMD_UNKNOWN,
+    CMD_INSERT_HEAD,
+    CMD_INSERT_TAIL,
+    CMD_DELETE_HEAD,
+    CMD_PRINT
 };
 
-void insert_head(struct node **head, struct node *n)
+void llist_insert_head(struct node **head, struct node *n)
 {
     n->next = *head;
     *head = n;
 }
 
-struct node *delete_head(struct node **head)
+struct node *llist_delete_head(struct node **head)
 {
     if (*head == NULL)
         return NULL;
@@ -26,7 +31,7 @@ struct node *delete_head(struct node **head)
     return old_head;
 }
 
-void insert_tail(struct node **head, struct node *n)
+void llist_insert_tail(struct node **head, struct node *n)
 {
     if (*head == NULL) {
         n->next = *head;
@@ -44,7 +49,7 @@ void insert_tail(struct node **head, struct node *n)
     n->next = NULL;
 }
 
-void print_list(struct node *head)
+void llist_print(struct node *head)
 {
     if (head == NULL) {
         printf("[empty]\n");
@@ -63,7 +68,7 @@ void print_list(struct node *head)
     putchar('\n');
 }
 
-struct node *alloc_node(int value)
+struct node *node_alloc(int value)
 {
     struct node *n;
 
@@ -74,45 +79,77 @@ struct node *alloc_node(int value)
     return n;
 }
 
-void free_node(struct node *n)
+void node_free(struct node *n)
 {
     free(n);
 }
 
-void free_list(struct node **head)
+void llist_free(struct node **head)
 {
     while (*head != NULL) {
         struct node *old_next = (*head)->next;
 
-        free_node(*head);
+        node_free(*head);
 
         *head = old_next;
     }
 }
 
-int main(void)
+enum cmd tokenize(char *s)
+{
+    if (strcmp(s, "ih") == 0)
+        return CMD_INSERT_HEAD;
+    else if (strcmp(s, "it") == 0)
+        return CMD_INSERT_TAIL;
+    else if (strcmp(s, "dh") == 0)
+        return CMD_DELETE_HEAD;
+    else if (strcmp(s, "p") == 0)
+        return CMD_PRINT;
+
+    return CMD_UNKNOWN;
+}
+
+int main(int argc, char **argv)
 {
     struct node *head = NULL;
-    struct node *n, *p;
 
-    print_list(head);
-
-    for (int i = 0; i < 3; i++) {
-        n = alloc_node(i);
-        insert_head(&head, n);
-        print_list(head);
+    if (argc == 1) {
+        fprintf(stderr, "usage: llist command [command ...]\n");
+        exit(1);
     }
 
-    for (int i = 1; i <= 3; i++) {
-        n = alloc_node(i*11);
-        insert_tail(&head, n);
-        print_list(head);
-    }
+    for (int i = 1; i < argc; i++) {
+        char *strc = argv[i];
+        enum cmd c = tokenize(argv[i]);
+        int cmd_arg;
+        struct node *n;
 
-    while ((p = delete_head(&head)) != NULL) {
-        printf("Deleted %d\n", p->value);
-        free_node(p);
-    }
+        if (c == CMD_INSERT_HEAD || c == CMD_INSERT_TAIL)
+            cmd_arg = atoi(argv[++i]);
 
-    print_list(head);
+        switch (c) {
+            case CMD_INSERT_HEAD:
+                n = node_alloc(cmd_arg);
+                llist_insert_head(&head, n);
+                break;
+
+            case CMD_INSERT_TAIL:
+                n = node_alloc(cmd_arg);
+                llist_insert_tail(&head, n);
+                break;
+
+            case CMD_DELETE_HEAD:
+                n = llist_delete_head(&head);
+                node_free(n);
+                break;
+
+            case CMD_PRINT:
+                llist_print(head);
+                break;
+
+            default:
+                fprintf(stderr, "llist: unknown command \"%s\"\n", strc);
+                break;
+        }
+    }
 }

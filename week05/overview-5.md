@@ -1,20 +1,28 @@
 ## Introduction
 
-This week we'll be learning about memory, notably:
+A modern OS virtualizes memory so that when a program is loaded it
+thinks it has the entire memory region to itself, and that there are no
+other programs running.
 
-* How programs are loaded into memory
-* How memory is virtualized
-* How C Programs allocate memory
+This virtual memory space is mapped to pages of physical memory that are
+present on your motherboard.
+
+Once a program is running, it can request additional memory from the OS
+to hold data.
 
 ## Goals
 
-* TODO
+* Learn how the CPU virtualizes RAM
+* Understand the memory layout of a program
+* Understand how C Programs allocate memory
   
 ## Module Learning Outcomes
   
 After the successful completion of this module, you will be able to:
 
-* TODO
+* Allocate and free memory from a running program with the C library
+* Describe the process of how the OS virtualizes memory
+* Use Unix system calls to allocate more memory
 
 ## Explorations
 
@@ -29,4 +37,3 @@ After the successful completion of this module, you will be able to:
   * [Memory API](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-api.pdf)
 * Complete [Quiz 5]()
 * Complete [Project 5]()
-
