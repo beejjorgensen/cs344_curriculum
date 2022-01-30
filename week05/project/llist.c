@@ -8,6 +8,7 @@ enum cmd {
     CMD_INSERT_HEAD,
     CMD_INSERT_TAIL,
     CMD_DELETE_HEAD,
+    CMD_FREE_LIST,
     CMD_PRINT
 };
 
@@ -103,6 +104,8 @@ enum cmd tokenize(char *s)
         return CMD_INSERT_TAIL;
     else if (strcmp(s, "dh") == 0)
         return CMD_DELETE_HEAD;
+    else if (strcmp(s, "f") == 0)
+        return CMD_FREE_LIST;
     else if (strcmp(s, "p") == 0)
         return CMD_PRINT;
 
@@ -141,6 +144,10 @@ int main(int argc, char **argv)
             case CMD_DELETE_HEAD:
                 n = llist_delete_head(&head);
                 node_free(n);
+                break;
+
+            case CMD_FREE_LIST:
+                llist_free(&head);
                 break;
 
             case CMD_PRINT:
