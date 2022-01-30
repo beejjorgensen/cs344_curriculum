@@ -20,14 +20,27 @@ And here are some consequences of those rules:
 
 There are a couple common ways of getting more RAM straight from the OS:
 
-* `brk()` system call: puts more room at the end of the data segment. On
-  some systems, there is no way to free this memory, but a process can
-  reuse the memory it already has.
+* `brk()` system call: puts more room at the end of the data segment by
+  setting the _break_--the lowest address in the process's data segment.
+  On some systems, there is no way to free this memory, but a process
+  can reuse the memory it already has allocated.
 * `mmap()` system call: "memory map" an anonymous section of memory for
   general purpose use. This can be freed with `munmap()`.
 
 Under the hood, `malloc()` use one or the other or both of those
 syscalls.
+
+> The book warns: 
+>
+>> Note that you should never directly call either `brk` or `sbrk`. They
+>> are used by the memory-allocation library; if you try to use them,
+>> you will likely make something go (horribly) wrong.
+>
+> But this is a little overzealous. What you should never do is use
+> `brk()` or `sbrk()` if you are also using any functions in the
+> `malloc()` family. `malloc()` assumes it has full control over setting
+> the break, and things will start crashing right quick if you violate
+> that assumption.
 
 Since a syscall has overhead, it's common for `malloc()` to `brk()` a
 significant chunk of memory when it needs it, then it manages subchunks
@@ -56,3 +69,4 @@ Trade-offs.
 * What's the difference between getting memory from `malloc()` and
   getting it from `mmap()`?
 * What is a memory leak? How is it caused?
+

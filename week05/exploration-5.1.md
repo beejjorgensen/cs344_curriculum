@@ -9,7 +9,7 @@ But we also need to consider a couple types of memory:
 * _Physical Memory_: the memory chips/sticks/cards hardware that you buy
 * _Virtual Memory_: the memory a process thinks it has
 
-On 64-bit machines, the virtual memory space is _vast_. There are
+On 64-bit machines, the virtual address space is _vast_. There are
 18,446,744,073,709,551,616 addresses. This is the world that every
 process sees from its perspective.
 
