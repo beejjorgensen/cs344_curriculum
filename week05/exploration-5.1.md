@@ -1,3 +1,7 @@
+<!-- Exploration 5.1 Memory Virtualization, Stack and Heap -->
+
+<!-- This page has images that must be linked -->
+
 ## Memory Virtualization and Address Spaces
 
 As you learned in Architecture, memory is like a big "array" of bytes
@@ -20,7 +24,7 @@ The magic of _virtual memory_ is that the kernel juggles _pages_ (small
 chunks) of physical RAM and maps them into the gigantic virtual spaces
 of the various processes on an as-needed basis.
 
-![Virtual Memory]()
+![Virtual Memory](https://canvas.oregonstate.edu/courses/1849663/files/91719768/preview)
 
 This is transparent to the processes themselves; as far they're
 concerned, their entire world is the virtual memory space that is

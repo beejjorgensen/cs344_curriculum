@@ -1,3 +1,5 @@
+<!-- Exploration 5.1 Process Memory Allocation -->
+
 ## Rules About Memory Allocation in C
 
 When I say `malloc()`, below, I mean `malloc()` or any variant like

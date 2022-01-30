@@ -62,9 +62,9 @@ Heap
 
 Where is data stored when allocated with malloc?  (5)
 
-Stack
-
 Heap
+
+Stack
 
 ---
 
@@ -86,7 +86,7 @@ You malloc some memory and don't free it.
 
 You malloc some memory and free it more than once.
 
-You free memory without malloc()ing it.
+You free memory without malloc'ing it.
 
 You forget to malloc memory before using it.
 
@@ -112,7 +112,7 @@ True
 
 ---
 
-The earliest leaked memory is returned to the system is
+The earliest time leaked memory is returned to the system is
 
 When the leaking process exits
 
@@ -124,7 +124,7 @@ When you buy more RAM
 
 ---
 
-When you malloc() in Unix, under the hood the library uses syscalls
+When you malloc() in Unix, under the hood the library uses these syscalls:
 
 brk() or mmap()
 
@@ -133,15 +133,3 @@ calloc() or realloc()
 brk() or calloc()
 
 mmap() or realloc()
-
----
-
-Stack overflow is
-
-All answers are correct
-
-Where you cut and paste code from
-
-When the stack grows into the heap
-
-Something that probably never happens with virtual memory

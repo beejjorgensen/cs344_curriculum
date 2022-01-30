@@ -7,7 +7,7 @@ We're going to implement a linked list.
 The goals here are multifold:
 
 * Get used to the user side of memory management
-* Refresh on linked lists as a concept
+* Refresh on linked lists as a concept (since we'll be using these soon)
 * Get more pointer practice
 
 Subsequent projects may make use of this.
@@ -24,7 +24,9 @@ The commands are:
   list.
 * `it`: insert the next number on the command line at the tail of the
   list.
-* `dh`: delete the node from the head of the list
+* `dh`: delete the node from the head of the list; does nothing if the
+  list is empty
+* `f`: free the entire list
 * `p`: print the list to standard output
 
 Example runs:
@@ -57,6 +59,13 @@ $ ./llist ih 20 ih 40 it 5 p dh p dh p dh p
 $ ./llist ih 20 p dh dh dh dh dh dh dh p
 20
 [empty]
+```
+
+```
+%  ./llist ih 1 ih 2 p f p ih 3 p
+2 -> 1
+[empty]
+3
 ```
 
 ## What to Do
@@ -219,7 +228,7 @@ Submit the link to your GitHub repo.
 
 ## Grading Criteria
 
-This assignment is worth **90 points**.
+This assignment is worth **115 points**.
 
 Due Sunday at midnight.
 
@@ -246,12 +255,16 @@ llist_delete_head returns NULL on empty list (5)
 llist_delete_head functions on non-empty list (10)
 llist_insert_tail functions on empty list (10)
 llist_insert_tail functions on non-empty list (10)
+llist_free frees all nodes (10)
+llist_free sets head to NULL (5)
+llist_free works on empty list (5)
 llist_print prints correctly (10)
 node_alloc properly allocates and initializes a node (5)
 node_free properly frees the node (5)
 command line 'ih' command functions properly (5)
 command line 'it' command functions properly (5)
 command line 'dh' command functions properly (5)
+command line 'f' command functions properly (5)
 command line 'p' command functions properly (5)
 
 -->
