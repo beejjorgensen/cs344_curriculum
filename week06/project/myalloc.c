@@ -10,6 +10,7 @@ struct block {
 };
 
 static struct block *head = NULL;
+static enum strategy strategy = STRATEGY_FIRST_FIT;
 
 #define MEM_SIZE 1024
 
@@ -22,9 +23,6 @@ static struct block *head = NULL;
 #define HEADER_SIZE (PADDED_SIZEOF(struct block))
 
 #define PTR_OFFSET(p, offset) ((void*)((char *)(p) + (offset)))
-
-//#define STRATEGY_FIRST_FIT
-#define STRATEGY_BEST_FIT
 
 void print_data(void)
 {
@@ -48,38 +46,40 @@ void print_data(void)
     printf("\n");
 }
 
-static void init_space(void) {
+static struct block *break_new(int size) {  // including header
     // If we haven't allocated memory yet, let's do it
-    if ((head = sbrk(MEM_SIZE)) == (void*)(-1)) {
-        head = NULL;
+    struct block *b;
+
+    if ((b = sbrk(size)) == (void*)(-1)) {
         perror("sbrk");
-        return;
+        return NULL;
     }
     
-    head->next = NULL;
-    head->size = MEM_SIZE - HEADER_SIZE;
-    head->in_use = 0;
+    b->next = NULL;
+    b->size = size - HEADER_SIZE;
+    b->in_use = 0;
+
+    return b;
 }
 
-#ifdef STRATEGY_FIRST_FIT
-static struct block *find_space(int size)
+static struct block *find_space_first_fit(int size, struct block **tail)
 {
     struct block *cur = head;
+
+    *tail = NULL;
 
     while(cur != NULL) {
         if (!cur->in_use && cur->size >= size) {
             return cur;
         }
+        *tail = cur;
         cur = cur->next;
     }
 
     return NULL;
-
 }
-#endif
 
-#ifdef STRATEGY_BEST_FIT
-static struct block *find_space(int size)
+static struct block *find_space_best_fit(int size, struct block **tail)
 {
     struct block *cur = head;
     int best_size;
@@ -92,12 +92,12 @@ static struct block *find_space(int size)
                 best_block = cur;
             }
         }
+        *tail = cur;
         cur = cur->next;
     }
 
     return best_block;
 }
-#endif
 
 static void split_space(struct block *b, int size)
 {
@@ -119,22 +119,57 @@ static void split_space(struct block *b, int size)
     }
 }
 
+static struct block *find_space(int size)
+{
+    struct block *tail, *b;
+
+    struct block *(*find_space_func)(int, struct block **) = NULL;
+
+    switch (strategy) {
+        case STRATEGY_FIRST_FIT:
+            find_space_func = find_space_first_fit;
+            break;
+        case STRATEGY_BEST_FIT:
+            find_space_func = find_space_best_fit;
+            break;
+#if 0
+        case STRATEGY_WORST_FIT:
+            find_space_func = find_space_worst_fit;
+            break;
+#endif
+        default:
+            assert(find_space_func != NULL);
+    }
+
+    if ((b = find_space_func(size, &tail)) != NULL) {
+        split_space(b, size);
+        return b;
+    }
+
+    if ((b = break_new(size + HEADER_SIZE)) != NULL) {
+        if (tail == NULL)
+            head = b;
+        else
+            tail->next = b;
+
+        return b;
+    }
+
+    return NULL;
+}
+
 void *myalloc(int size)
 {
-    // Do the initial allocation
-    if (head == NULL)
-        init_space();
-
     // Find a big enough space
     struct block *b;
 
     if ((b = find_space(size)) != NULL) {
-        split_space(b, size);
+        // Found a space
         b->in_use = 1;
         return PTR_OFFSET(b, HEADER_SIZE);
     }
 
-    // Unable to find a big enough space
+    // No memory found or allocated
     return NULL;
 }
 
@@ -160,6 +195,11 @@ void myfree(void *p)
     b->in_use = 0;
 
     consolidate();
+}
+
+void mystrategy(enum strategy s)
+{
+    strategy = s;
 }
 
 int main(void)
