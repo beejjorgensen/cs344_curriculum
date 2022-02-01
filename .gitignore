@@ -2,3 +2,6 @@
 week*/*.html
 bonus/*.html
 .DS_Store
+launch.json
+tasks.json
+Info.plist
