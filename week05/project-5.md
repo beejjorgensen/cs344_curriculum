@@ -32,7 +32,7 @@ The commands are:
 Example runs:
 
 ```
-./llist it 1 it 2 it 3 p
+$ ./llist it 1 it 2 it 3 p
 1 -> 2 -> 3
 ```
 
@@ -62,7 +62,7 @@ $ ./llist ih 20 p dh dh dh dh dh dh dh p
 ```
 
 ```
-%  ./llist ih 1 ih 2 p f p ih 3 p
+$ ./llist ih 1 ih 2 p f p ih 3 p
 2 -> 1
 [empty]
 3
@@ -113,7 +113,7 @@ And example usage, given `struct node *head`:
   function does **not** free the node; it merely uncouples it from the
   list.
 
-* `llist_insert_tail(&head, *n)`: insert node `n` at the tail of the
+* `llist_insert_tail(&head, n)`: insert node `n` at the tail of the
   list. The node should have been previously allocated with
   `node_alloc()`.
 
