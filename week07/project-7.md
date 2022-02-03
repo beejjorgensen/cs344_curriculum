@@ -1,4 +1,3 @@
-<!--
 Week 1
 Allocate the first part
 Alignment
@@ -10,7 +9,6 @@ Week 3
 Free node
 Consolidate nodes
 Handle free from command line
--->
 
 <!-- Project 6: Memory Allocation Part 1 -->
 
@@ -37,22 +35,14 @@ a process like it's split into a bunch of little ones.
 
 We're going to write an allocator with the following function:
 
-* `myalloc()` -- allocate a certain number of bytes, and return a
+* `mymalloc()` -- allocate a certain number of bytes, and return a
   pointer to it.
 
-We'll do our `myfree()` code later.
+We'll do our `myfree()` code next week.
 
 Remember--no using the built-in `malloc()` for this! We're writing it!
 
 ### Usage
-
-The user of your code is going to write something like this:
-
-```
-int *p = myalloc(sizeof(int) * 5);  // Allocate space for 5 ints
-```
-
-We need it implement it.
 
 ### What We're Allocating
 
@@ -60,11 +50,8 @@ We'll use `sbrk()` to allocate a chunk of data space ahead of time.
 Think of this as a big array of bytes. We're going to drop various data
 structures in there in specific places.
 
-What we'll do is make a linked-list of nodes _inside_ this data space,
-and those list nodes will share the space with the allocated space they
-represent. (Remember: you can't call `malloc()`!)
-
-Each node will have three pieces of information:
+What we'll do is make a linked-list of nodes. Each node will have three
+pieces of information:
 
 * Whether or not this memory region is in-use.
 * The size of the allocated memory region.
@@ -77,7 +64,7 @@ We're going to juggle that by hand, as we'll see.
 
 ### Initial Allocation
 
-On the very first call to `myalloc()`, we won't have any heap space.
+On the very first call to `mymalloc()`, we won't have any heap space.
 Allocate 1024 bytes of heap with:
 
 ```
@@ -125,6 +112,87 @@ that this is one contiguous region of memory we're looking at (that we
 got from `sbrk()`); we've just partitioned it up by putting `struct
 block` data in the proper locations.
 
+### Alignment
+
+This is a substantial wrench in the works. We want every allocation to
+begin on an address that is evenly divisible by 16.
+
+> This is called _alignment_ and has to do with how the CPU accesses
+> data. The x86 is pretty happy to work with data that starts on any
+> address, albeit a little slower if it's not correctly aligned. Other
+> CPUs might crash on misaligned data accesses.
+
+We can safely assume that `sbrk()` gives us back an address that meets
+that requirement. So that's good.
+
+But if someone asks for 37 bytes, that's going to throw us out of
+alignment.
+
+What we do, then, is round the size up to the next multiple of 16. They
+asked for 37 bytes, but we're going to give them 48. We'll just not tell
+them.
+
+We call this extra space _padding_.
+
+Here are some macros to help compute the padding required for any
+particular number of bytes for a given alignment:
+
+```
+#define ALIGNMENT 16   // Must be power of 2
+#define GET_PAD(x) ((ALIGNMENT - 1) - (x - 1) & (ALIGNMENT - 1))
+
+#define PADDED_SIZE(x) ((x) + GET_PAD(x))
+```
+
+As an example:
+
+```
+printf("%d\n", PADDED_SIZE(15));  // Prints 16
+printf("%d\n", PADDED_SIZE(16));  // Prints 16
+printf("%d\n", PADDED_SIZE(17));  // Prints 32
+printf("%d\n", PADDED_SIZE(37));  // Prints 48
+```
+
+In short:
+
+```
+actual_size = PADDED_SIZE(user_requested_size)
+```
+
+And when storing the size of the data in your `struct block`, it makes
+things easier to store the size of the padded data, not the size
+requested by the user.
+
+```
+TODO: diagram
+|struct size|data|padding|
+```
+
+### Alignment II: Revenge of Alignment
+
+And that's not all! We have to make sure our `struct block` linked list
+node is also padded to the alignment.
+
+On my system, the `struct` was exactly 16 bytes already so I needed zero
+bytes of padding, but that was just luck. On another system it might be
+more or less.
+
+So we need to make sure it's padded out, too.
+
+Basically, we'll have something like this for each region in memory:
+
+```
+TODO: diagram
+|struct|padding|data|padding|
+```
+
+where the padding is between 0 and 15 bytes--just enough to make the
+region a multiple of 16 bytes.
+
+The padding in both cases ensures that both the `struct` and the data
+will be on an alignment boundary, and that the entire glob of data is
+also going to be so-aligned. Alignment all around.
+
 ### In The Beginning
 
 Let's get some space for the list and see how we might use it.
@@ -158,8 +226,6 @@ There's some math there to figure out the size of the free data. Some of
 it gets used up by the `struct block` metadata. The amount used is the
 padded size of that `struct`.
 
-More on padding when we talk about alignment, below.
-
 (We know that the size is still a multiple of 16 because the padded
 `struct` is a multiple of 16 and 1024 is also a multiple of 16.)
 
@@ -170,28 +236,37 @@ Well, the OS doesn't care if you under-use the space. Only if you
 overuse it. If the memory weren't aligned, maybe using it as the
 `struct` might cause trouble, but it's aligned, so no problem.
 
-But this was just the one-off initialization. We still have to set up
-the block the user asked for.
-
-> In a _real_ implementation, `sbrk()` would be called as needed, not
-> just one time. If the first block of heap got used up, `malloc()`
-> would call `sbrk()` again to grow it.
-
 ### Allocating a Block
 
 This is going to be a three-phase process.
 
 1. Find a free block that's big enough for what the caller requested.
 2. Mark it as used.
-3. [Possibly split the block into a new unused portion.]
+3. Possibly split the block into a new unused portion.
 
-We're going to just do (1) and (2) this week. (3) will come later.
-Though this will limit our implementation this week, we'll code it in
-such a way that it'll be ready for the next steps later.
+We're going to use a strategy called "first-fit". That is, we'll walk
+the linked list and the first unused block we find that is big enough,
+we'll use that.
 
-We're going to use a strategy called "first-fit" to find a block to use.
-That is, we'll walk the linked list and the first unused block we find
-that is big enough, we'll use that.
+Now, you might think it's good enough to mark it as used and return a
+pointer to the user data. But what if the block is 1008 bytes big, and
+you only need 48 bytes of it? We don't want to waste the rest.
+
+So we _split_ it and add a new node into the list.
+
+Before allocating 48 bytes:
+
+```
+TODO Diagram
+|1008 free|               |
+```
+
+After allocating 48 bytes and a split:
+
+```
+TODO Diagram
+|48 used|      |928 free|              |
+```
 
 Algorithm:
 
@@ -199,7 +274,12 @@ Algorithm:
 Walk the list looking for a free node
     let n = the free node
     If n's data big enough for user request
-
+        If n's data big enough to split
+            Compute size and address of new node
+            new node next = n next
+            n next = new node
+            Mark new node unused
+            
         Mark n as used
 
         Return address of n's data
@@ -208,123 +288,46 @@ If we get here, there was no room
 return NULL
 ```
 
-In our case, I promise the user will ask for a small amount of data,
-like 60 bytes or so, so we can be assured it'll fit in the 1024-bytes
-that we allocated with `sbrk()`.
+### Splitting a Block
 
-So after the user does that, we'll have something that looks like this:
+How do we know if the free node is big enough to split?
 
-```
-TODO diagram
-|block size used|data                       |
-```
+Well, the free node used to consist of two chunks of data:
 
-> Now you're probably thinking, what good is this? We just allocated the
-> entire space for one block of 60 bytes. If we call `myalloc()` again,
-> it will fail because there's no free space left.
->
-> That's going to be dealt with later when we add another node to our
-> linked list to represent the remainder of the free space. _Then_ we'll
-> be able to `myalloc()` repeatedly. But this week, we're just getting
-> to this point.
+* `struct block`
+* the free data bytes past it
 
-But of course it's not this straightforward. We have to deal with
-alignment.
+We know we're still going to have the `struct block` there after the
+split (marked as used), but the remaining free space must be split into
+three parts:
 
-### Alignment
+1. The space the user just requested
+2. Another `struct block` for the newly split-off free node
+3. The remaining free space.
 
-This is a substantial wrench in the works. We want every allocation to
-begin on an address that is evenly divisible by 16.
+Any amount of remaining free space less than 16 bytes is useless, so we
+don't want to split if the remaining free space post-split will be less
+than that.
 
-> This is called _alignment_ and has to do with how the CPU accesses
-> data. The x86 is pretty happy to work with data that starts on any
-> address, albeit a little slower if it's not correctly aligned. Other
-> CPUs might crash on misaligned data accesses.
-
-We can safely assume that `sbrk()` gives us back an address that meets
-that requirement. So that's good.
-
-But if someone asks for 37 bytes, that's going to throw us out of
-alignment.
-
-What we do, then, is round the size up to the next multiple of 16. They
-asked for 37 bytes, but we're going to give them 48. We'll just not tell
-them.
-
-We call this extra space _padding_.
-
-Here are some macros to help compute the padding required for any
-particular number of bytes for a given alignment:
+In other words
 
 ```
-#define ALIGNMENT 16   // Must be power of 2
-#define GET_PAD(x) ((ALIGNMENT - 1) - ((x) - 1) & (ALIGNMENT - 1))
+padded_requested_space = PADDED_SIZE(requested_space)
+padded_block_size = PADDED_SIZE(sizeof(struct block))
 
-#define PADDED_SIZE(x) ((x) + GET_PAD(x))
+old_free_space = old_free_block->size;
+
+if (old_free_space - padded_requested_space - padded_block_size >= 16) {
+    // It's big enough to split!
+}
 ```
 
-As an example:
-
-```
-printf("%d\n", PADDED_SIZE(15));  // Prints 16
-printf("%d\n", PADDED_SIZE(16));  // Prints 16
-
-printf("%d\n", PADDED_SIZE(17));  // Prints 32
-printf("%d\n", PADDED_SIZE(18));  // Prints 32
-printf("%d\n", PADDED_SIZE(32));  // Prints 32
-
-printf("%d\n", PADDED_SIZE(33));  // Prints 48
-printf("%d\n", PADDED_SIZE(37));  // Prints 48
-```
-
-In short:
-
-```
-actual_size = PADDED_SIZE(user_requested_size)
-```
-
-And when storing the size of the data in your `struct block`, it makes
-things easier to store the size of the padded data, not the size
-requested by the user. Really, `myalloc()` will be promising that "we'll
-give you at _least_ as many bytes as you asked for".
-
-```
-TODO: diagram
-|struct size|data|padding|
-```
-
-### Alignment II: Revenge of Alignment
-
-And that's not all! We have to make sure our `struct block` linked list
-node is also padded to the alignment.
-
-On my system, the `struct` was exactly 16 bytes already so I needed zero
-bytes of padding, but that was just luck. On another system it might be
-more or less.
-
-So we need to make sure it's padded out, too.
-
-Basically, we'll have something like this for each region in memory:
-
-```
-TODO: diagram
-|struct|padding|data|padding|
-```
-
-where the padding is between 0 and 15 bytes--just enough to make the
-region a multiple of 16 bytes.
-
-```
-padded_struct_block_size = PADDED_SIZE(sizeof(struct block));
-```
-
-The padding in both cases ensures that both the `struct` and the data
-will be on an alignment boundary, and that the entire glob of data is
-also going to be so-aligned. Alignment all around.
+And if it's not big enough to split, just mark it as used and return a
+pointer to the data.
 
 ### What We're Returning
 
-`myalloc()` will return a pointer to the data, not a pointer to the
+`mymalloc()` will return a pointer to the data, not a pointer to the
 `struct block`. We know where the data starts, though: `n` bytes past
 the `struct`, where `n` is `PADDED_SIZE(sizeof(struct block))`.
 
@@ -369,7 +372,7 @@ int *b = PTR_OFFSET(a, 16);
 // b now points 16 bytes ahead of a
 ```
 
-So in `myalloc()`, when we return the data to the user, we'll have code
+So in `mymalloc()`, when we return the data to the user, we'll have code
 like this:
 
 ```
