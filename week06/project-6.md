@@ -11,18 +11,24 @@ Free node
 Consolidate nodes
 Handle free from command line
 -->
-
 <!-- Project 6: Memory Allocation Part 1 -->
-
 ## Introduction
 
 **This is a multi part project, each part taking one week. This is part
 1.**
 
+**Hint: before you type a line of code, you should understand this
+problem well enough to teach it to someone to the degree they could work
+an example with pen and paper. It will be _much_ harder to implement if
+you do not understand it well enough.** This advice is always true, but
+I want to really drive it home for this project where it is especially
+true.
+
 We're going to write a `malloc()`/`free()` implementation from scratch!
 
-**You may NOT use `malloc()` or any of its relatives, `free()`, or
-`mmap()` for this project.**
+**You may NOT use `malloc()` or any of its relatives (e.g. `calloc()`),
+`free()`, or `mmap()` for this project. Solutions that use these
+functions will not be accepted.**
 
 When you request more data segment space from the OS with `sbrk()`, it
 increases the size of the continuous chunk of memory used for the heap,
@@ -113,12 +119,13 @@ header/data section.
 
 So we'll have a list of blocks, some in use and some not:
 
-```
+<!--
 TODO diagram
 struct block       struct block       struct block
 |11 used|Data      |31 Free|         |20 Used|Data           |
-       ------------>       ---------->       --||
-```
+       ----------- >       --------- >       --||
+-->
+![Overall Architecture]()
 
 Notice how the data is interspersed between the block metadata. Note
 that this is one contiguous region of memory we're looking at (that we
@@ -149,19 +156,18 @@ let's `sbrk()` to get some memory from the OS to use. And we know that's
 going to be the only block in the list, and it's going to be marked
 "free".
 
-```
+
+<!--
 TODO diagram
 |head|pad|      |
-```
+-->
+![Padding diagram]()
 
 There's some math there to figure out the size of the free data. Some of
 it gets used up by the `struct block` metadata. The amount used is the
 padded size of that `struct`.
 
 More on padding when we talk about alignment, below.
-
-(We know that the size is still a multiple of 16 because the padded
-`struct` is a multiple of 16 and 1024 is also a multiple of 16.)
 
 It's weird, though, that we asked for 1024 bytes and just used it as a
 `struct block`, which is way smaller than that, right?
@@ -214,10 +220,11 @@ that we allocated with `sbrk()`.
 
 So after the user does that, we'll have something that looks like this:
 
-```
+<!--
 TODO diagram
-|block size used|data                       |
-```
+|head|pad|      |
+-->
+![Data Allocated]()
 
 > Now you're probably thinking, what good is this? We just allocated the
 > entire space for one block of 60 bytes. If we call `myalloc()` again,
@@ -288,11 +295,6 @@ things easier to store the size of the padded data, not the size
 requested by the user. Really, `myalloc()` will be promising that "we'll
 give you at _least_ as many bytes as you asked for".
 
-```
-TODO: diagram
-|struct size|data|padding|
-```
-
 ### Alignment II: Revenge of Alignment
 
 And that's not all! We have to make sure our `struct block` linked list
@@ -306,10 +308,11 @@ So we need to make sure it's padded out, too.
 
 Basically, we'll have something like this for each region in memory:
 
-```
+<!--
 TODO: diagram
 |struct|padding|data|padding|
-```
+-->
+![Full Padding]()
 
 where the padding is between 0 and 15 bytes--just enough to make the
 region a multiple of 16 bytes.
@@ -387,6 +390,9 @@ return PTR_OFFSET(cur, padded_block_size);
 Printing the list of blocks should be accomplished with this code. It
 assumes `head` is the name of the start of the list, and is global.
 
+You should copy this into your code. If your `head` isn't global, just
+add it as a parameter.
+
 ```
 void print_data(void)
 {
@@ -398,6 +404,7 @@ void print_data(void)
     }
 
     while (b != NULL) {
+        // Uncomment the following line if you want to see the pointer values
         //printf("[%p:%d,%s]", b, b->size, b->in_use? "used": "free");
         printf("[%d,%s]", b->size, b->in_use? "used": "free");
         if (b->next != NULL) {
@@ -411,13 +418,66 @@ void print_data(void)
 }
 ```
 
+## Example Run
+
+If you have this in `main()`:
+
+```
+void *p;
+
+print_data();
+p = myalloc(64);
+print_data();
+```
+
+We'd expect the output:
+
+```
+[empty]
+[64,used]
+```
+
+If you change it to `p = myalloc(119)`, this is the expected output.
+**Note the size has been rounded up to the nearest multiple of 16 to
+keep it aligned!**
+
+```
+[empty]
+[128,used]
+```
+
+If you have this in your `main()`:
+
+```
+    void *p;
+
+    print_data();
+    p = myalloc(16);
+    print_data();
+    p = myalloc(16);
+    printf("%p\n", p);
+```
+
+This should be your output:
+
+```
+[empty]
+[16,used]
+0x0
+```
+
+Note that the second `myalloc()` returned `NULL` because all the space
+was given to the first allocation and there is none left over.
+
+We'll fix that next week.
+
 ## What to Turn In
 
 Submit the link to your GitHub repo.
 
 ## Grading Criteria
 
-This assignment is worth **TODO points**.
+This assignment is worth **95 points**.
 
 Due Sunday at midnight.
 
@@ -426,5 +486,46 @@ submission.
 
 ## Extensions
 
+If you want to get a jump on it, next week we're going to introduce
+splitting, where we split a free space into a newly used space and the
+remainder of the free space.
+
+That is, if you have a free block with 1008 bytes in it, and you
+`myalloc()` 32 bytes, you should end up with two entries in your linked
+list. One of them is the newly allocated block, and the other is the
+unused remainder of 
+
+In this example, assuming the `struct block` linked list node is 16
+bytes, we'd go from:
+
+* Block 1, size: 1008, in-use: false
+
+to:
+
+* Block 1, size: 32, in-use: true
+* Block 2, size: 960, in-use: false
+
+After that works, you can call `myalloc()` repeatedly until the space
+fills up.
+
 <!-- Rubric
+
+Linked list nodes padded to proper alignment (15)
+
+Data padded to proper alignment (15)
+
+First call to `myalloc()` calls `sbrk()` to allocate space (10)
+
+`myalloc()` returns `NULL` if no more space is available. (10)
+
+All calls to `myalloc()` traverse the linked list searching for a free node with enough space to hold the requested amount. (Even though at this point, there is just one node, there should still be a loop that is capable of traversing 1 or more nodes in this search. (15)
+
+`struct block` `size` field computed correctly (size is padded to 16 byte alignment, doesn't count the `struct block` size itself) (10)
+
+Blocks' in-use flags set correctly.  (10)
+
+Print list prints `[empty]` when list empty (5)
+
+Print list prints the list properly when not empty (5)
+
 -->
