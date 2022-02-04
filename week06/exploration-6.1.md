@@ -48,11 +48,14 @@ CPU must start on addresses that are a multiple of a certain number.
 For example, a particular CPU might require that a 2-byte integer begin
 on an even-numbered address.
 
-And that starting one on an odd-numbered address might be either slower
-or cause the process to crash.
+And that starting one on an odd-numbered address might cause accesses to
+be slower, cause the process to crash, or cause accesses to return bad
+data.
 
 Or a system might require that multibyte values start on addresses that
 are multiples of 8 or 16.
+
+Although some architectures have no alignment requirements, most do.
 
 For example, here are two 2-byte hex numbers stored in RAM.
 
