@@ -46,17 +46,31 @@ void print_data(void)
     printf("\n");
 }
 
-static struct block *break_new(int size) {  // including header
-    // If we haven't allocated memory yet, let's do it
+static int get_break_size(int size)
+{
+    long page_size = sysconf(_SC_PAGESIZE);
+
+    // Assumes page_size is a power of 2
+
+    // Round up to the nearest multiple of page_size bytes
+    int bytes_needed = size + ((page_size - 1) - (size - 1) & (page_size - 1));
+    
+    return bytes_needed;
+}
+
+static struct block *break_new(int size)   // Including header and all padding
+{
     struct block *b;
 
-    if ((b = sbrk(size)) == (void*)(-1)) {
+    int break_incr = get_break_size(size);
+
+    if ((b = sbrk(break_incr)) == (void*)(-1)) {
         perror("sbrk");
         return NULL;
     }
     
     b->next = NULL;
-    b->size = size - HEADER_SIZE;
+    b->size = break_incr - HEADER_SIZE;
     b->in_use = 0;
 
     return b;
@@ -99,6 +113,26 @@ static struct block *find_space_best_fit(int size, struct block **tail)
     return best_block;
 }
 
+static struct block *find_space_worst_fit(int size, struct block **tail)
+{
+    struct block *cur = head;
+    int worst_size;
+    struct block *worst_block = NULL;
+
+    while(cur != NULL) {
+        if (!cur->in_use && cur->size >= size) {
+            if (worst_block == NULL || cur->size > worst_size) {
+                worst_size = cur->size;
+                worst_block = cur;
+            }
+        }
+        *tail = cur;
+        cur = cur->next;
+    }
+
+    return worst_block;
+}
+
 static void split_space(struct block *b, int size)
 {
     struct block *old_next = b->next;
@@ -132,11 +166,9 @@ static struct block *find_space(int size)
         case STRATEGY_BEST_FIT:
             find_space_func = find_space_best_fit;
             break;
-#if 0
         case STRATEGY_WORST_FIT:
             find_space_func = find_space_worst_fit;
             break;
-#endif
         default:
             assert(find_space_func != NULL);
     }
@@ -152,6 +184,7 @@ static struct block *find_space(int size)
         else
             tail->next = b;
 
+        split_space(b, size);
         return b;
     }
 
@@ -163,7 +196,7 @@ void *myalloc(int size)
     // Find a big enough space
     struct block *b;
 
-    if ((b = find_space(size)) != NULL) {
+    if ((b = find_space(PADDED_SIZE(size))) != NULL) {
         // Found a space
         b->in_use = 1;
         return PTR_OFFSET(b, HEADER_SIZE);
@@ -221,6 +254,12 @@ int main(void)
     myfree(p);
     print_data();
 
+    char *r = myalloc(10000);
+    print_data();
+
     myfree(q);
+    print_data();
+
+    myfree(r);
     print_data();
 }
