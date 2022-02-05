@@ -1,16 +1,35 @@
 ## Introduction
 
-TODO
+This week we're going to take a closer look at memory virtualization,
+the way processes think they have the system memory to themselves and
+don't overwrite the data for other processes.
+
+We'll check out a few potential methods for implementation:
+
+* Base/bound
+* Coarse-grained Segmentation
+* Fine-grained Segmentation
+
+We'll also look at how C library memory management routines such as
+`malloc()` work.
 
 ## Goals
 
-* TODO
+* Investigate techniques for supporting virtual memory on the CPU
+* Explore how the OS can use these techniques to make it look to the
+  process like it has a large, contiguous chunk of memory.
+* Use the `brk()` syscall to get some memory allocated from the OS
+* Implement part of a `malloc()` replacement
   
 ## Module Learning Outcomes
   
 After the successful completion of this module, you will be able to:
 
-* TODO
+* Describe how `malloc()` gets memory from the OS
+* Implement a partial linked-list version of a `malloc()`-style
+  allocator
+* Describe different forms of memory virtualization and their relative
+  strengths and weaknesses
 
 ## Explorations
 
