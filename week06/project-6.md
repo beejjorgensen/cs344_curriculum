@@ -66,6 +66,18 @@ We'll use `sbrk()` to allocate a chunk of data space ahead of time.
 Think of this as a big array of bytes. We're going to drop various data
 structures in there in specific places.
 
+> Note on `sbrk()`: this function is deprecated on OS X. It'll still
+> work, though. Feel free to turn off the warning by adding this option
+> to your `Makefile` or command line:
+>
+> ```
+> -Wno-deprecated-declarations
+> ```
+>
+> We suppose allocators under OS X would do something more complicated,
+> possibly with `mmap()`, to get around this issue. But we'll just use
+> `sbrk()`.
+
 What we'll do is make a linked-list of nodes _inside_ this data space,
 and those list nodes will share the space with the allocated space they
 represent. (Remember: you can't call `malloc()`!)
