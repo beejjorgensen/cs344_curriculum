@@ -1,4 +1,4 @@
-<!-- Exploration 6.2: -->
+<!-- Exploration 6.2: Segmented Virtual Memory, Fragmentation -->
 
 ## Segmented Virtualized Memory
 
