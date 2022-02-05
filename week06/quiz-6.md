@@ -3,7 +3,7 @@
 
 ---
 
-With virtualized memory: (5)
+Virtualized memory works in this manner: (5)
 
 When a process accesses a particular virtual address, the CPU maps that to a physical address.
 
@@ -51,7 +51,7 @@ Accessing misaligned data might, depending on the architecture (choose all that 
 
 Cause a bus error and termination of the process.
 
-Causes data to be accessed more slowly than aligned data.
+Cause data to be accessed more slowly than aligned data.
 
 Have no effect.
 
