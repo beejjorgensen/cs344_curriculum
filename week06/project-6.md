@@ -50,6 +50,25 @@ We'll do our `myfree()` code later.
 
 Remember--no using the built-in `malloc()` for this! We're writing it!
 
+This is the overview for `myalloc()` for this week. Note that this is an
+incomplete implementation, but we'll be working more on it in the
+following weeks.
+
+* If this is the first call, `sbrk()` to get some space.
+  * At the same time, build a linked-list node inside the new space
+    indicating its size and "in-use" status.
+* Walk the linked list in a loop and look for the first node that is:
+  * Not in-use
+  * Big enough to hold the requested amount (plus padding)
+* If the block is found:
+  * Mark it in-use.
+  * Return a pointer to the user data just after the linked list node
+    (plus padding)).
+* If no such block is found:
+  * Return `NULL`
+
+Details on these steps follow.
+
 ### Usage
 
 The user of your code is going to write something like this:
@@ -129,15 +148,11 @@ Repeating.
 Each header is a linked list node that will point to the next
 header/data section.
 
-So we'll have a list of blocks, some in use and some not:
+So we'll have a list of blocks, some in use and some not (numbers are
+the number of bytes of each data area, free or in-use):
 
-<!--
-TODO diagram
-struct block       struct block       struct block
-|11 used|Data      |31 Free|         |20 Used|Data           |
-       ----------- >       --------- >       --||
--->
-![Overall Architecture]()
+<!-- freelist.svg 640px wide -->
+![Overall Architecture](https://canvas.oregonstate.edu/courses/1849663/files/91896069/preview)
 
 Notice how the data is interspersed between the block metadata. Note
 that this is one contiguous region of memory we're looking at (that we
@@ -168,13 +183,6 @@ let's `sbrk()` to get some memory from the OS to use. And we know that's
 going to be the only block in the list, and it's going to be marked
 "free".
 
-
-<!--
-TODO diagram
-|head|pad|      |
--->
-![Padding diagram]()
-
 There's some math there to figure out the size of the free data. Some of
 it gets used up by the `struct block` metadata. The amount used is the
 padded size of that `struct`.
@@ -193,7 +201,8 @@ the block the user asked for.
 
 > In a _real_ implementation, `sbrk()` would be called as needed, not
 > just one time. If the first block of heap got used up, `malloc()`
-> would call `sbrk()` again to grow it.
+> would call `sbrk()` again to grow it. But we're trying to keep things
+> simple here.
 
 ### Allocating a Block
 
@@ -201,7 +210,7 @@ This is going to be a three-phase process.
 
 1. Find a free block that's big enough for what the caller requested.
 2. Mark it as used.
-3. [Possibly split the block into a new unused portion.]
+3. [Next week: possibly split the block into a new unused portion.]
 
 We're going to just do (1) and (2) this week. (3) will come later.
 Though this will limit our implementation this week, we'll code it in
@@ -232,11 +241,12 @@ that we allocated with `sbrk()`.
 
 So after the user does that, we'll have something that looks like this:
 
-<!--
-TODO diagram
-|head|pad|      |
--->
-![Data Allocated]()
+<!-- afteralloc.svg 480px wide -->
+![Data Allocated](https://canvas.oregonstate.edu/courses/1849663/files/91896378/preview)
+
+Why is the data size only 1008 bytes when we grabbed 1024 bytes with
+`sbrk()`? It's because in this example, 16 bytes are used up by the
+`struct block` at the front.
 
 > Now you're probably thinking, what good is this? We just allocated the
 > entire space for one block of 60 bytes. If we call `myalloc()` again,
@@ -320,11 +330,8 @@ So we need to make sure it's padded out, too.
 
 Basically, we'll have something like this for each region in memory:
 
-<!--
-TODO: diagram
-|struct|padding|data|padding|
--->
-![Full Padding]()
+<!-- header.svg 480px wide -->
+![Full Padding](https://canvas.oregonstate.edu/courses/1849663/files/91896375/preview)
 
 where the padding is between 0 and 15 bytes--just enough to make the
 region a multiple of 16 bytes.
@@ -442,21 +449,18 @@ p = myalloc(64);
 print_data();
 ```
 
-We'd expect the output:
+We'd expect the output (assuming your padding `struct block` size is 16 bytes):
 
 ```
 [empty]
-[64,used]
+[1008,used]
 ```
 
-If you change it to `p = myalloc(119)`, this is the expected output.
-**Note the size has been rounded up to the nearest multiple of 16 to
-keep it aligned!**
+Even though the user only asked for 64 bytes, we looked for the first
+available block that was at least that big, marked it in use, and
+returned the data to them.
 
-```
-[empty]
-[128,used]
-```
+We'll fix that next week.
 
 If you have this in your `main()`:
 
@@ -474,14 +478,14 @@ This should be your output:
 
 ```
 [empty]
-[16,used]
+[1008,used]
 0x0
 ```
 
-Note that the second `myalloc()` returned `NULL` because all the space
-was given to the first allocation and there is none left over.
+The second `myalloc()` returned `NULL` because all the space was given
+to the first allocation and there is none left over.
 
-We'll fix that next week.
+As noted, we'll fix that next week.
 
 ## What to Turn In
 
