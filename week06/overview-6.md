@@ -33,13 +33,13 @@ After the successful completion of this module, you will be able to:
 
 ## Explorations
 
-* [Exploration 6.1]()
-* [Exploration 6.2]()
+* [Exploration 6.1](https://canvas.oregonstate.edu/courses/1849663/assignments/8782818)
+* [Exploration 6.2](https://canvas.oregonstate.edu/courses/1849663/assignments/8782819)
 
 ## Task List
 
 * In the Virtualization section of [the book](https://pages.cs.wisc.edu/~remzi/OSTEP/), read:
   * [Address Translation](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-mechanism.pdf)
   * [Segmentation](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-segmentation.pdf)
-* Complete [Quiz 6]()
-* Complete [Project 6]()
+* Complete [Quiz 6](https://canvas.oregonstate.edu/courses/1849663/assignments/8782816)
+* Complete [Project 6](https://canvas.oregonstate.edu/courses/1849663/assignments/8781483)
