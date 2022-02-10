@@ -5,9 +5,9 @@ Alignment
 
 Week 2
 Split nodes
+Free node
 
 Week 3
-Free node
 Consolidate nodes
 Handle free from command line
 -->
