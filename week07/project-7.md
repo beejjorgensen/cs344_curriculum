@@ -119,6 +119,71 @@ user passes to `myfree()` with pointer subtraction.
 
 ### Sample Runs
 
+**Example 1**: if `main()` has this:
+
+```
+    void *p;
+
+    p = myalloc(512);
+    print_data();
+
+    myfree(p);
+    print_data();
+```
+
+The output should be:
+
+```
+[512,used] -> [480,free]
+[512,free] -> [480,free]
+```
+
+(Next week we'll add code to merge those free regions.)
+
+**Example 2**:
+
+```
+    myalloc(10); print_data();
+    myalloc(20); print_data();
+    myalloc(30); print_data();
+    myalloc(40); print_data();
+    myalloc(50); print_data();
+```
+
+Output:
+
+```
+[16,used] -> [976,free]
+[16,used] -> [32,used] -> [928,free]
+[16,used] -> [32,used] -> [32,used] -> [880,free]
+[16,used] -> [32,used] -> [32,used] -> [48,used] -> [816,free]
+[16,used] -> [32,used] -> [32,used] -> [48,used] -> [64,used] -> [736,free]
+```
+
+**Example 3**:
+
+```
+    void *p;
+
+    myalloc(10);     print_data();
+    p = myalloc(20); print_data();
+    myalloc(30);     print_data();
+    myfree(p);       print_data();
+    myalloc(40);     print_data();
+    myalloc(10);     print_data();
+```
+
+Output:
+
+```
+[16,used] -> [976,free]
+[16,used] -> [32,used] -> [928,free]
+[16,used] -> [32,used] -> [32,used] -> [880,free]
+[16,used] -> [32,free] -> [32,used] -> [880,free]
+[16,used] -> [32,free] -> [32,used] -> [48,used] -> [816,free]
+[16,used] -> [32,used] -> [32,used] -> [48,used] -> [816,free]
+```
+
 ## What to Turn In
 
 Submit the link to your GitHub repo.
