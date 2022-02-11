@@ -1,0 +1,35 @@
+No need to set `n = NULL` in `node_free()`, since `n` is just an automatic local variable and is dropped as soon as the function returns.
+
+-5 list_free crashes on empty list.
+
+output formatting doesn't match spec--try to get it exact.
+
+output should print `[empty]` if list is empty--try to match the spec.
+
+-10 insert_tail doesn't work on non-empty list
+
+-5 There's a `return 0` inside your main for-loop which means only one command runs before it exits. This broke a lot of the tests.
+
+In the argv processing loop, consider this to move `i` to the next value:
+
+```
+            int num = atoi(argv[++i]);
+```
+
+-20 llist_free nonexistent
+
+-5 node_free nonexistent
+
+-5 llist_free doesn't free all nodes
+
+-5 delete_head doesn't return a pointer to the deleted node
+
+-5 node_free incorrect
+
+-10 list_free doesn't free nodes, runtime error about double frees. (Need to move the pointer down the list as you free)
+
+-5 llist_delete_head shoudn't free the node--just returns it.
+
+-5 delete_head doesn't return NULL on empty list
+
+-1 llist_print prints a trailing space
