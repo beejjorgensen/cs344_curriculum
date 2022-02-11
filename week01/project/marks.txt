@@ -1,0 +1,12 @@
+-8 mycat: doesn't read stdin if no arguments given
+
+-4 mycat/yell: doesn't loop over file data, stops reading before EOF on larger files.
+
+-4 mycat/yell: doesn't loop reading on standard input, stops reading after a line before EOF.
+
+-4 mycat/yell: only cats the first file given on the command line
+
+-8 mycat/yell: doesn't write to stdout when reading from stdin
+
+-1 printcl: doesn't match requested output
+
