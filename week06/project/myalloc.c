@@ -15,7 +15,7 @@ static enum strategy strategy = STRATEGY_FIRST_FIT;
 #define MEM_SIZE 1024
 
 #define ALIGNMENT 16   // Must be power of 2
-#define GET_PAD(x) ((ALIGNMENT - 1) - (x - 1) & (ALIGNMENT - 1))
+#define GET_PAD(x) ((ALIGNMENT - 1) - ((x - 1) & (ALIGNMENT - 1)))
 
 #define PADDED_SIZE(x) ((x) + GET_PAD(x))
 #define PADDED_SIZEOF(x) (sizeof(x) + GET_PAD(sizeof (x)))
