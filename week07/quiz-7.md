@@ -51,20 +51,19 @@ Only allocated blocks of data are rearranged, and their pointers are kept update
 
 ---
 
-
 The page table maps:
 
-A virtual page number to a physical frame number
+A virtual page number to a physical frame number.
 
-A virtual address to a physical frame number
+A virtual address to a physical frame number.
 
-A physical frame number to a physical page number
+A physical frame number to a physical page number.
 
-A physical address to a virtual frame number
+A physical address to a virtual frame number.
 
 ---
 
-To compute the physical frame offset from the virtual memory offset
+To compute the physical frame offset from the virtual memory offset:
 
 Use the virtual memory offset as-is.
 
@@ -88,7 +87,7 @@ Suffers more from fragmentation, uses more memory, and is faster.
 
 ---
 
-The "valid" bit in a page table entry
+The "valid" bit in a page table entry:
 
 Keeps track of whether or not a particular virtual page is mapped to a physical page.
 
