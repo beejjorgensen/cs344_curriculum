@@ -509,7 +509,7 @@ remainder of the free space.
 That is, if you have a free block with 1008 bytes in it, and you
 `myalloc()` 32 bytes, you should end up with two entries in your linked
 list. One of them is the newly allocated block, and the other is the
-unused remainder of 
+unused remainder of the previous free space.
 
 In this example, assuming the `struct block` linked list node is 16
 bytes, we'd go from:
@@ -523,6 +523,10 @@ to:
 
 After that works, you can call `myalloc()` repeatedly until the space
 fills up.
+
+Of course, we should only split the block this way if the remaining
+space was at least big enough for the a new `struct block` plus at least
+16 bytes of usable space, besides.
 
 <!-- Rubric
 
