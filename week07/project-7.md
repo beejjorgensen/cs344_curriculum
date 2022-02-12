@@ -10,17 +10,17 @@ existing space into a new allocated space and a new free space.
 
 That is, if there's a block of free space that looks like this:
 
-![Before split]()
+![Before split](https://canvas.oregonstate.edu/courses/1849663/files/91978659/preview)
 
 and the user calls
 
 ```
-void *p = myalloc(30);
+void *p = myalloc(117);
 ```
 
 we should end up with space that looks like this:
 
-![After split]()
+![After split](https://canvas.oregonstate.edu/courses/1849663/files/91978657/preview)
 
 In addition, we'll implement the first version of `myfree()`.
 
