@@ -9,8 +9,12 @@ POSTPROC=../bin/postproc
 SRCS=$(wildcard *.md)
 TARGETS=$(SRCS:.md=.html)
 
+IMG_SRCS=$(wildcard *.svg)
+IMG_TARGETS=$(IMG_SRCS:.svg=.png)
+
 .PHONY: all clean
 
+#all: $(TARGETS) $(IMG_TARGETS)
 all: $(TARGETS)
 
 clean:
@@ -19,3 +23,5 @@ clean:
 %.html: %.md
 	$(MD) $(MDOPTS) $^ | $(POSTPROC) > $@
     
+%.png: %.svg
+	convert $^ $@
