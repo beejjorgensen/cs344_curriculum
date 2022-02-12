@@ -18,7 +18,7 @@ In addition, it covers the following concepts:
   enough free space to do so.
 
 * **Internal Fragmentation**: When you waste allocated space inside a
-  specific allocation by allocating more than necessary, making it
+  specific allocation by allocating more than was asked for, making it
   impossible to allocate that space later.
 
 * **Splitting**: Taking part of a large free block and making it used,

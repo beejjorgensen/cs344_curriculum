@@ -1,4 +1,4 @@
-<!-- Exploration 7.2: TODO -->
+<!-- Exploration 7.2: Paging: The Modern Era -->
 
 ## Paging: The Modern Era
 
