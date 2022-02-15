@@ -50,6 +50,13 @@ We'll do our `myfree()` code later.
 
 Remember--no using the built-in `malloc()` for this! We're writing it!
 
+The function signatures are:
+
+```c
+void *myalloc(int size);
+void myfree(void *p);
+```
+
 This is the overview for `myalloc()` for this week. Note that this is an
 incomplete implementation, but we'll be working more on it in the
 following weeks.
