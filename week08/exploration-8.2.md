@@ -1,4 +1,4 @@
-<!-- Exploration 8.2: TODO -->
+<!-- Exploration 8.2: Multi-Level Page Tables -->
 
 ## Improving Page Table Memory Size
 
