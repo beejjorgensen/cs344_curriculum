@@ -59,7 +59,7 @@ Mark which page table this TLB belongs to.
 
 Identify the type of memory used by this process.
 
-Define which segments are associate with withch 
+Define which segments are associated with with which programs.
 
 ---
 
