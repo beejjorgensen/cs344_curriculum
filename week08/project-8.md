@@ -1,4 +1,4 @@
-<!-- Project 8: Coalescing Free Memory -->
+<!-- Project 7: Coalescing Free Memory -->
 
 ## Introduction
 
@@ -9,26 +9,32 @@ free space.
 
 For example, if we have these allocations:
 
-TODO image
+![Before Free](https://canvas.oregonstate.edu/courses/1849663/files/92092528/preview)
 
 and the user calls `myfree()` on the second block, leaving us with this:
 
-TODO image
+![After Free](https://canvas.oregonstate.edu/courses/1849663/files/92092529/preview)
 
 we have two free regions right next to each other. We want to merge
 those into a single, larger free region, like this:
 
-TODO image.
+![Consolidating Two Blocks](https://canvas.oregonstate.edu/courses/1849663/files/92092530/preview)
 
-We want to merge the newly-freed region with those on either side. So if
-we had this:
+(The result size is 64 bytes since we're adding together 16 bytes of
+free region, plus (presumably) 16 bytes for the `struct block`, plus 32
+bytes of previously-used memory.)
 
-TODO image.
+Somewhat more complicatedly, if we free a region that has free space on
+both sides, we want to merge all three of them.
 
-and we freed the first used block, it would merge all three of those
-initial blocks like this:
+So if we had this:
 
-TODO image
+![Before Middle Free](https://canvas.oregonstate.edu/courses/1849663/files/92092531/preview)
+
+and we freed the used block, it would merge all three of those initial
+blocks like this:
+
+![After Middle Free](https://canvas.oregonstate.edu/courses/1849663/files/92092532/preview)
 
 We have multiple options for how to make this happen. Choose one of
 them!
@@ -59,7 +65,7 @@ while cur->next isn't NULL:
         move cur to next node
 ```
 
-Note that wehn you add the next node's size to this node's, you have to
+Note that when you add the next node's size to this node's, you have to
 add the next node's size PLUS the padded size of the `struct block` that
 goes with it. The whole region (the `struct` and the user data) is
 going to be added to the existing free node.
@@ -124,7 +130,7 @@ Submit the link to your GitHub repo.
 
 ## Grading Criteria
 
-This assignment is worth **TODO points**.
+This assignment is worth **90 points**.
 
 Due Sunday at midnight.
 
