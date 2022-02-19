@@ -1,35 +1,100 @@
-No need to set `n = NULL` in `node_free()`, since `n` is just an automatic local variable and is dropped as soon as the function returns.
+Linked list nodes padded to proper alignment (15)
 
--5 list_free crashes on empty list.
+Data padded to proper alignment (15)
 
-output formatting doesn't match spec--try to get it exact.
+First call to `myalloc()` calls `sbrk()` to allocate space (10)
 
-output should print `[empty]` if list is empty--try to match the spec.
+`myalloc()` returns `NULL` if no more space is available. (10)
 
--10 insert_tail doesn't work on non-empty list
+All calls to `myalloc()` traverse the linked list searching for a free
+node with enough space to hold the requested amount. (15)
 
--5 There's a `return 0` inside your main for-loop which means only one command runs before it exits. This broke a lot of the tests.
+`struct block` `size` field computed correctly (size is padded to 16
+byte alignment, doesn't count the `struct block` size itself) (10)
 
-In the argv processing loop, consider this to move `i` to the next value:
+Blocks' in-use flags set correctly.  (10)
+
+Print list prints `[empty]` when list empty (5)
+
+Print list prints the list properly when not empty (5)
+
+----------
+
+-10 Doesn't return NULL if all space is allocated.
+
+-5 Linked List walk not correct.
+
+-10 Doesn't return NULL properly if space not found.
+
+
+----------
+There's a logic error that's causing it to hand out the first block again even though it was already allocated.
+
+Have the loop walk while current is not NULL. (Have current walk off the end.)
+
+Inside the loop, have an `if` that checks if the block is free and big enough.
+
+If it is, return it.
+
+If the loop completes, a useful block must not have been found. Return NULL.
+----------
+To make it more `malloc()`-like, you could make `head` a global with the `static` keyword:
 
 ```
-            int num = atoi(argv[++i]);
+static struct block *head;
 ```
 
--20 llist_free nonexistent
+This way you wouldn't have to pass it to the function, and the `static` keyword means that `head` wouldn't be visible outside of this file.
+----------
+The catch with the Makefile is that the indentations have to be a single TAB character, not a group of spaces. You'll have to set your editor in tabs mode.
 
--5 node_free nonexistent
+It's more common to capitalize the M in Makefile, too. A smart editor might switch to tab mode automatically when editing a file with that name.
 
--5 llist_free doesn't free all nodes
+As soon as I replaced the spaces with a tab, it started working.
 
--5 delete_head doesn't return a pointer to the deleted node
+The sure sign you've used spaces is the error:
 
--5 node_free incorrect
+```
+*** missing separator.  Stop.
+```
 
--10 list_free doesn't free nodes, runtime error about double frees. (Need to move the pointer down the list as you free)
+----------
+Officially, there are only two legal ways to declare `main()`:
 
--5 llist_delete_head shoudn't free the node--just returns it.
+```
+int main(void)
+int main(int argc, char *argv[])  // or equivalent
+```
 
--5 delete_head doesn't return NULL on empty list
+You need to make a copy of `head` before you walk the list with it.
 
--1 llist_print prints a trailing space
+```
+struct block *cur = head;
+
+while (cur != NULL) {
+    ...
+    cur = cur->next;
+}
+```
+
+As it is, you walk head to NULL each time, so every time I call the function `sbrk()` gets called (unless a good block is found.
+
+For example, if I call these:
+
+```
+myalloc(99999);
+myalloc(10);
+```
+
+`sbrk()` gets called twice, one for each `myalloc()` call.
+
+Also, the case where you return `NULL` isn't going to work this week--it's saying "if I find a block that's in use that would have worked, fail immediately".
+
+But what we want if we find a block that's in use is to walk to the next block and keep trying until we run off the list.
+
+You can remove that second `if` from inside the loop. And...
+
+...then return `NULL` at the end of the function. This is the line of code that will be hit if you walked the list and didn't find anything.
+
+Also, I was getting a warning on that since the function wasn't returning a value. Always fix all warnings in C!
+
