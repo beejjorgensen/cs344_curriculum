@@ -1,4 +1,4 @@
-<!-- Project 7: TODO -->
+<!-- Project 8: Coalescing Free Memory -->
 
 ## Introduction
 
