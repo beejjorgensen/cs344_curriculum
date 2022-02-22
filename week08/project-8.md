@@ -124,6 +124,96 @@ in the list, a vast improvement over Option 1. Like with many things,
 getting a jump in time complexity involves a corresponding increase in
 code complexity.
 
+### Example Output
+
+**Example 1:**
+
+```
+void *p;
+
+p = myalloc(10); print_data();
+
+myfree(p); print_data();
+```
+
+Output:
+
+```
+[16,used] -> [976,free]
+[1008,free]
+```
+
+**Example 2:**
+
+```
+void *p, *q;
+
+p = myalloc(10); print_data();
+q = myalloc(20); print_data();
+
+myfree(p); print_data();
+myfree(q); print_data();
+```
+
+Output:
+
+```
+[16,used] -> [976,free]
+[16,used] -> [32,used] -> [928,free]
+[16,free] -> [32,used] -> [928,free]
+[1008,free]  
+```
+
+**Example 3:**
+
+```
+void *p, *q;
+
+p = myalloc(10); print_data();
+q = myalloc(20); print_data();
+
+myfree(q); print_data();
+myfree(p); print_data();
+```
+
+Output:
+
+```
+[16,used] -> [976,free]
+[16,used] -> [32,used] -> [928,free]
+[16,used] -> [976,free]
+[1008,free]
+```
+
+**Example 4:**
+
+```
+void *p, *q, *r, *s;
+
+p = myalloc(10); print_data();
+q = myalloc(20); print_data();
+r = myalloc(30); print_data();
+s = myalloc(40); print_data();
+
+myfree(q); print_data();
+myfree(p); print_data();
+myfree(s); print_data();
+myfree(r); print_data();
+```
+
+Output:
+
+```
+[16,used] -> [976,free]
+[16,used] -> [32,used] -> [928,free]
+[16,used] -> [32,used] -> [32,used] -> [880,free]
+[16,used] -> [32,used] -> [32,used] -> [48,used] -> [816,free]
+[16,used] -> [32,free] -> [32,used] -> [48,used] -> [816,free]
+[64,free] -> [32,used] -> [48,used] -> [816,free]
+[64,free] -> [32,used] -> [880,free]
+[1008,free]  
+```
+
 ## What to Turn In
 
 Submit the link to your GitHub repo.
