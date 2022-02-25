@@ -116,7 +116,7 @@ void new_process(int proc_num, int page_count)
     unsigned char page_table = get_page();
 
     if (page_table == 0xff) {
-        printf("OOM: page table: %d %d\n", proc_num, page_count);
+        printf("OOM: proc %d: page table\n", proc_num);
         return;
     }
 
@@ -125,7 +125,6 @@ void new_process(int proc_num, int page_count)
     mem[ptp_addr] = page_table;
 
     // Initialize the page table
-    int failure = 0;
 
     // Zero the whole page table
     for (int i = 0; i < PAGE_SIZE; i++) {
@@ -137,17 +136,14 @@ void new_process(int proc_num, int page_count)
     for (int i = 0; i < page_count; i++) {
         int addr = get_address(page_table, i);
 
-        mem[addr] = get_page();
-        if (mem[addr] == 0xff) {
-            failure = 1;
-            break;
-        }
-    }
+        int page_num = get_page();
 
-    // If we had an allocation failure, we need to free everything
-    if (failure) {
-        free_all_process_pages(proc_num);
-        printf("OOM: data pages: %d %d\n", proc_num, page_count);
+        if (page_num == 0xff) {
+            printf("OOM: proc %d: data page\n", proc_num);
+            return;
+        }
+
+        mem[addr] = page_num;
     }
 }
 
@@ -279,9 +275,9 @@ void print_page_free_map(void)
 //
 // Print the address map from virtual pages to physical
 //
-void print_addr_map(int proc_num)
+void print_page_table(int proc_num)
 {
-    printf("--- PROCESS %d MAP ---\n", proc_num);
+    printf("--- PROCESS %d PAGE TABLE ---\n", proc_num);
 
     // Get the page table for this process
     int page_table = get_page_table(proc_num);
@@ -322,9 +318,9 @@ int main(int argc, char *argv[])
         else if (strcmp(argv[i], "pfm") == 0) {
             print_page_free_map();
         }
-        else if (strcmp(argv[i], "pam") == 0) {
+        else if (strcmp(argv[i], "ppt") == 0) {
             int proc_num = atoi(argv[++i]);
-            print_addr_map(proc_num);
+            print_page_table(proc_num);
         }
         else if (strcmp(argv[i], "sb") == 0) {
             int proc_num = atoi(argv[++i]);
