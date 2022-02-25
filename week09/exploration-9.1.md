@@ -1,4 +1,4 @@
-<!-- Exploration 9.1: TODO -->
+<!-- Exploration 9.1: Swapping -->
 
 ## Swapping
 
@@ -47,4 +47,12 @@ Swap:  2.0Gi     32Mi    2.0Gi
 
 ## Reflect
 
-* TODO
+* What the reason we have swap at all?
+
+* Internet Search: what's the difference between a swap file and a swap
+  partition?
+
+* When does a page fault occur? How is it useful to the OS to know?
+
+* What does the swap daemon do?
+

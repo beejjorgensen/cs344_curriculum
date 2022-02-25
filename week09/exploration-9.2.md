@@ -1,4 +1,4 @@
-<!-- Exploration 9.2: TODO -->
+<!-- Exploration 9.2: Swapping Policies -->
 
 ## Swapping Policies
 
@@ -94,5 +94,12 @@ decrease the amount of time spent swapping, also improving things a bit.
   
 ## Reflect
 
-* TODO
+* When does a system start to thrash?
 
+* What are the main issues that can get in the way of performance with
+  Random and FIFO swapping policies?
+
+* What is a drawback to demand paging? How could performance potentially
+  be further improved?
+
+* What is dirty vs clean page?
