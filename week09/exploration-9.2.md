@@ -5,7 +5,7 @@
 A _swapping policy_ is the logic that governs when a page is swapped out
 to disk. There are a lot of possible strategies. Some are:
 
-* Optimal : swap out the page that will be used most distantly in the
+* Optimal: swap out the page that will be used most distantly in the
   future. This has the advantage of being as good as it gets. It also
   has the disadvantage of requiring a time machine to look into the
   future.
