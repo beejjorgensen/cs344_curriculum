@@ -1,4 +1,4 @@
-<!-- Project 9: TODO -->
+<!-- Project 9: Page Tables Part 1 -->
 
 ## Introduction
 
@@ -12,6 +12,27 @@ map virtual page numbers to physical page numbers.
 This simulation will allow us to start new (fake) processes that need a
 certain number of pages of physical memory, store and load data from
 virtual addresses per process, and so on.
+
+We're going to issue commands on the command line to do these things.
+
+### Command Line
+
+The program we're writing is called `ptsim`, and you'll run it with a
+variety of commands and arguments:
+
+```
+ptsim command command ...
+```
+
+The possible commands are:
+
+* `np n m`: launch new process `n` with initial allocation of `m` pages.
+* `ppt n`: print page table for process `n`.
+* `pfm`: print a representation of a free map.
+
+The `ppt` and `pfm` functions are already written for you.
+
+Next project, we'll add more commands.
 
 ### The Fake Computer
 
@@ -153,7 +174,7 @@ Page 8: Unused
 Page 9: ... and so on ...
 ```
 
-and those blocks become available for reuse.
+and those pages become available for reuse.
 
 So let's start a new `Process 3` that needs three pages of memory. We'd
 see this happen:
@@ -178,9 +199,237 @@ This is not a problem, because the page tables tell you how to map from
 a process's continuous virtual pages to the system's physical pages,
 even if those physical pages are scattered about.
 
+### Page Table Layout
+
+Each process has its own page table. This is how the CPU maps a virtual
+address from a process to a physical address.
+
+This table is an array of bytes.
+
+The index of the array represents the virtual page number. The byte in
+the array at that index holds the corresponding physical page number.
+
+So if you have a process's page table page number `page_table_page`, and
+virtual page number `virt_page`, you can look up the corresponding
+physical page number in the page table like this:
+
+```
+address = page_table_page * PAGE_SIZE + virt_page;
+
+phys_page = mem[address];
+```
+
+### Used Page Layout
+
+In zero page, the first 64 bytes indicate which physical pages are used.
+
+There are 64 physical pages, so that's one byte per page. The value of
+the byte indicates if the page is used:
+
+* `0`: page is ununsed.
+* `1`: page is used.
+
+### Initialization of Memory on Bootup
+
+There's some initialization that needs to be done before we start.
+
+1. Zero every byte of physical memory in the `mem` array.
+2. Mark zero page as "used" in the Used Page Table. (That is, set
+   `mem[0]` to `1`.)
+
+We mark zero page as used so that later we don't use it for a process's
+memory.  Zero page is reserved and will never move or be used for
+anything else.
+
+### Algorithm to Map Page/Offset to Address
+
+We've already see this, but for completeness:
+
+```
+GetAddress(page, offset):
+    return page * PAGE_SIZE + offset
+```
+
+### Algorithm to Allocate a Page
+
+This is what we'll do to get a page of physical memory. We want to do
+this for a few reasons:
+
+* When we allocate a new process's page table
+* When we allocate data pages for a new process
+* When a process requests more pages
+
+The algorithm is:
+
+```
+AllocatePage():
+    For each page_number in the Used Page array in zero page:
+        If it's unused (if it's 0):
+            mem[page_number] = 1 // mark used
+            return the page_number
+
+    return 0xff  // indicating no free pages
+```
+
+Recall the Used Page array is the first 64 bytes of zero page.
+
+For example, if the first 64 bytes has this:
+
+```
+1 1 1 0 1 0 1 1 0 [... truncated ... ]
+      ^
+```
+
+The first unused page is at index 3, indicated by the caret, above.
+This means that the first unused physical page is page #3. (Which starts
+at address `3 x 256`, where `256` is the page size.)
+
+So we'd mark it as used:
+
+```
+1 1 1 1 1 0 1 1 0 [... truncated ... ]
+      ^
+```
+
+And return `3`.
+
+### Algorithm to Deallocate a Page
+
+You just have to mark it as unused in zero page.
+
+```
+DeallocatePage(page_number):
+    addr = GetAddress(0, page_number);
+    mem[addr] = 0
+```
+
+### Algorithm to Allocate Memory for a New Process
+
+We need to do a couple things.
+
+1. Allocate a single page to be this process's page table.
+2. Allocate the other data pages the process requested.
+   1. Add entries for those pages to the process's page table.
+
+```
+NewProcess(proc_num, page_count):
+    // Get the page table page
+    page_table = AllocatePage()
+
+    // Set this process's page table pointer in zero page
+    mem[64 + proc_num] = page_table
+
+    // Allocate data pages
+    For i from 0 to page_count:
+        new_page = AllocatePage()
+
+        // Set the page table to map virt -> phys
+        // Virtual page number is i
+        // Physical page number is new_page
+        pt_addr = GetAddress(page_table, i)
+        mem[pt_addr] = new_page
+```
+
+If the initial page table allocation fails (due to out-of-memory), the
+function should print:
+
+```
+    printf("OOM: proc %d: page table\n", proc_num);
+```
+
+and return.
+
+If any of the subsequent page allocations fail, it should print:
+
+```
+    printf("OOM: proc %d: data page\n", proc_num);
+```
+
+and return.
+
 ### Example Output
 
-TODO
+#### Example
+
+Here we don't add any processes, but we see zero page is already marked
+as allocated:
+
+```
+%  ./ptsim pfm
+--- PAGE FREE MAP ---
+#...............
+................
+................
+................
+```
+
+#### Example
+
+Here we make a new `Process 1` with `2` data pages:
+
+```
+%  ./ptsim np 1 2 pfm
+--- PAGE FREE MAP ---
+####............
+................
+................
+................
+```
+
+The first used page is zero page.
+
+The second used page is `Process 1`s page table.
+
+The third and fourth used page are `Process 1`s data pages.
+
+#### Example
+
+Here we see the mappings from the virtual pages on the left to the
+corresponding physical pages on the right:
+
+```
+%  ./ptsim np 1 2 ppt 1
+--- PROCESS 1 PAGE TABLE ---
+00 -> 02
+01 -> 03
+```
+
+Virtual page 0 maps to physical page 2.
+
+Virtual page 1 maps to physical page 3.
+
+#### Example
+
+Allocate 2 blocks for `Process 1` and 3 blocks for `Process 2`.
+
+```
+%  ./ptsim np 1 2 np 2 3 ppt 1 ppt 2 pfm
+--- PROCESS 1 PAGE TABLE ---
+00 -> 02
+01 -> 03
+--- PROCESS 2 PAGE TABLE ---
+00 -> 05
+01 -> 06
+02 -> 07
+--- PAGE FREE MAP ---
+########........
+................
+................
+................
+```
+
+See there are 8 pages used on the free map. They are:
+
+```
+Page 0: zero page (reserved)
+Page 1: Process 1's page table
+Page 2: Process 1's data block 0
+Page 3: Process 1's data block 1
+Page 4: Process 2's page table
+Page 5: Process 2's data block 0
+Page 6: Process 2's data block 1
+Page 7: Process 2's data block 2
+```
 
 ## What to Turn In
 
@@ -197,10 +446,17 @@ submission.
 
 ## Extensions
 
-* TODO
+* This coming week we're going to:
+  * Add code to kill a process and free its memory
+  * Add code to read and write from virtual memory addresses
 
 <!-- Rubric
 
-TODO
+"pfm" working
 
+"np 1 3 pfm" working
+
+"np 2 8 ppt 2 np 3 17 pfm" working
+
+TODO more of these
 -->
