@@ -28,9 +28,9 @@
      showgrid="false"
      units="px"
      width="640px"
-     inkscape:zoom="2.2652217"
-     inkscape:cx="381.64034"
-     inkscape:cy="192.9171"
+     inkscape:zoom="3.2035072"
+     inkscape:cx="340.096"
+     inkscape:cy="239.42509"
      inkscape:window-width="3840"
      inkscape:window-height="2058"
      inkscape:window-x="0"
@@ -96,6 +96,13 @@
        height="130.96875"
        x="0.7004419"
        y="4.0905652" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.365;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5010"
+       width="12.467247"
+       height="7.269012"
+       x="59.054108"
+       y="92.915169" />
     <text
        xml:space="preserve"
        style="font-size:4.23333px;line-height:1.25;font-family:Sans;-inkscape-font-specification:'Sans, Normal';font-variant-ligatures:none;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;stroke-width:0.264583"
@@ -132,13 +139,6 @@
          style="font-style:italic;font-weight:bold;stroke-width:0.264583"
          x="53.422832"
          y="9.8225126">Zero Page</tspan></text>
-    <rect
-       style="fill:none;stroke:#000000;stroke-width:0.365;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect5010"
-       width="12.467247"
-       height="7.269012"
-       x="59.054108"
-       y="92.915169" />
     <text
        xml:space="preserve"
        style="font-size:4.23333px;line-height:1.25;font-family:Sans;-inkscape-font-specification:'Sans, Normal';font-variant-ligatures:none;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;stroke-width:0.264583"

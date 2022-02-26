@@ -115,10 +115,31 @@ that holds the page table for the given process.
 
 You might need to reread that sentence a number of times to get it.
 
+### Mapping a Process Number to it's Page Table
+
+In the following diagram, we're trying to locate process #12's page
+table.
+
+![Mapping a process to a page table page](https://canvas.oregonstate.edu/courses/1849663/files/92199722/preview)
+
+The first step is to compute the address that holds process 12's page
+table number.
+
+This address is going to be in zero page in the page table pointers
+section which begins at address 64.
+
+So we add 64 to 12 to get 76, which is the address that holds process
+12's page table number.
+
+Then we look in memory at that address and find, say, 18.
+
+This tells us that process 12's page table is to be found in RAM on page
+18.
+
 ### Per Process Page Table
 
-Each process has its own page table. Confusingly, each page table also
-resides in memory, and each one takes a single page.
+Each process has its own page table. Each page table also resides in
+memory, and each one takes a single page.
 
 So we have zero page, which is reserved for the system stuff, above. And
 then each process also has a page table allocated from the pool of free
@@ -213,11 +234,42 @@ So if you have a process's page table page number `page_table_page`, and
 virtual page number `virt_page`, you can look up the corresponding
 physical page number in the page table like this:
 
+
 ```
 address = page_table_page * PAGE_SIZE + virt_page;
 
 phys_page = mem[address];
 ```
+
+Let's take the previous example where we figured out that process 12's
+page table was in physical page 18.
+
+And let's have process 12 retrieve the value in memory at virtual
+address 553 (binary `00001000101001`).
+
+![Looking up a Virtual Address](https://canvas.oregonstate.edu/courses/1849663/files/92199723/preview)
+
+Since we know each page is 256 bytes and 8 bits can represent 256
+different values, we know the low 8 bits of the address is the _offset_.
+And we know the high 6 bits is the physical _page_ we want to get for
+this virtual page.
+
+We see the value of the high 6 bits is `2`, which means we look at
+offset `2` in our page table. The value there is `37`.
+
+This tells us that physical page `37` is the same as the process's
+virtual page `2`.
+
+We're part way there.
+
+So we go look at physical page `37`, and we use the offset (low 8 bits)
+from the address. In this case, the offset is `41`.
+
+That is, virtual page 2, offset 41 is the same as physical page 37,
+offset 41.
+
+And finally we get the value the process was wanting from virtual
+address 553: `99`.
 
 ### Used Page Layout
 
@@ -452,11 +504,16 @@ submission.
 
 <!-- Rubric
 
-"pfm" working
+"ptsim pfm" working (5)
 
-"np 1 3 pfm" working
+"ptsim np 1 2 pfm" working (10)
 
-"np 2 8 ppt 2 np 3 17 pfm" working
+"ptsim np 1 2 ppt 1" working (10)
 
-TODO more of these
+"ptsim np 1 2 np 2 3 ppt 1 ppt 2 pfm" working (10)
+
+"ptsim np A B ppt A np C D ppt C pfm" working, for arbitrary values of A, B, C, D (20)
+
+"ptsim np A B ppt A np C D np E F ppt E pfm" working, for arbitrary values of A, B, C, D, E, F (20)
+
 -->
