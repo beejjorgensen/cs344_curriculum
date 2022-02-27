@@ -1,5 +1,4 @@
 <!-- Project 9: Page Tables Part 1 -->
-
 ## Introduction
 
 **This is part 1 of a multipart project.**
@@ -101,10 +100,12 @@ mem[page * PAGE_SIZE + offset] = 12;
 This is the zeroth page of physical memory, from address 0-255. It has
 special uses in this fake computer.
 
-Bytes 0-63 (effectively addresses 0-63) form a free page map (which lets
-you know which pages are in use and which aren't).
+* **Free Page Map**: Bytes 0-63 (effectively addresses 0-63) form a free
+  page map (which lets you know which pages are in use and which
+  aren't).
 
-Bytes 64-127 hold page table pointers for up to 64 processes.
+* **Page Table Map**: Bytes 64-127 hold page table pointers for up to 64
+  processes.
 
 Process 0's page table page number is at address 64.
 
@@ -197,6 +198,10 @@ Page 9: ... and so on ...
 
 and those pages become available for reuse.
 
+> Note that we're not freeing pages this week--that's next week--but
+> this example is here to show how the first pages available are always
+> used even if they're not contiguous.
+
 So let's start a new `Process 3` that needs three pages of memory. We'd
 see this happen:
 
@@ -271,15 +276,15 @@ offset 41.
 And finally we get the value the process was wanting from virtual
 address 553: `99`.
 
-### Used Page Layout
+### Free Page Map Layout
 
 In zero page, the first 64 bytes indicate which physical pages are used.
 
 There are 64 physical pages, so that's one byte per page. The value of
 the byte indicates if the page is used:
 
-* `0`: page is ununsed.
-* `1`: page is used.
+* `0`: page is ununsed/free.
+* `1`: page is used/not free.
 
 ### Initialization of Memory on Bootup
 
@@ -310,6 +315,14 @@ this for a few reasons:
 * When we allocate a new process's page table
 * When we allocate data pages for a new process
 * When a process requests more pages
+
+We're going to use the first available page we find in a linear search
+for this simulation.
+
+> A real OS isn't going to do anything that inefficient; it'll have some
+> kind of free block structure that can deliver the next free block in
+> `O(1)` time. But we're keeping it simple here. The important thing is
+> there's some way to get an available block.
 
 The algorithm is:
 
@@ -344,16 +357,6 @@ So we'd mark it as used:
 ```
 
 And return `3`.
-
-### Algorithm to Deallocate a Page
-
-You just have to mark it as unused in zero page.
-
-```
-DeallocatePage(page_number):
-    addr = GetAddress(0, page_number);
-    mem[addr] = 0
-```
 
 ### Algorithm to Allocate Memory for a New Process
 
