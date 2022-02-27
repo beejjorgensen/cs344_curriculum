@@ -17,10 +17,7 @@ ptsim np 1 256 pv 1
 #define MEM_SIZE 16384  // MUST equal PAGE_SIZE * PAGE_COUNT
 #define PAGE_SIZE 256  // MUST equal 2^PAGE_SHIFT
 #define PAGE_COUNT 64
-#define PAGE_SHIFT 8  // Shift page number or right this much
-
-#define GET_PAD(x) ((PAGE_SIZE - 1) - ((x - 1) & (PAGE_SIZE - 1)))
-#define PADDED_SIZE(x) ((x) + GET_PAD(x))
+#define PAGE_SHIFT 8  // Shift page number this much
 
 #define PTP_OFFSET 64 // How far offset in page 0 is the page table pointer table
 
@@ -48,6 +45,8 @@ void initialize_mem(void)
 
 //
 // Allocate a physical page
+//
+// Returns the number of the page, or 0xff if no more pages available
 //
 unsigned char get_page(void)
 {
@@ -109,6 +108,8 @@ void free_all_process_pages(int proc_num)
 
 //
 // Allocate pages for a new process
+//
+// This includes the new process page table and page_count data pages.
 //
 void new_process(int proc_num, int page_count)
 {
@@ -258,6 +259,9 @@ void load_byte(int proc_num, int vaddr)
         proc_num, vaddr, addr, val);
 }
 
+//
+// Print the free page map
+//
 void print_page_free_map(void)
 {
     printf("--- PAGE FREE MAP ---\n");
@@ -294,6 +298,9 @@ void print_page_table(int proc_num)
     }
 }
 
+//
+// Main -- process command line
+//
 int main(int argc, char *argv[])
 {
     assert(PAGE_COUNT * PAGE_SIZE == MEM_SIZE);
