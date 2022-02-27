@@ -14,6 +14,15 @@ virtual addresses per process, and so on.
 
 We're going to issue commands on the command line to do these things.
 
+### Skeleton Code
+
+Download these two files and add them to your project:
+
+* [`Makefile`]( https://canvas.oregonstate.edu/courses/1849663/files/92219564?wrap=1)
+* [`ptsim.c`](https://canvas.oregonstate.edu/courses/1849663/files/92219566?wrap=1)
+
+The C file is a skeleton file to be filled out.
+
 ### Command Line
 
 The program we're writing is called `ptsim`, and you'll run it with a
@@ -492,7 +501,7 @@ Submit the link to your GitHub repo.
 
 ## Grading Criteria
 
-This assignment is worth **TODO points**.
+This assignment is worth **75 points**.
 
 Due Sunday at midnight.
 
