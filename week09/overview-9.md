@@ -31,13 +31,13 @@ After the successful completion of this module, you will be able to:
  
 ## Explorations
 
-* [Exploration 9.1]()
-* [Exploration 9.2]()
+* [Exploration 9.1](https://canvas.oregonstate.edu/courses/1849663/assignments/8795971)
+* [Exploration 9.2](https://canvas.oregonstate.edu/courses/1849663/assignments/8795972)
 
 ## Task List
 
 * In the Virtualization section of [the book](https://pages.cs.wisc.edu/~remzi/OSTEP/), read:
   * [Swapping Mechanisms](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys.pdf)
   * [Swapping Policies](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys-policy.pdf)
-* Complete [Quiz 9]()
-* Complete [Project 9]()
+* Complete [Quiz 9](https://canvas.oregonstate.edu/courses/1849663/assignments/8795974)
+* Complete [Project 9](https://canvas.oregonstate.edu/courses/1849663/assignments/8795973)
