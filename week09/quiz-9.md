@@ -29,7 +29,7 @@ One per process.
 
 Up to 64 maximum.
 
-Depends on how much physical memory there is.
+Depends on how much virtual memory there is.
 
 Depends on how much free disk space there is.
 
