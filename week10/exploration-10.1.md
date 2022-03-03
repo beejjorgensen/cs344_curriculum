@@ -1,9 +1,12 @@
-<!-- Exploration 10.1: Example VM Systems: VAX/VMS -->
+<!-- Exploration 10.1: VAX/VMS Virtual Memory -->
 
 ## Virtual Memory on the VAX
 
 The VAX is a venerable old platform now woefully obsolete, a pioneer in
 the space of virtual memory, however.
+
+If your instructor is old enough, they might have used one of these
+machines in the late 1980s-early 1990s.
 
 ### Overview
 
