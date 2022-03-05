@@ -59,7 +59,7 @@ Three total queues spread the page load out over the number of processes.
 
 More queues were needed to represent all physical pages on the VAX.
 
-More queues were needed to represent all cirtual pages on the VAX.
+More queues were needed to represent all virtual pages on the VAX.
 
 ---
 
