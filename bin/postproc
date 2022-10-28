@@ -85,8 +85,10 @@ class CanvasHTMLParser(HTMLParser):
         attr_map = dict(attrs)
 
         if "src" not in attr_map or attr_map["src"].strip() == "":
-            alt_text = attr_map["alt"] if "alt" in attr_map else \
-                "[alt text missing]"
+            if "alt" in attr_map and attr_map["alt"].strip() != "":
+                alt_text = f'"{attr_map["alt"].strip()}"'
+            else:
+                alt_text = "[alt text missing]"
 
             print(f'{warning()}warning: image URL needed:' \
                 f'{normal()} {alt_text}', file=sys.stderr)
