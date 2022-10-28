@@ -13,10 +13,23 @@ any existing style.
 
 add_styles = {
     'h2': "border-bottom: 2px solid #dc4405",
+    'table': "border: 1px solid #dddddd; margin: 0 auto",
+    'th': "border: 1px solid #dddddd; background: #e9e9e9; padding: 1ex",
+    #'td': "border: 1px solid #dddddd; background: #f8f8f8; padding: 1ex",
 }
 
 import sys
 from html.parser import HTMLParser
+
+highlight = True
+CSI = '\x1b['
+
+def warning():
+    # bold yellow on black
+    return f"{CSI}1;33;40m" if highlight else ""
+
+def normal():
+    return f"{CSI}0m" if highlight else ""
 
 def html_str(tag, attrs, is_startend=False):
     """
@@ -57,6 +70,11 @@ class CanvasHTMLParser(HTMLParser):
 
     def __init__(self, file=sys.stdout):
         self.file = file
+        self.table_caption = None
+        self.row_num = 0
+        self.in_anchor = False
+        self.anchor_text = ""
+        self.link_needed = False
         super().__init__(convert_charrefs=False)
 
     def output(self, data):
@@ -64,18 +82,64 @@ class CanvasHTMLParser(HTMLParser):
         self.file.write(data)
 
     def handle_starttag(self, tag, attrs):
-        if tag in add_styles:
+        # Warn if a link is needed for an anchor
+        if tag.lower() == "a":
+            self.in_anchor = True
+            attr_map = dict(attrs)
+            if "href" not in attr_map or attr_map["href"].strip() == "":
+                self.link_needed = True
+
+        # Add column scope to all table headers
+        if tag.lower() == "th":
+            attrs.append(("scope", "col"))
+
+        # Handle alternating table rows
+        if tag.lower() == "table":
+            self.row_num = 0
+
+        if tag.lower() == "tr":
+            self.row_num += 1
+
+        # Special tag rules here:
+        if tag.lower() == "td":
+            style = "border: 1px solid #dddddd; padding: 1ex; background: "
+            style += "#f8f8f8" if self.row_num % 2 == 0 else "white"
+
+            add_style(style, attrs)
+
+        # General tag style additions:
+        elif tag in add_styles:
             add_style(add_styles[tag], attrs)
 
         self.output(html_str(tag, attrs))
 
+        # Hack in the table caption
+        if tag.lower() == "table":
+            if self.table_caption is not None:
+                self.output(f"\n<caption>{self.table_caption}</caption>")
+                self.table_caption = None
+            else:
+                print(f'{warning()}warning: table without CAPTION ' \
+                    f'comment detected{normal()}')
+
     def handle_endtag(self, tag):
+        if tag.lower() == "a":
+            if self.link_needed:
+                print(f'{warning()}warning: link needed:{normal()} ' \
+                    f'"{self.anchor_text}"', file=sys.stderr)
+            self.in_anchor = False
+            self.anchor_text = ""
+            self.link_needed = False
+
         self.output(f"</{tag}>")
 
     def handle_startendtag(self, tag, attrs):
         self.output(html_str(tag, attrs, is_startend=True))
 
     def handle_data(self, data):
+        if self.in_anchor:
+            self.anchor_text += " ".join(data.split())
+
         self.output(data)
 
     def handle_entityref(self, name):
@@ -86,6 +150,12 @@ class CanvasHTMLParser(HTMLParser):
 
     def handle_comment(self, data):
         self.output(f"<!--{data}-->")
+
+        # See if this is a caption comment
+        data = data.strip()
+
+        if data[:8].lower() == "caption:":
+            self.table_caption = data[8:].strip()
 
     def handle_decl(self, decl):
         self.output(f"<!{decl}>")
