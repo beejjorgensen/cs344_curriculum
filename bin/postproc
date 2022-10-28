@@ -81,6 +81,16 @@ class CanvasHTMLParser(HTMLParser):
         """Write data output to a given file."""
         self.file.write(data)
 
+    def check_img_url(self, attrs):
+        attr_map = dict(attrs)
+
+        if "src" not in attr_map or attr_map["src"].strip() == "":
+            alt_text = attr_map["alt"] if "alt" in attr_map else \
+                "[alt text missing]"
+
+            print(f'{warning()}warning: image URL needed:' \
+                f'{normal()} {alt_text}', file=sys.stderr)
+
     def handle_starttag(self, tag, attrs):
         # Warn if a link is needed for an anchor
         if tag.lower() == "a":
@@ -88,6 +98,10 @@ class CanvasHTMLParser(HTMLParser):
             attr_map = dict(attrs)
             if "href" not in attr_map or attr_map["href"].strip() == "":
                 self.link_needed = True
+
+        # Warn if the image tag is missing its src
+        if tag.lower() == "img":
+            self.check_img_url(attrs)
 
         # Add column scope to all table headers
         if tag.lower() == "th":
@@ -125,7 +139,7 @@ class CanvasHTMLParser(HTMLParser):
     def handle_endtag(self, tag):
         if tag.lower() == "a":
             if self.link_needed:
-                print(f'{warning()}warning: link needed:{normal()} ' \
+                print(f'{warning()}warning: anchor URL needed:{normal()} ' \
                     f'"{self.anchor_text}"', file=sys.stderr)
             self.in_anchor = False
             self.anchor_text = ""
@@ -134,6 +148,10 @@ class CanvasHTMLParser(HTMLParser):
         self.output(f"</{tag}>")
 
     def handle_startendtag(self, tag, attrs):
+        # Warn if the image tag is missing its src
+        if tag.lower() == "img":
+            self.check_img_url(attrs)
+
         self.output(html_str(tag, attrs, is_startend=True))
 
     def handle_data(self, data):
