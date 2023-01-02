@@ -26,30 +26,30 @@ There are a couple common ways of getting more RAM straight from the OS:
   setting the _break_--the lowest address in the process's data segment.
   On some systems, there is no way to free this memory, but a process
   can reuse the memory it already has allocated.
-* `mmap()` system call: "memory map" an anonymous section of memory for
-  general purpose use. This can be freed with `munmap()`.
+  
+  > Note that on some systems (e.g. MacOS) the `brk()` call is
+  > deprecated. And if you use it **and** the C standard library I/O
+  > functions (e.g. `printf()`), you're liable to be stepping on C's
+  > toes.
+
+* `mmap()` system call: "memory map" a section of memory for general
+  purpose use. This can be freed with `munmap()`.
+
+  > `mmap()` is actually more capable than that--you can use it to map a
+  > file into a section of memory. But for our purposes we will just ask
+  > the OS to give us an _anonymous_ section of memory that's not
+  > associated with any file. Then we can use this memory for whatever
+  > we want.
 
 Under the hood, `malloc()` use one or the other or both of those
 syscalls.
 
-> The book warns: 
->
->> Note that you should never directly call either `brk` or `sbrk`. They
->> are used by the memory-allocation library; if you try to use them,
->> you will likely make something go (horribly) wrong.
->
-> But this is a little overzealous. What you should never do is use
-> `brk()` or `sbrk()` if you are also using any functions in the
-> `malloc()` family. `malloc()` assumes it has full control over setting
-> the break, and things will start crashing right quick if you violate
-> that assumption.
-
-Since a syscall has overhead, it's common for `malloc()` to `brk()` a
-significant chunk of memory when it needs it, then it manages subchunks
-of that memory over various `malloc()` and `free()` calls. This has the
-advantage that most of that memory management takes place in user space
-and no context switch to kernel mode is necessary when `malloc()` anda
-`free()` are used.
+Since a syscall has overhead, it's common for `malloc()` to `brk()` or
+`mmap()` a significant chunk of memory when it needs it, then it manages
+subchunks of that memory over various `malloc()` and `free()` calls.
+This has the advantage that most of that memory management takes place
+in user space and no context switch to kernel mode is necessary when
+`malloc()` and `free()` are used.
 
 But since that memory might not be able to be freed from the system
 (there's no `unbrk()` call), if the user tries to `malloc()` a large

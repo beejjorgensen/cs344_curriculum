@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/mman.h>
 #include <assert.h>
 #include "myalloc.h"
 
@@ -47,11 +48,11 @@ void print_data(void)
     printf("\n");
 }
 
-static int get_break_size(int size)
+static int get_total_pages_size(int size)
 {
-    long page_size = sysconf(_SC_PAGESIZE);
+    //long page_size = sysconf(_SC_PAGESIZE);
 
-    page_size = 1024;
+    long page_size = 1024;
 
     // Assumes page_size is a power of 2
 
@@ -61,19 +62,21 @@ static int get_break_size(int size)
     return bytes_needed;
 }
 
-static struct block *break_new(int size)   // Including header and all padding
+static struct block *mmap_new(int padded_size)
 {
     struct block *b;
 
-    int break_incr = get_break_size(size);
+    int memory_size = get_total_pages_size(padded_size);
 
-    if ((b = sbrk(break_incr)) == (void*)(-1)) {
-        perror("sbrk");
+    b = mmap(NULL, memory_size, PROT_READ|PROT_WRITE, MAP_ANON|MAP_PRIVATE, -1, 0);
+
+    if (b == MAP_FAILED) {
+        perror("mmap");
         return NULL;
     }
-    
+
     b->next = NULL;
-    b->size = break_incr - HEADER_SIZE;
+    b->size = memory_size - HEADER_SIZE;
     b->in_use = 0;
 
     return b;
@@ -181,13 +184,14 @@ static struct block *find_space(int size)
         return b;
     }
 
-    if ((b = break_new(size + HEADER_SIZE)) != NULL) {
+    if ((b = mmap_new(size + HEADER_SIZE)) != NULL) {
         if (tail == NULL)
             head = b;
         else
             tail->next = b;
 
         split_space(b, size);
+
         return b;
     }
 

@@ -2,7 +2,7 @@
 
 ## Watching the Stack and Heap
 
-* Experiment with sbrk
+* Experiment with mmap
 * Experiment with stack
   * Recursion to see
 

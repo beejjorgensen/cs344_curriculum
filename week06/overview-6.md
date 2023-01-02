@@ -15,11 +15,11 @@ We'll also look at how C library memory management routines such as
 
 ## Goals
 
-* Investigate techniques for supporting virtual memory on the CPU
+* Investigate techniques for supporting virtual memory on the CPU.
 * Explore how the OS can use these techniques to make it look to the
   process like it has a large, contiguous chunk of memory.
-* Use the `brk()` syscall to get some memory allocated from the OS
-* Implement part of a `malloc()` replacement
+* Use the `mmap()` syscall to get some memory allocated from the OS.
+* Implement part of a `malloc()` replacement.
   
 ## Module Learning Outcomes
   

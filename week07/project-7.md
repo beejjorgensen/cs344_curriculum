@@ -40,7 +40,7 @@ Find_Space(bytes):
 
         if current space big enough:
 
-            # vvv splitting code ^^^
+            # vvv splitting code vvv
 
             if the space is big enough to split:
                 Split_Space(current, size) into current and new

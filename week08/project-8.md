@@ -230,7 +230,7 @@ submission.
 ## Extensions
 
 * A real allocation system would, upon finding out there wasn't enough
-  memory for a user's request, call `sbrk()` again to make enough free
+  memory for a user's request, call `mmap()` again to make enough free
   space, thus increasing the heap size as needed.
 
 <!-- Rubric

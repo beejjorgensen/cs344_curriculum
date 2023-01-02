@@ -30,7 +30,7 @@ We're going to write a `malloc()`/`free()` implementation from scratch!
 `free()`, or `mmap()` for this project. Solutions that use these
 functions will not be accepted.**
 
-When you request more data segment space from the OS with `sbrk()`, it
+When you request more data segment space from the OS with `mmap()`, it
 increases the size of the continuous chunk of memory used for the heap,
 the part that's right after the program code.
 
@@ -61,7 +61,7 @@ This is the overview for `myalloc()` for this week. Note that this is an
 incomplete implementation, but we'll be working more on it in the
 following weeks.
 
-* If this is the first call, `sbrk()` to get some space.
+* If this is the first call, `mmap()` to get some space.
   * At the same time, build a linked-list node inside the new space
     indicating its size and "in-use" status.
 * Walk the linked list in a loop and look for the first node that is:
@@ -88,21 +88,15 @@ We need it implement it.
 
 ### What We're Allocating
 
-We'll use `sbrk()` to allocate a chunk of data space ahead of time.
+We'll use `mmap()` to allocate a chunk of data space ahead of time.
 Think of this as a big array of bytes. We're going to drop various data
 structures in there in specific places.
 
-> Note on `sbrk()`: this function is deprecated on OS X. It'll still
-> work, though. Feel free to turn off the warning by adding this option
-> to your `Makefile` or command line:
->
-> ```
-> -Wno-deprecated-declarations
-> ```
->
-> We suppose allocators under OS X would do something more complicated,
-> possibly with `mmap()`, to get around this issue. But we'll just use
-> `sbrk()`.
+> The more historic way of allocating space from the OS would have been
+> to use the `sbrk()` call, but this call is deprecated on MacOS and
+> also gets used by the C Standard Library's I/O functions, potentially
+> leading to memory use conflicts. So we'll just use `mmap()` to avoid
+> both issues.
 
 What we'll do is make a linked-list of nodes _inside_ this data space,
 and those list nodes will share the space with the allocated space they
@@ -122,14 +116,38 @@ We're going to juggle that by hand, as we'll see.
 ### Initial Allocation
 
 On the very first call to `myalloc()`, we won't have any heap space.
-Allocate 1024 bytes of heap with:
+
+We're going to make a single call to `mmap()` to get the space from the
+OS that we need. For now, that'll just be 1024 bytes with the assumption
+that we won't ever need more than that.
+
+Let's get that data from the OS as an anonymous memory-mapped region.
+This is the crazy call to make that happen:
 
 ```
-void *heap = sbrk(1024);
+void *heap = mmap(NULL, 1024, PROT_READ|PROT_WRITE,
+                  MAP_ANON|MAP_PRIVATE, -1, 0);
 ```
 
-We're going to use part of this space to hold the head of our linked
-list.
+You can see the `1024` in there. The rest of the arguments are basically
+saying:
+
+* `NULL`: I don't care what virtual address the block is assigned.
+* `1024`: I want this many bytes. (The OS will likely round this up to
+  its memory page size).
+* `PROT_READ|PROT_WRITE`: I want R/W permission on the memory.
+* `MAP_ANON|MAP_PRIVATE`: I don't want this associated with any file on
+  disk; I want to enable copy-on-write for any subprocesses that I
+  `fork()`. (We won't `fork()` in this project, but it's nice to be
+  proper.)
+* `-1`: This is the file descriptor for the file we're mapping. Since
+  we're not mapping a file (`MAP_ANON`), we set this to `-1` to indicate
+  it's unused.
+* `0`: This is the offset within the file to start mapping. Since we're
+  not mapping a file, this is unused and we set it to `0`.
+
+Now that we have the data back from the OS, we're going to use part of
+this space to hold the head of our linked list.
 
 ### Linked List Nodes
 
@@ -148,7 +166,7 @@ It stores the number of bytes that the block is, whether or not it's in
 use, and a pointer to the next block.
 
 We're going to partition the big chunk of bytes we got back from
-`sbrk()` into several sections. Each section will consist of a header
+`mmap()` into several sections. Each section will consist of a header
 (which is the `struct block`), followed by some amount of empty space.
 Repeating.
 
@@ -163,7 +181,7 @@ the number of bytes of each data area, free or in-use):
 
 Notice how the data is interspersed between the block metadata. Note
 that this is one contiguous region of memory we're looking at (that we
-got from `sbrk()`); we've just partitioned it up by putting `struct
+got from `mmap()`); we've just partitioned it up by putting `struct
 block` data in the proper locations.
 
 ### In The Beginning
@@ -178,7 +196,8 @@ struct block *head = NULL;  // Head of the list, empty
 // in my_malloc()
 
 if (head == NULL) {
-    head = sbrk(1024);
+    head = mmap(NULL, 1024, PROT_READ|PROT_WRITE,
+                MAP_ANON|MAP_PRIVATE, -1, 0);
     head->next = NULL;
     head->size = 1024 - PADDED_SIZE(sizeof(struct block));
     head->in_use = 0;
@@ -186,7 +205,7 @@ if (head == NULL) {
 ```
 
 So if this is the first allocation, and the head of our list is `NULL`,
-let's `sbrk()` to get some memory from the OS to use. And we know that's
+let's `mmap()` to get some memory from the OS to use. And we know that's
 going to be the only block in the list, and it's going to be marked
 "free".
 
@@ -206,10 +225,10 @@ overuse it. If the memory weren't aligned, maybe using it as the
 But this was just the one-off initialization. We still have to set up
 the block the user asked for.
 
-> In a _real_ implementation, `sbrk()` would be called as needed, not
+> In a _real_ implementation, `mmap()` would be called as needed, not
 > just one time. If the first block of heap got used up, `malloc()`
-> would call `sbrk()` again to grow it. But we're trying to keep things
-> simple here.
+> would call `mmap()` again to get more room for more data. But we're
+> trying to keep things simple here.
 
 ### Allocating a Block
 
@@ -244,7 +263,7 @@ return NULL
 
 In our case, I promise the user will ask for a small amount of data,
 like 60 bytes or so, so we can be assured it'll fit in the 1024-bytes
-that we allocated with `sbrk()`.
+that we allocated with `mmap()`.
 
 So after the user does that, we'll have something that looks like this:
 
@@ -252,7 +271,7 @@ So after the user does that, we'll have something that looks like this:
 ![Data Allocated](https://canvas.oregonstate.edu/courses/1849663/files/91896378/preview)
 
 Why is the data size only 1008 bytes when we grabbed 1024 bytes with
-`sbrk()`? It's because in this example, 16 bytes are used up by the
+`mmap()`? It's because in this example, 16 bytes are used up by the
 `struct block` at the front.
 
 > Now you're probably thinking, what good is this? We just allocated the
@@ -277,7 +296,7 @@ begin on an address that is evenly divisible by 16.
 > address, albeit a little slower if it's not correctly aligned. Other
 > CPUs might crash on misaligned data accesses.
 
-We can safely assume that `sbrk()` gives us back an address that meets
+We can safely assume that `mmap()` gives us back an address that meets
 that requirement. So that's good.
 
 But if someone asks for 37 bytes, that's going to throw us out of
@@ -541,7 +560,7 @@ Linked list nodes padded to proper alignment (15)
 
 Data padded to proper alignment (15)
 
-First call to `myalloc()` calls `sbrk()` to allocate space (10)
+First call to `myalloc()` calls `mmap()` to allocate space (10)
 
 `myalloc()` returns `NULL` if no more space is available. (10)
 

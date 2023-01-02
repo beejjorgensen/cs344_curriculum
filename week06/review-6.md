@@ -21,5 +21,5 @@
     * Produce bad data
     * Work just fine
 * `malloc` implementations in the C standard library commonly allocate
-  space on the heap with the `sbrk()` system call, then manage that
+  space on the heap with the `mmap()` system call, then manage that
   space at the request of the process using it.

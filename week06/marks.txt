@@ -2,7 +2,7 @@ Linked list nodes padded to proper alignment (15)
 
 Data padded to proper alignment (15)
 
-First call to `myalloc()` calls `sbrk()` to allocate space (10)
+First call to `myalloc()` calls `mmap()` to allocate space (10)
 
 `myalloc()` returns `NULL` if no more space is available. (10)
 
@@ -77,7 +77,7 @@ while (cur != NULL) {
 }
 ```
 
-As it is, you walk head to NULL each time, so every time I call the function `sbrk()` gets called (unless a good block is found.
+As it is, you walk head to NULL each time, so every time I call the function `mmap()` gets called (unless a good block is found.
 
 For example, if I call these:
 
@@ -86,7 +86,7 @@ myalloc(99999);
 myalloc(10);
 ```
 
-`sbrk()` gets called twice, one for each `myalloc()` call.
+`mmap()` gets called twice, one for each `myalloc()` call.
 
 Also, the case where you return `NULL` isn't going to work this week--it's saying "if I find a block that's in use that would have worked, fail immediately".
 
