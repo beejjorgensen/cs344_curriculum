@@ -24,7 +24,11 @@ int get_address(int page, int offset)
 //
 void initialize_mem(void)
 {
-    // TODO
+    // zero memory
+    memset(mem, 0, MEM_SIZE);
+
+    // Set zero page as allocated
+    mem[0] = 1;
 }
 
 //
@@ -34,7 +38,14 @@ void initialize_mem(void)
 //
 unsigned char get_page(void)
 {
-    // TODO
+    for (int i = 0; i < PAGE_COUNT; i++) {
+        if (mem[i] == 0) {
+            mem[i] = 1; // mark used
+            return i;
+        }
+    }
+
+    return 0xff;  // indicating no free pages
 }
 
 //
@@ -42,9 +53,36 @@ unsigned char get_page(void)
 //
 // This includes the new process page table and page_count data pages.
 //
+void set_page_table_entry(int page_table, int vpage, int page)
+{
+    // Map pagetable,vpage to memory address
+    int pt_addr = get_address(page_table, vpage);
+
+    // Set the page table entry
+    mem[pt_addr] = page;
+}
+
 void new_process(int proc_num, int page_count)
 {
-    // TODO
+    int page_table = get_page();
+
+    if (page_table == 0xff) {
+        printf("OOM: proc %d: page table\n", proc_num);
+        return;
+    }
+ 
+    mem[proc_num + 64] = page_table;
+
+    for (int vpage = 0; vpage < page_count; vpage++) {
+        int page = get_page();
+
+        if (page == 0xff) {
+            printf("OOM: proc %d: data page\n", proc_num);
+            return;
+        }
+
+        set_page_table_entry(page_table, vpage, page);
+    }
 }
 
 //
