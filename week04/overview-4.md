@@ -1,3 +1,5 @@
+<!-- Overview: CPU Scheduling, Pipes -->
+
 ## Introduction
 
 This week we're going to continue learning about scheduling. We'll take

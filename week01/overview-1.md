@@ -1,3 +1,5 @@
+<!-- Overview: Introduction, Shell Scripting -->
+
 ## Introduction
 
 Welcome to operating systems, where we learn all about what's going on
@@ -41,8 +43,8 @@ After the successful completion of this module, you will be able to:
 
 ## Explorations
 
-[Exploration 1.1]()
-[Exploration 1.2]()
+* [Exploration 1.1]()
+* [Exploration 1.2]()
 
 ## Task List
 
