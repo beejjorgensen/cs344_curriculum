@@ -412,10 +412,21 @@ you can use to get random numbers.
 <!--
 Rubric
 
-bigfiles works properly (10)
-arg1 works properly (5)
-geturl works properly (5)
-bigfiles2 works properly (10)
-vowelending works properly (10)
-findlink works properly (10)
+10
+bigfiles works properly
+
+5
+arg1 works properly
+
+5
+geturl works properly
+
+10
+bigfiles2 works properly
+
+10
+vowelending works properly
+
+10
+findlink works properly
 -->
