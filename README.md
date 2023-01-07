@@ -49,4 +49,4 @@ Paste this in:
 
 Written Reflection
 
-Text submission summarizes key points, vocabulary terms, short sentences, and/or thoughtful questions sparked by the Exploration content.
+Answer the questions in the Reflection section.
