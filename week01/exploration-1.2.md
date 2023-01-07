@@ -71,8 +71,7 @@ before it:
 % ./myscript
 ```
 
-For more information, see [How the OS Runs
-Programs](https://canvas.oregonstate.edu/courses/1849663/pages/how-the-os-runs-programs).
+For more information, see [How the OS Runs Programs]().
 
 ## More Power
 

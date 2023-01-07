@@ -41,13 +41,13 @@ After the successful completion of this module, you will be able to:
 
 ## Explorations
 
-[Exploration 1.1](https://canvas.oregonstate.edu/courses/1849663/assignments/8751732)
-[Exploration 1.2](https://canvas.oregonstate.edu/courses/1849663/assignments/8752039)
+[Exploration 1.1]()
+[Exploration 1.2]()
 
 ## Task List
 
 * In the Intro section of [the book](https://pages.cs.wisc.edu/~remzi/OSTEP/), read:
   * [_Dialogue_](https://pages.cs.wisc.edu/~remzi/OSTEP/dialogue-threeeasy.pdf)
   * [_Intro_](https://pages.cs.wisc.edu/~remzi/OSTEP/intro.pdf)
-* Complete [Quiz 1](https://canvas.oregonstate.edu/courses/1849663/quizzes/2747443)
-* Complete [Project 1](https://canvas.oregonstate.edu/courses/1849663/assignments/8724618)
+* Complete [Quiz 1]()
+* Complete [Project 1]()
