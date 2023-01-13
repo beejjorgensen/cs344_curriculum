@@ -43,10 +43,8 @@ Hello, world!
 
 ### 2. Add a `Makefile`
 
-If you're not familiar with Makefiles, [here's
-one](https://canvas.oregonstate.edu/courses/1849663/files/91203382?wrap=1).
-Drop this in the directory with your source and call it `Makefile` with
-a capital `M`.
+If you're not familiar with Makefiles, [here's one](). Drop this in the
+directory with your source and call it `Makefile` with a capital `M`.
 
 **IMPORTANT: _The indented lines below are indented with a single TAB
 character, not spaces! This is an absolutely requirement for Make to
@@ -263,4 +261,25 @@ total
 -rw-r--r--   beej  staff     Dec  : yell.c
 ```
 
+<!-- Rubric
+
+10
+hello.c works correctly
+
+10
+Makefile installed correctly, and typing "make" builds all programs in that directory.
+
+10
+printcl.c works correctly
+
+10
+readfile.c works correctly
+
+10
+mycat.c works correctly
+
+10
+yell.c works correctly
+
+-->
 
