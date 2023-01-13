@@ -24,8 +24,8 @@ After the successful completion of this module, you will be able to:
 
 ## Explorations
 
-* [Exploration 2.1](https://canvas.oregonstate.edu/courses/1849663/assignments/8752105)
-* [Exploration 2.2](https://canvas.oregonstate.edu/courses/1849663/assignments/8752125)
+* [Exploration 2.1]()
+* [Exploration 2.2]()
 
 ## Task List
 
@@ -34,5 +34,5 @@ After the successful completion of this module, you will be able to:
   * [_Processess_](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-intro.pdf)
   * [_Process API_](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-api.pdf) (just skim except for page 11, "Aside: Key Process API Terms"--you can come back and reference this chapter when we use it later)
   * [Direct Execution](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-mechanisms.pdf)
-* Complete [Quiz 2](https://canvas.oregonstate.edu/courses/1849663/quizzes/2749195)
-* Complete [Project 2](https://canvas.oregonstate.edu/courses/1849663/assignments/8732086)
+* Complete [Quiz 2]()
+* Complete [Project 2]()
