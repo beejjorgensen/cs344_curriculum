@@ -49,8 +49,17 @@ Drop this in the directory with your source and call it `Makefile` with
 a capital `M`.
 
 **IMPORTANT: _The indented lines below are indented with a single TAB
-character, not spaces! If you use spaces, it won't work. Best to
-download from the link, above._**
+character, not spaces! This is an absolutely requirement for Make to
+work. If you use spaces, it won't work. Best to download from the link,
+above. If you cut-and-paste the thing below, it won't work!_**
+
+Later versions of VS Code should automatically insert a tab character
+when you hit `TAB` when editing a file called `Makefile`, regardless of
+your other tabs v. spaces settings. If this doesn't happen, you'll have
+to into VS Code's settings and select tab intents.
+
+In Vim, if you have `expandtab` set, you can still insert a tab
+character by hitting `CTRL-V` before hitting `TAB`.
 
 ```
 CC=gcc
