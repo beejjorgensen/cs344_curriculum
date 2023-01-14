@@ -164,8 +164,8 @@ convention, programs send error messages to `stderr` and regular output
 to `stdout`. This enables the runners of the program to separate error
 messages if they choose to do so.
 
-For example, we can print a hello message to the screen (`stdout`, file
-descriptor `1`) like this:
+For example, we can print a hello message to the screen (i.e. `stdout`,
+file descriptor `1`) like this:
 
 ```
 write(1, "Hello, world!\n", 14);  // Write these 14 bytes to fd 1
