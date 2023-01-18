@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Copy this to the directory above where you cloned the student repo.
 #
 # Then run it and look at the glorious diffs
@@ -14,7 +16,25 @@ cleanup() {
 trap cleanup EXIT
 
 pathto() {
-    find . -name "$1" || exit 2
+    local n
+
+    n=$(find . -iname "$1")
+
+    if [ ! -z "$n" ]; then
+        printf "%s" "$n"
+        return
+    fi
+
+    n=$(find . -iname "$1.sh")
+
+    if [ ! -z "$n" ]; then
+        printf "%s" "$n"
+        return
+    fi
+
+    printf "%s: command not found\n" "$1" 1>&2
+
+    exit 2
 }
 
 compare() {
@@ -61,7 +81,7 @@ comparex() {
 compare "sh $ROOT/bigfiles" "sh $(pathto bigfiles)"
 compare "sh $ROOT/arg1 frobozz" "sh $(pathto arg1) frobozz"
 comparex "sh $ROOT/geturl http://example.com/ ctl.$TEMP.out" "ctl.$TEMP.out" "sh $(pathto geturl) http://example.com/ exp.$TEMP.out" "exp.$TEMP.out"
-compare "sh $ROOT/bigfiles2 /lib" "sh $(pathto bigfiles2) /lib"
+compare "sh $ROOT/bigfiles2 /usr/lib" "sh $(pathto bigfiles2) /usr/lib"
 compare "sh $ROOT/vowelending $HOME" "sh $(pathto vowelending) $HOME"
 compare "sh $ROOT/findlink http://example.com/" "sh $(pathto findlink) http://example.com/"
 
