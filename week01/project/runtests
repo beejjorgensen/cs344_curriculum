@@ -1,0 +1,67 @@
+# Copy this to the directory above where you cloned the student repo.
+#
+# Then run it and look at the glorious diffs
+
+# This is where the model solutions are
+ROOT=~/src/osu/cs344_curriculum/week01/project
+
+TEMP=$$.temp
+
+cleanup() {
+    rm -f *${TEMP}*
+}
+
+trap cleanup EXIT
+
+pathto() {
+    find . -name "$1" || exit 2
+}
+
+compare() {
+    local ctl exp ctl_out exp_out
+
+    ctl="$1"
+    exp="$2"
+
+    printf "================================\n"
+    printf "Running %s\n" "$exp"
+    printf "================================\n"
+
+    ctl_out=ctl.$TEMP.out
+    exp_out=exp.$TEMP.out
+
+    $ctl > ctl.$TEMP.out
+    $exp > exp.$TEMP.out
+
+    diff "$ctl_out" "$exp_out"
+
+    cleanup
+}
+
+comparex() {
+    local ctl exp ctl_out exp_out
+
+    ctl="$1"
+    ctl_out="$2"
+    exp="$3"
+    exp_out="$4"
+
+    printf "================================\n"
+    printf "Running %s\n" "$exp"
+    printf "================================\n"
+
+    $ctl
+    $exp
+
+    diff "$ctl_out" "$exp_out"
+
+    cleanup
+}
+
+compare "sh $ROOT/bigfiles" "sh $(pathto bigfiles)"
+compare "sh $ROOT/arg1 frobozz" "sh $(pathto arg1) frobozz"
+comparex "sh $ROOT/geturl http://example.com/ ctl.$TEMP.out" "ctl.$TEMP.out" "sh $(pathto geturl) http://example.com/ exp.$TEMP.out" "exp.$TEMP.out"
+compare "sh $ROOT/bigfiles2 /lib" "sh $(pathto bigfiles2) /lib"
+compare "sh $ROOT/vowelending $HOME" "sh $(pathto vowelending) $HOME"
+compare "sh $ROOT/findlink http://example.com/" "sh $(pathto findlink) http://example.com/"
+
