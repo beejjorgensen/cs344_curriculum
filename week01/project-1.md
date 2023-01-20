@@ -274,14 +274,6 @@ with `<a`. Don't forget the single quotes around that regex!
 
 Submit the link to your GitHub repo.
 
-## Grading criteria
-
-This assignment is worth 50 points.
-
-Due Sunday at midnight.
-
-Be sure to consult the rubric for expectations regarding your submission.
-
 ## Extensions
 
 If you want more challenge--and you do--try these out. (They don't

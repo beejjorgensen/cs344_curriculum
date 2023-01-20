@@ -139,15 +139,6 @@ loop.
 
 Submit the link to your GitHub repo.
 
-## Grading Criteria
-
-This assignment is worth **70 points**.
-
-Due Sunday at midnight.
-
-Be sure to consult the rubric for expectations regarding your
-submission.
-
 ## Extensions
 
 Don't do pipes. We'll do those next week.
@@ -206,9 +197,18 @@ Then you can exit the shell with EOF as well as the `exit` command.
 <!--
 Rubric:
 
-Prints prompt, reads input (5)
-Runs single command (20)
-Runs single command and arguments (20)
-Handles cd command (20)
-Handles exit command (10)
+5
+Prints prompt, reads input
+
+20
+Runs single command
+
+20
+Runs single command and arguments
+
+20
+Handles cd command
+
+10
+Handles exit command
 -->

@@ -219,14 +219,6 @@ YELL.C
 
 Submit the link to your GitHub repo.
 
-## Grading Criteria
-
-This assignment is worth **56 points**.
-
-Due Sunday at midnight.
-
-Be sure to consult the rubric for expectations regarding your submission.
-
 ## Extensions
 
 Copy `mycat.c` into `nodigits.c`.
