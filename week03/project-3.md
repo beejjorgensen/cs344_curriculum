@@ -39,7 +39,7 @@ First, the basic shell:
    you expected. It's easier to debug small bits at a time than the
    whole thing at once._
 5. Call `execvp()` with your array. Pass the 0th element as the first
-   argument ot `execvp()`.
+   argument to `execvp()`.
 
 Some constraints:
 
