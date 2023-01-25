@@ -1,0 +1,70 @@
+#!/bin/sh
+#
+# Copy this to the tmp dir where you clone the student repos
+# Also copy lotsawords.txt and readfile.txt there
+#
+
+CDIR=~/src/osu/cs344_curriculum/week02/project/
+
+TEMP=$$.temp
+
+cleanup() {
+    rm -f *${TEMP}*
+}
+
+trap cleanup EXIT
+
+status() {
+    printf "===================\n"
+    printf "%s\n" "$1"
+    printf "===================\n"
+}
+
+compare() {
+    local ctl exp ctl_out exp_out st
+
+    ctl="$1"
+    exp="$2"
+
+    st=$(printf "Running %s" "$exp")
+    status "$st"
+
+    ctl_out=ctl.$TEMP.out
+    exp_out=exp.$TEMP.out
+
+    eval $ctl > ctl.$TEMP.out
+    eval $exp > exp.$TEMP.out
+
+    diff "$ctl_out" "$exp_out"
+
+    cleanup
+}
+
+status "Searching"
+
+dir=$(dirname $(find . -name mycat.c))
+
+printf "Found files in %s\n" "$dir"
+
+status "Building"
+(
+    cd $dir
+    make clean
+    make
+)
+
+compare "$CDIR/hello" "$dir/hello"
+compare "$CDIR/printcl" "$dir/printcl"
+compare "$CDIR/printcl aaa bbb" "$dir/printcl aaa bbb"
+compare "$CDIR/readfile readfile.txt" "$dir/readfile readfile.txt"
+compare "echo hi there | $CDIR/mycat" "echo hi there | $dir/mycat"
+compare "$CDIR/mycat readfile.txt" "$dir/mycat readfile.txt"
+compare "$CDIR/mycat readfile.txt readfile.txt" "$dir/mycat readfile.txt readfile.txt"
+compare "$CDIR/mycat lotsawords.txt" "$dir/mycat lotsawords.txt"
+compare "$CDIR/mycat lotsawords.txt readfile.txt lotsawords.txt" "$dir/mycat lotsawords.txt readfile.txt lotsawords.txt"
+compare "echo hi there | $CDIR/yell" "echo hi there | $dir/yell"
+compare "$CDIR/yell readfile.txt" "$dir/yell readfile.txt"
+#compare "$CDIR/yell readfile.txt readfile.txt" "$dir/yell readfile.txt readfile.txt"
+#compare "$CDIR/yell lotsawords.txt" "$dir/yell lotsawords.txt"
+#compare "$CDIR/yell lotsawords.txt readfile.txt lotsawords.txt" "$dir/yell lotsawords.txt readfile.txt lotsawords.txt"
+
