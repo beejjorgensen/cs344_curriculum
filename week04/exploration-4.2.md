@@ -203,6 +203,7 @@ Here is a link to the interactive demo from that chapter,
 
 ## Reflect
 
-* Questions?
+* What makes a CPU with no cache less performant than one with?
+* What's the octal permission that corresponds to the `ls -l` permission
+  of `-r-xrw---x`?
 
-Answer to the permissions question: `0561`.

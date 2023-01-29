@@ -223,17 +223,39 @@ If you want more challenges:
 <!--
 Rubric:
 
-lswc creates a pipe (5)
-lswc forks/execs a child process (10)
-lswc properly connects pipes with dup2 (15)
-lswc all unused ends of the pipe properly closed (5)
-lswc works on the directory specified on the command line (5)
+5
+lswc creates a pipe
 
-rediroutput prints out a friendly help message if the user doesn't enter the minimum number of arguments (5)
-rediroutput creates a pipe (5)
-rediroutput creates the output file, truncating it to 0 length if it exists (10)
-rediroutput forks/execs a child process (10)
-rediroutput properly connects pipes with dup2 (15)
-rediroutput all unused ends of the pipe properly closed (5)
-rediroutput reads input from the pipe in a loop, handling input of any size (5)
+10
+lswc forks/execs a child process
+
+15
+lswc properly connects pipes with dup2
+
+5
+lswc all unused ends of the pipe properly closed
+
+5
+lswc works on the directory specified on the command line
+
+5
+rediroutput prints out a friendly help message if the user doesn't enter the minimum number of arguments
+
+5
+rediroutput creates a pipe
+
+10
+rediroutput creates the output file, truncating it to 0 length if it exists
+
+10
+rediroutput forks/execs a child process
+
+15
+rediroutput properly connects pipes with dup2
+
+5
+rediroutput all unused ends of the pipe properly closed
+
+5
+rediroutput reads input from the pipe in a loop, handling input of any size
 -->
