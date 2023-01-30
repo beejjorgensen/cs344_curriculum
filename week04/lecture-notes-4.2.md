@@ -12,6 +12,7 @@
   * briefly mention acquire/release semantics, more in the future
 
 ## File permissions
+
 * open for writing
 * open for read/write
 
