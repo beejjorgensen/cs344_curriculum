@@ -23,3 +23,12 @@ To be most correct, you'd error check `fork()` to see if it returned `-1` for so
 You can do `int main(void)` to avoid the unused variable warnings.
 
 You can add "\n" to the `strtok()` delimiter string and that'll make it automatically eat up the newline at the end.
+
+If `exec()` ever returns, the status code will **always** be `-1`. (Remember that if it succeeds, it does not return.) So it's one of those weird functions where you don't need an `if` to decide if you're going to print an error. It returned, therefore an error must have occurred.
+
+# Prints Prompt, reads input
+
+-2 Doesn't print prompt
+
+-5 No exit after failed `exec()`, which allows the child to keep running.
+
