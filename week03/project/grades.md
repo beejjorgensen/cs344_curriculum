@@ -26,9 +26,14 @@ You can add "\n" to the `strtok()` delimiter string and that'll make it automati
 
 If `exec()` ever returns, the status code will **always** be `-1`. (Remember that if it succeeds, it does not return.) So it's one of those weird functions where you don't need an `if` to decide if you're going to print an error. It returned, therefore an error must have occurred.
 
+`ls` with no arguments shows the files in the current directory by default, so there's no need to add the current working directory on as an argument.
+
 # Prints Prompt, reads input
 
 -2 Doesn't print prompt
 
 -5 No exit after failed `exec()`, which allows the child to keep running.
 
+# Handles cd
+
+-10 cd just exited when I tried to use it. This was because it tried to `execvp()`, but it shouldn't because `cd` is an internal command. Additionally, there needed to be a `continue` after handling `cd` to prevent it from executing the main `exec()` after that.
