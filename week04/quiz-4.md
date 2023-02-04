@@ -97,7 +97,7 @@ It makes it so that file descriptor f1 refers to the same file that file descrip
 
 It makes it so that file descriptor f2 refers to the same file that file descriptor f1 does, closing f1 first if necessary.
 
-It makes it so that file descriptor f1 refers to the same file that file descriptor f2 does, closing f2 first if necessary.
+It makes it so that file descriptor f1 refers to the same file that file descriptor f2 does, closing f1 first if necessary.
 
 ---
 
