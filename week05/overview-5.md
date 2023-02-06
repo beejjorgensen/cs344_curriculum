@@ -28,8 +28,8 @@ After the successful completion of this module, you will be able to:
 
 ## Explorations
 
-* [Exploration 5.1](https://canvas.oregonstate.edu/courses/1849663/assignments/8774395)
-* [Exploration 5.2](https://canvas.oregonstate.edu/courses/1849663/assignments/8774396)
+* [Exploration 5.1]()
+* [Exploration 5.2]()
 
 ## Task List
 
@@ -37,5 +37,5 @@ After the successful completion of this module, you will be able to:
   * [12. _Dialog_](https://pages.cs.wisc.edu/~remzi/OSTEP/dialogue-vm.pdf)
   * [Address Spaces](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-intro.pdf)
   * [Memory API](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-api.pdf)
-* Complete [Quiz 5](https://canvas.oregonstate.edu/courses/1849663/quizzes/2758076)
-* Complete [Project 5](https://canvas.oregonstate.edu/courses/1849663/assignments/8774397)
+* Complete [Quiz 5]()
+* Complete [Project 5]()
