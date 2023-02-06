@@ -51,16 +51,19 @@ The more physical addresses you have, the more virtual addresses you can have.
 
 ---
 
-Where are automatic variables allocated?  (5)
+[5]
+
+Where are automatic variables allocated?
 
 Stack
 
 Heap
 
-
 ---
 
-Where is data stored when allocated with malloc?  (5)
+[5]
+
+Where is data stored when allocated with malloc?
 
 Heap
 
@@ -104,7 +107,9 @@ As long as there's enough free memory past the end.
 
 ---
 
-It's OK to access freed memory as long as you do it immediately after the free() call. (5)
+[5]
+
+It's OK to access freed memory as long as you do it immediately after the free() call.
 
 False
 

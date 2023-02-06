@@ -26,6 +26,8 @@ of the various processes on an as-needed basis.
 
 ![Virtual Memory]()
 
+(Image from Wikipedia.)
+
 This is transparent to the processes themselves; as far they're
 concerned, their entire world is the virtual memory space that is
 presented to them by the kernel.

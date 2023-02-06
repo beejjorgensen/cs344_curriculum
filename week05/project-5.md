@@ -249,22 +249,55 @@ If you want more challenges:
 <!--
 Rubric:
 
-llist_insert_head functions on empty list (10)
-llist_insert_head functions on non-empty list (5)
-llist_delete_head returns NULL on empty list (5)
-llist_delete_head functions on non-empty list (10)
-llist_insert_tail functions on empty list (10)
-llist_insert_tail functions on non-empty list (10)
-llist_free frees all nodes (10)
-llist_free sets head to NULL (5)
-llist_free works on empty list (5)
-llist_print prints correctly (10)
-node_alloc properly allocates and initializes a node (5)
-node_free properly frees the node (5)
-command line 'ih' command functions properly (5)
-command line 'it' command functions properly (5)
-command line 'dh' command functions properly (5)
-command line 'f' command functions properly (5)
-command line 'p' command functions properly (5)
+10
+llist_insert_head functions on empty list
+
+5
+llist_insert_head functions on non-empty list
+
+5
+llist_delete_head returns NULL on empty list
+
+10
+llist_delete_head functions on non-empty list
+
+10
+llist_insert_tail functions on empty list
+
+10
+llist_insert_tail functions on non-empty list
+
+10
+llist_free frees all nodes
+
+5
+llist_free sets head to NULL
+
+5
+llist_free works on empty list
+
+10
+llist_print prints correctly
+
+5
+node_alloc properly allocates and initializes a node
+
+5
+node_free properly frees the node
+
+5
+command line 'ih' command functions properly
+
+5
+command line 'it' command functions properly
+
+5
+command line 'dh' command functions properly
+
+5
+command line 'f' command functions properly
+
+5
+command line 'p' command functions properly
 
 -->
