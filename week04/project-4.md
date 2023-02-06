@@ -150,28 +150,18 @@ options.
 You'll probably need these headers:
 
 * `<stdio.h>` for `printf()`, `perror()`
-* `<stdlib.h>` for `exit()`
-* `<unistd.h>` for `fork()`, `execlp()`, `close()`
+* `<unistd.h>` for `execvp()`, `close()`
 * `<fcntl.h>` for `open()`
 
 Gameplan:
 
 1. Parse the command line to make sure the user has entered the minimum
    amount of information.
-2. `open()` the output file.
-3. Create a `pipe()`.
-4. `fork()` a child process to run the command.
-5. In the child:
-   * `dup2()` the output end of the pipe into `stdout`.
-   * `close()` the input end of the pipe.
-   * `execvp()` the command.
-6. In the parent:
-   * `close()` the output end of the pipe.
-   * Repeatedly `read()` from the input end into a buffer.
-     * `write()` the buffer into the output file you opened earlier.
-     * `read()` will return zero bytes read on end-of-file (EOF).
-   * `close()` the input end of the pipe.
-   * `close()` the output file.
+2. `open()` the output file. Flags might include `O_CREAT`, `O_TRUNC`,
+   and `O_WRONLY`.
+3. `dup2()` so that anything that writes to standard output instead
+   writes to the file you just opened.
+4. `execvp()` the command.
 
 It might seem intimidating how to get the command in from your `argv[]`
 into `execvp()`, but there's actually a shortcut that makes it pretty
@@ -229,33 +219,22 @@ lswc creates a pipe
 10
 lswc forks/execs a child process
 
-15
+20
 lswc properly connects pipes with dup2
 
 5
 lswc all unused ends of the pipe properly closed
 
-5
+10
 lswc works on the directory specified on the command line
 
 5
 rediroutput prints out a friendly help message if the user doesn't enter the minimum number of arguments
 
-5
-rediroutput creates a pipe
-
 10
 rediroutput creates the output file, truncating it to 0 length if it exists
 
-10
-rediroutput forks/execs a child process
+20
+rediroutput properly connects the file descriptor with dup2
 
-15
-rediroutput properly connects pipes with dup2
-
-5
-rediroutput all unused ends of the pipe properly closed
-
-5
-rediroutput reads input from the pipe in a loop, handling input of any size
 -->
