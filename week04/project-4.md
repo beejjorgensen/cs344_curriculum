@@ -228,6 +228,9 @@ lswc all unused ends of the pipe properly closed
 10
 lswc works on the directory specified on the command line
 
+10
+lswc works on the current directory if none specified on the command line
+
 5
 rediroutput prints out a friendly help message if the user doesn't enter the minimum number of arguments
 
