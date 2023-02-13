@@ -177,7 +177,7 @@ So we'll have a list of blocks, some in use and some not (numbers are
 the number of bytes of each data area, free or in-use):
 
 <!-- freelist.svg 640px wide -->
-![Overall Architecture](https://canvas.oregonstate.edu/courses/1849663/files/91896069/preview)
+![Overall Architecture]()
 
 Notice how the data is interspersed between the block metadata. Note
 that this is one contiguous region of memory we're looking at (that we
@@ -268,7 +268,7 @@ that we allocated with `mmap()`.
 So after the user does that, we'll have something that looks like this:
 
 <!-- afteralloc.svg 480px wide -->
-![Data Allocated](https://canvas.oregonstate.edu/courses/1849663/files/91896378/preview)
+![Data Allocated]()
 
 Why is the data size only 1008 bytes when we grabbed 1024 bytes with
 `mmap()`? It's because in this example, 16 bytes are used up by the
@@ -357,7 +357,7 @@ So we need to make sure it's padded out, too.
 Basically, we'll have something like this for each region in memory:
 
 <!-- header.svg 480px wide -->
-![Full Padding](https://canvas.oregonstate.edu/courses/1849663/files/91896375/preview)
+![Full Padding]()
 
 where the padding is between 0 and 15 bytes--just enough to make the
 region a multiple of 16 bytes.
