@@ -1,0 +1,65 @@
+#!/bin/sh
+
+TEMP=$$.temp
+
+cleanup() {
+    rm -f *${TEMP}*
+}
+
+trap cleanup EXIT
+
+status() {
+    printf "===================\n"
+    printf "%s\n" "$1"
+    printf "===================\n"
+}
+
+compare() {
+    local ctl exp ctl_out exp_out st
+
+    ctl="$1"
+    exp="$2"
+
+    st=$(printf "Running %s" "$exp")
+    status "$st"
+
+    ctl_out=ctl.$TEMP.out
+    exp_out=exp.$TEMP.out
+
+    eval $ctl > ctl.$TEMP.out
+    eval $exp > exp.$TEMP.out
+
+    #echo "----------------"; cat exp.$TEMP.out; echo "----------------"
+
+    diff -w "$ctl_out" "$exp_out"
+
+    cleanup
+}
+
+progdir=$(dirname $(find . -name llist.c))
+curdir=$(pwd)
+
+model=$curdir/llist   # model solution exe
+student=$progdir/llist
+
+(
+    cp $curdir/Makefile $progdir
+    cd $progdir
+    make clean
+    make
+)
+
+compare "$model p" "$student p"
+compare "$model p ih 5 p" "$student p ih 5 p"
+compare "$model p ih 5 ih 99 p" "$student p ih 5 ih 99 p"
+compare "$model dh p" "$student dh p"
+compare "$model p ih 5 ih 99 p dh p" "$student p ih 5 ih 99 p dh p"
+compare "$model p it 5 p" "$student p it 5 p"
+compare "$model p it 5 p it 99 p" "$student p it 5 p it 99 p"
+compare "$model it 5 ih 17 it 99 f p ih 6 p" "$student it 5 ih 17 it 99 f p ih 6 p"
+compare "$model f p" "$student f p"
+
+printf "Check:\n"
+printf "\tllist_free() sets head to NULL\n"
+printf "\tnode_alloc() calls malloc()\n"
+printf "\tnode_free() calls free()\n"
