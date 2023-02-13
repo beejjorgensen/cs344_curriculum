@@ -27,8 +27,8 @@ true.
 We're going to write a `malloc()`/`free()` implementation from scratch!
 
 **You may NOT use `malloc()` or any of its relatives (e.g. `calloc()`),
-`free()`, or `mmap()` for this project. Solutions that use these
-functions will not be accepted.**
+`free()` for this project. Solutions that use these functions will not
+be accepted.**
 
 When you request more data segment space from the OS with `mmap()`, it
 increases the size of the continuous chunk of memory used for the heap,
