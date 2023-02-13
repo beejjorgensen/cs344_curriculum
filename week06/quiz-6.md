@@ -3,7 +3,9 @@
 
 ---
 
-Virtualized memory works in this manner: (5)
+[5]
+
+Virtualized memory works in this manner:
 
 When a process accesses a particular virtual address, the CPU maps that to a physical address.
 
