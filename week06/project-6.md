@@ -556,22 +556,31 @@ space was at least big enough for the a new `struct block` plus at least
 
 <!-- Rubric
 
-Linked list nodes padded to proper alignment (15)
+15
+Linked list nodes padded to proper alignment
 
-Data padded to proper alignment (15)
+15
+Data padded to proper alignment
 
-First call to `myalloc()` calls `mmap()` to allocate space (10)
+10
+First call to `myalloc()` calls `mmap()` to allocate space
 
-`myalloc()` returns `NULL` if no more space is available. (10)
+10
+`myalloc()` returns `NULL` if no more space is available.
 
-All calls to `myalloc()` traverse the linked list searching for a free node with enough space to hold the requested amount. (Even though at this point, there is just one node, there should still be a loop that is capable of traversing 1 or more nodes in this search. (15)
+15
+All calls to `myalloc()` traverse the linked list searching for a free node with enough space to hold the requested amount. (Even though at this point, there is just one node, there should still be a loop that is capable of traversing 1 or more nodes in this search.
 
-`struct block` `size` field computed correctly (size is padded to 16 byte alignment, doesn't count the `struct block` size itself) (10)
+10
+`struct block` `size` field computed correctly (size is padded to 16 byte alignment, doesn't count the `struct block` size itself)
 
-Blocks' in-use flags set correctly.  (10)
+10
+Blocks' in-use flags set correctly.
 
-Print list prints `[empty]` when list empty (5)
+5
+Print list prints `[empty]` when list empty
 
-Print list prints the list properly when not empty (5)
+5
+Print list prints the list properly when not empty
 
 -->
