@@ -49,6 +49,8 @@ Virtual memory and physical memory addresses that are identical
 
 ---
 
+[Multiple answers, all correct]
+
 Accessing misaligned data might, depending on the architecture (choose all that apply):
 
 Cause a bus error and termination of the process.
