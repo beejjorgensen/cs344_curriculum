@@ -10,7 +10,7 @@ existing space into a new allocated space and a new free space.
 
 That is, if there's a block of free space that looks like this:
 
-![Before split](https://canvas.oregonstate.edu/courses/1849663/files/91978659/preview)
+![Before split]()
 
 and the user calls
 
@@ -20,7 +20,7 @@ void *p = myalloc(117);
 
 we should end up with space that looks like this:
 
-![After split](https://canvas.oregonstate.edu/courses/1849663/files/91978657/preview)
+![After split]()
 
 In addition, we'll implement the first version of `myfree()`.
 
@@ -211,22 +211,31 @@ submission.
 
 <!-- Rubric
 
-Split only splits if there's the proper amount of room (15)
+15
+Split only splits if there's the proper amount of room
 
-Split creates the new free node (15)
+15
+Split creates the new free node
 
-Split's new node is hooked into the linked list properly (10)
+10
+Split's new node is hooked into the linked list properly
 
-Split's new node has the right size (10)
+10
+Split's new node has the right size
 
-Split's new node is marked not in use (5)
+5
+Split's new node is marked not in use
 
-Free computes (or locates) the proper struct block location (15)
+15
+Free computes (or locates) the proper struct block location
 
-Free marks the block as free (5)
+5
+Free marks the block as free
 
-When allocating, the first block that fits is used (10)
+10
+When allocating, the first block that fits is used
 
-When allocating, if no blocks are available, `myalloc()` returns NULL (10)
+10
+When allocating, if no blocks are available, `myalloc()` returns NULL
 
 -->
