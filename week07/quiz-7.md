@@ -97,9 +97,11 @@ Keeps track of which virtual pages need updating from RAM.
 
 Keeps track of which virtual are fragmented.
 
---
+---
 
-Unlike base/bounds, in a paging system all virtual memory segments must be contiguous. (5)
+[5]
+
+Unlike base/bounds, in a paging system all virtual memory segments must be contiguous.
 
 False
 
