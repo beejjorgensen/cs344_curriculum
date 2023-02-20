@@ -122,13 +122,13 @@ user passes to `myfree()` with pointer subtraction.
 **Example 1**: if `main()` has this:
 
 ```
-    void *p;
+void *p;
 
-    p = myalloc(512);
-    print_data();
+p = myalloc(512);
+print_data();
 
-    myfree(p);
-    print_data();
+myfree(p);
+print_data();
 ```
 
 The output should be:
@@ -143,11 +143,11 @@ The output should be:
 **Example 2**:
 
 ```
-    myalloc(10); print_data();
-    myalloc(20); print_data();
-    myalloc(30); print_data();
-    myalloc(40); print_data();
-    myalloc(50); print_data();
+myalloc(10); print_data();
+myalloc(20); print_data();
+myalloc(30); print_data();
+myalloc(40); print_data();
+myalloc(50); print_data();
 ```
 
 Output:
@@ -163,14 +163,14 @@ Output:
 **Example 3**:
 
 ```
-    void *p;
+void *p;
 
-    myalloc(10);     print_data();
-    p = myalloc(20); print_data();
-    myalloc(30);     print_data();
-    myfree(p);       print_data();
-    myalloc(40);     print_data();
-    myalloc(10);     print_data();
+myalloc(10);     print_data();
+p = myalloc(20); print_data();
+myalloc(30);     print_data();
+myfree(p);       print_data();
+myalloc(40);     print_data();
+myalloc(10);     print_data();
 ```
 
 Output:
