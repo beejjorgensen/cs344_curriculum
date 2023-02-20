@@ -37,3 +37,5 @@ If `exec()` ever returns, the status code will **always** be `-1`. (Remember tha
 # Handles cd
 
 -10 cd just exited when I tried to use it. This was because it tried to `execvp()`, but it shouldn't because `cd` is an internal command. Additionally, there needed to be a `continue` after handling `cd` to prevent it from executing the main `exec()` after that.
+
+-3 You need a `continue` after the `cd` logic so that it doesn't try to `exec()` a `cd`.
