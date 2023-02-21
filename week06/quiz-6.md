@@ -65,11 +65,11 @@ Cause incorrect data to be read.
 
 With a coarse-grained segmented memory scheme:
 
-Each segment of the process must be in a contiguous section of physical memory
+The address space gets split into fairly large contiguous sections.
 
-The entire process's memory must be in a contiguous section of physical memory
+The address space gets split into fairly small contiguous sections.
 
-Each segment of the process may be in a nonc-ontiguous sections of physical memory
+The address space gets split into many, many sections.
 
 None of the segments can grow or shrink after they are created.
 
@@ -77,7 +77,7 @@ None of the segments can grow or shrink after they are created.
 
 One of the benefits of a fine-grained segmented memory scheme is:
 
-Don't need to have a single continuous stretch of physicaly memory for the program or its major segments
+Don't need to have a single continuous stretch of physical memory for the program or its major segments
 
 Simplicity of implementation
 
