@@ -508,6 +508,9 @@ This should be your output:
 0x0
 ```
 
+(Note that your implementation might print `(nil)` instead of `0x0` for
+that last line. This is fine.)
+
 The second `myalloc()` returned `NULL` because all the space was given
 to the first allocation and there is none left over.
 
