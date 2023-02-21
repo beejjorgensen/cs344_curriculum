@@ -13,6 +13,8 @@ struct block {
 static struct block *head = NULL;
 static enum strategy strategy = STRATEGY_FIRST_FIT;
 
+//#define ENABLE_SPLIT
+
 #define MEM_SIZE 1024
 
 #define ALIGNMENT 16   // Must be power of 2
@@ -57,7 +59,7 @@ static int get_total_pages_size(int size)
     // Assumes page_size is a power of 2
 
     // Round up to the nearest multiple of page_size bytes
-    int bytes_needed = size + ((page_size - 1) - (size - 1) & (page_size - 1));
+    int bytes_needed = size + (((page_size - 1) - (size - 1)) & (page_size - 1));
     
     return bytes_needed;
 }
@@ -141,6 +143,7 @@ static struct block *find_space_worst_fit(int size, struct block **tail)
 
 static void split_space(struct block *b, int size)
 {
+#ifdef ENABLE_SPLIT
     struct block *old_next = b->next;
 
     size_t old_block_size = HEADER_SIZE + b->size;
@@ -157,6 +160,10 @@ static void split_space(struct block *b, int size)
         b->next = new_free_block;
         b->size = new_padded_size;
     }
+#else
+    (void)b;
+    (void)size;
+#endif
 }
 
 static struct block *find_space(int size)
@@ -242,42 +249,97 @@ void mystrategy(enum strategy s)
     strategy = s;
 }
 
-int main(void)
+// This part to include in student submission
+
+#include <stdlib.h>
+
+void beej_print_data(void)
 {
-#if 0
-    void *p, *q;
+    struct block *b = head;
 
-    p = myalloc(512);
-    print_data();
+    if (b == NULL) {
+        printf("[empty]\n");
+        return;
+    }
 
-    myfree(p);
-    print_data();
+    while (b != NULL) {
+        //printf("[%p:%d,%s]", b, b->size, b->in_use? "used": "free");
+        printf("[%d,%s]", b->size, b->in_use? "used": "free");
+        if (b->next != NULL) {
+            printf(" -> ");
+        }
+        fflush(stdout);
 
-    p = myalloc(16);
-    print_data();
+        b = b->next;
+    }
 
-    q = myalloc(128);
-    print_data();
+    printf("\n");
+}
 
-    myfree(p);
-    print_data();
+int main(int argc, char *argv[])
+{
+    (void)argc;
 
-    char *r = myalloc(10000);
-    print_data();
+    int mode = atoi(argv[1]);
 
-    myfree(q);
-    print_data();
+    switch (mode) {
+        case 0: {
+            void *p, *q;
 
-    myfree(r);
-    print_data();
-#endif
+            p = myalloc(512);
+            beej_print_data();
 
-    void *p;
+            myfree(p);
+            beej_print_data();
 
-    myalloc(10);     print_data();
-    p = myalloc(20); print_data();
-    myalloc(30);     print_data();
-    myfree(p);       print_data();
-    myalloc(40);     print_data();
-    myalloc(10);     print_data();
+            p = myalloc(16);
+            beej_print_data();
+
+            q = myalloc(128);
+            beej_print_data();
+
+            myfree(p);
+            beej_print_data();
+
+            char *r = myalloc(10000);
+            beej_print_data();
+
+            myfree(q);
+            beej_print_data();
+
+            myfree(r);
+            beej_print_data();
+        }
+        break;
+
+        case 1: {
+            void *p;
+
+            myalloc(10);     beej_print_data();
+            p = myalloc(20); beej_print_data();
+            myalloc(30);     beej_print_data();
+            myfree(p);       beej_print_data();
+            myalloc(40);     beej_print_data();
+            myalloc(10);     beej_print_data();
+        }
+        break;
+
+        case 2: {
+            beej_print_data();
+            myalloc(64);
+            beej_print_data();
+        }
+        break;
+
+        case 3: {
+            void *p;
+
+            beej_print_data();
+            p = myalloc(16);
+            beej_print_data();
+            p = myalloc(16);
+            printf("%p\n", p);
+        }
+        break;
+    }
 }
