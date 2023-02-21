@@ -1,3 +1,8 @@
+// Set the Week to 1, 2, or 3 for that part of the project. This enables
+// additional functionality.
+
+#define WEEK 1   // 1, 2, 3, 4 (extensions)
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/mman.h>
@@ -13,7 +18,8 @@ struct block {
 static struct block *head = NULL;
 static enum strategy strategy = STRATEGY_FIRST_FIT;
 
-//#define ENABLE_SPLIT
+#define ENABLE_SPLIT (WEEK >= 2)
+#define ENABLE_MMAP_CHAIN (WEEK > 3)
 
 #define MEM_SIZE 1024
 
@@ -143,7 +149,7 @@ static struct block *find_space_worst_fit(int size, struct block **tail)
 
 static void split_space(struct block *b, int size)
 {
-#ifdef ENABLE_SPLIT
+#if ENABLE_SPLIT
     struct block *old_next = b->next;
 
     size_t old_block_size = HEADER_SIZE + b->size;
@@ -190,6 +196,11 @@ static struct block *find_space(int size)
         split_space(b, size);
         return b;
     }
+
+#if !ENABLE_MMAP_CHAIN
+    // This only allows mmap_new() to run one time
+    if (head != NULL) return NULL;
+#endif
 
     if ((b = mmap_new(size + HEADER_SIZE)) != NULL) {
         if (tail == NULL)
@@ -278,12 +289,54 @@ void beej_print_data(void)
 
 int main(int argc, char *argv[])
 {
-    (void)argc;
+    if (argc == 1) {
+        fprintf(stderr, "usage: %s mode\n", argv[0]);
+        return 1;
+    }
 
     int mode = atoi(argv[1]);
 
     switch (mode) {
-        case 0: {
+
+#if WEEK >= 1
+
+        case 0: {  // WEEK 1+
+            beej_print_data();
+            myalloc(64);
+            beej_print_data();
+        }
+        break;
+
+        case 1: {  // WEEK 1+
+            void *p;
+
+            beej_print_data();
+            p = myalloc(16);
+            printf("%p\n", p);
+            beej_print_data();
+            p = myalloc(16);
+            printf("%p\n", p);
+            beej_print_data();
+        }
+        break;
+
+#elif WEEK >= 2
+
+        case 2: {  // WEEK 2+
+            void *p;
+
+            myalloc(10);     beej_print_data();
+            p = myalloc(20); beej_print_data();
+            myalloc(30);     beej_print_data();
+            myfree(p);       beej_print_data();
+            myalloc(40);     beej_print_data();
+            myalloc(10);     beej_print_data();
+        }
+        break;
+
+#elif WEEK >= 3
+
+        case 3: { // WEEK 3+
             void *p, *q;
 
             p = myalloc(512);
@@ -301,7 +354,7 @@ int main(int argc, char *argv[])
             myfree(p);
             beej_print_data();
 
-            char *r = myalloc(10000);
+            char *r = myalloc(100);
             beej_print_data();
 
             myfree(q);
@@ -311,35 +364,9 @@ int main(int argc, char *argv[])
             beej_print_data();
         }
         break;
-
-        case 1: {
-            void *p;
-
-            myalloc(10);     beej_print_data();
-            p = myalloc(20); beej_print_data();
-            myalloc(30);     beej_print_data();
-            myfree(p);       beej_print_data();
-            myalloc(40);     beej_print_data();
-            myalloc(10);     beej_print_data();
-        }
-        break;
-
-        case 2: {
-            beej_print_data();
-            myalloc(64);
-            beej_print_data();
-        }
-        break;
-
-        case 3: {
-            void *p;
-
-            beej_print_data();
-            p = myalloc(16);
-            beej_print_data();
-            p = myalloc(16);
-            printf("%p\n", p);
-        }
-        break;
+#endif
+        default:
+            fprintf(stderr, "%s: unknown mode\n", argv[0]);
+            return 2;
     }
 }
