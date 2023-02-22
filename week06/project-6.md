@@ -562,9 +562,6 @@ space was at least big enough for the a new `struct block` plus at least
 15
 Linked list nodes padded to proper alignment
 
-15
-Data padded to proper alignment
-
 10
 First call to `myalloc()` calls `mmap()` to allocate space
 
