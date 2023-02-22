@@ -39,16 +39,31 @@ compare() {
     cleanup
 }
 
-progdir=$(dirname $(find . -name myalloc.c) 2> /dev/null)
-progname=myalloc
-if [ "x$progdir" = "x" ]; then
-    progdir=$(dirname $(find . -name mylib.c) 2> /dev/null)
-    if [ "x$progdir" = "x" ]; then
-        printf "can't find the source\n" 1>&2
-        exit 1
-    fi
-    progname=mylib
+findsource() {
+    while [ $# -gt 0 ]; do
+        sourcename=$(find . -name $1 2> /dev/null)
+
+        if [ ! -z "$sourcename" ]; then
+            echo $sourcename
+            return 0
+        fi
+
+        shift
+    done
+
+    return 1
+}
+
+# Add any possible source file names here:
+sourcename=$(findsource myalloc.c mylib.c allocator.c memory_manager.c)
+
+if [ $? -ne 0 ]; then
+    printf "%s: can't find the source\n" "$0" 1>&2
+    exit 1
 fi
+
+progdir=$(dirname "$sourcename")
+progname=$(basename "$sourcename" .c)
 
 curdir=$(pwd)
 
@@ -63,7 +78,10 @@ student=$progdir/$progname
     if ! grep -q beej_print_data $progname.c; then
         cp $curdir/new_main.c.txt new_main.c.txt
         cp $progname.c $progname.c.orig
-        sed '/int main(/,/^} *$/d' $progname.c | sed '/void main(/,/^} *$/d' > prog.$TEMP.c
+        sed '/int main(.*}$/d' $progname.c |
+            sed '/void main(.*}$/d' |
+            sed '/int main(/,/^} *$/d' |
+            sed '/void main(/,/^} *$/d' > prog.$TEMP.c
         cat prog.$TEMP.c new_main.c.txt > $progname.c
         rm -f *.$TEMP.* new_main.c.txt
     fi
