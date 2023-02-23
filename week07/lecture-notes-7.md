@@ -7,4 +7,4 @@
 
 # Day 2
 
-* Translation Lookaside Buffers (TLB)
+* Pointer arithmetic exercise.
