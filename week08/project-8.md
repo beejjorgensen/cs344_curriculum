@@ -9,16 +9,16 @@ free space.
 
 For example, if we have these allocations:
 
-![Before Free](https://canvas.oregonstate.edu/courses/1849663/files/92092528/preview)
+![Before Free]()
 
 and the user calls `myfree()` on the second block, leaving us with this:
 
-![After Free](https://canvas.oregonstate.edu/courses/1849663/files/92092529/preview)
+![After Free]()
 
 we have two free regions right next to each other. We want to merge
 those into a single, larger free region, like this:
 
-![Consolidating Two Blocks](https://canvas.oregonstate.edu/courses/1849663/files/92092530/preview)
+![Consolidating Two Blocks]()
 
 (The result size is 64 bytes since we're adding together 16 bytes of
 free region, plus (presumably) 16 bytes for the `struct block`, plus 32
@@ -29,12 +29,12 @@ both sides, we want to merge all three of them.
 
 So if we had this:
 
-![Before Middle Free](https://canvas.oregonstate.edu/courses/1849663/files/92092531/preview)
+![Before Middle Free]()
 
 and we freed the used block, it would merge all three of those initial
 blocks like this:
 
-![After Middle Free](https://canvas.oregonstate.edu/courses/1849663/files/92092532/preview)
+![After Middle Free]()
 
 We have multiple options for how to make this happen. Choose one of
 them!
@@ -105,7 +105,7 @@ mergeblocks(cur):
         rewire the list so cur's next skips over its old next node
 ```
 
-Note that wehn you add the next node's size to this node's, you have to
+Note that when you add the next node's size to this node's, you have to
 add the next node's size PLUS the padded size of the `struct block` that
 goes with it. The whole region (the `struct` and the user data) is
 going to be added to the existing free node.
@@ -235,19 +235,29 @@ submission.
 
 <!-- Rubric
 
-If the next block is free, it and the newly freed block are merged (15)
+15
+If the next block is free, it and the newly freed block are merged
 
-If the previous block is free, it and the newly freed block are merged (15)
+15
+If the previous block is free, it and the newly freed block are merged
 
-If the freed block is surrounded by free blocks, they are all merged into a single block (15)
+15
+If the freed block is surrounded by free blocks, they are all merged into a single block
 
-If the existing free block is at the head of the list, it is merged successfully (10)
+10
+If the existing free block is at the head of the list, it is merged successfully
 
-If the existing free block is at the tail of the list, it is merged successfully (10)
+10
+If the existing free block is at the tail of the list, it is merged successfully
 
-If the newly freed block is at the head of the list, it is merged successfully (10)
+10
+If the newly freed block is at the head of the list, it is merged successfully
 
-If the newly freed block is at the tail of the list, it is merged successfully (10)
+10
+If the newly freed block is at the tail of the list, it is merged successfully
 
-If the newly freed block has no free neighbors, nothing is merged (5)
+5
+If the newly freed block has no free neighbors, nothing is merged
+
 -->
+

@@ -46,13 +46,13 @@ After the successful completion of this module, you will be able to:
  
 ## Explorations
 
-* [Exploration 8.1](https://canvas.oregonstate.edu/courses/1849663/assignments/8790498)
-* [Exploration 8.2](https://canvas.oregonstate.edu/courses/1849663/assignments/8790499)
+* [Exploration 8.1]()
+* [Exploration 8.2]()
 
 ## Task List
 
 * In the Virtualization section of [the book](https://pages.cs.wisc.edu/~remzi/OSTEP/), read:
   * [Translation Lookaside Buffer](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-tlbs.pdf)
   * [Advanced Page Tables](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-smalltables.pdf)
-* Complete [Quiz 8](https://canvas.oregonstate.edu/courses/1849663/assignments/8790501)
-* Complete [Project 8](https://canvas.oregonstate.edu/courses/1849663/assignments/8790500)
+* Complete [Quiz 8]()
+* Complete [Project 8]()

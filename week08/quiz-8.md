@@ -73,7 +73,6 @@ When a user logs in, permissions must be checked to access disk resources via th
 
 If a page fault occurs, the permissions need to be checked to see if a mapping is allowed.
 
-
 ---
 
 If two processes are both running the same program, what can a paged memory system do to save memory?
@@ -88,7 +87,9 @@ Direct you to your nearest RAM dealer.
 
 ---
 
-The main benefit of a multi-level page table is: (5)
+[5]
+
+The main benefit of a multi-level page table is:
 
 Saves space.
 
@@ -96,7 +97,9 @@ Runs faster.
 
 ---
 
-The main drawback of a multi-level page table is: (5)
+[5]
+
+The main drawback of a multi-level page table is:
 
 Runs slower.
 
@@ -113,6 +116,4 @@ Internal fragmentation would increase as the available contiguous regions decrea
 External fragmentation would increase as the available contiguous regions increased in size.
 
 Internal fragmentation would increase as the available contiguous regions increased in size.
-
----
 
