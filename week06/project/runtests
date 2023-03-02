@@ -4,6 +4,8 @@
 # where you clone their repos.
 
 TEMP=$$.temp
+WEEK=2
+PROJ_NUM=7  # 6, 7, 8
 
 cleanup() {
     rm -f *${TEMP}*
@@ -40,8 +42,16 @@ compare() {
 }
 
 findsource() {
+    local sourcename
+
+    sourcename=""
+
     while [ $# -gt 0 ]; do
-        sourcename=$(find . -name $1 2> /dev/null)
+        sourcename=$(find . -name $1 2> /dev/null | grep $PROJ_NUM 2> /dev/null)
+
+        if [ -z "$sourcename" ]; then
+            sourcename=$(find . -name $1 2> /dev/null)
+        fi
 
         if [ ! -z "$sourcename" ]; then
             echo $sourcename
@@ -88,11 +98,24 @@ student=$progdir/$progname
     
     # Build
     make clean
-    make CCOPTS='-Wall -Wextra -DWEEK=1'
+    make CCOPTS='-Wall -Wextra -DWEEK='$WEEK
 )
 
-compare "$model 0" "$student 0"
-compare "$model 1" "$student 1"
+if [ $WEEK -ge 1 ]; then
+    compare "$model 0" "$student 0"
+    compare "$model 1" "$student 1"
+fi
+
+if [ $WEEK -ge 2 ]; then
+    compare "$model 2" "$student 2"
+    compare "$model 3" "$student 3"
+    compare "$model 4" "$student 4"
+    compare "$model 5" "$student 5"
+    compare "$model 6" "$student 6"
+    compare "$model 7" "$student 7"
+    compare "$model 8" "$student 8"
+    compare "$model 9" "$student 9"
+fi
 
 printf "Press RETURN to edit\n"
 

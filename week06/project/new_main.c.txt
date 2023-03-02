@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
             beej_print_data();
         }
         break;
-
-#elif WEEK >= 2
+#endif
+#if WEEK >= 2
 
         case 2: {  // WEEK 2+
             void *p;
@@ -72,9 +72,68 @@ int main(int argc, char *argv[])
         }
         break;
 
-#elif WEEK >= 3
+        case 3: {
+            void *p;
 
-        case 3: { // WEEK 3+
+            p = myalloc(512);
+            beej_print_data();
+
+            myfree(p);
+            beej_print_data();
+        }
+        break;
+
+        case 4: {
+            myalloc(10); beej_print_data();
+            myalloc(20); beej_print_data();
+            myalloc(30); beej_print_data();
+            myalloc(40); beej_print_data();
+            myalloc(50); beej_print_data();
+        }
+        break;
+
+        case 5: {
+            int bs = PADDED_SIZE(sizeof(struct block));
+
+            myalloc((1024-bs)); beej_print_data();
+        }
+        break;
+
+        case 6: {
+            int bs = PADDED_SIZE(sizeof(struct block));
+
+            myalloc((1024-bs)-bs); beej_print_data();
+        }
+        break;
+
+        case 7: {
+            int bs = PADDED_SIZE(sizeof(struct block));
+
+            myalloc(((1024-bs)-bs)-16); beej_print_data();
+        }
+        break;
+
+        case 8: {
+            int bs = PADDED_SIZE(sizeof(struct block));
+
+            myalloc(((1024-bs)-bs)-32); beej_print_data();
+        }
+        break;
+
+        case 9: {
+            void *p = myalloc(99999);
+            int bs = PADDED_SIZE(sizeof(struct block));
+            printf("NULL check 1: %s\n", p == NULL? "PASS": "FAIL");
+            p = myalloc(1024);
+            printf("NULL check 2: %s\n", p == NULL? "PASS": "FAIL");
+            p = myalloc(1024-bs+1);
+            printf("NULL check 3: %s\n", p == NULL? "PASS": "FAIL");
+        }
+        break;
+#endif
+#if WEEK >= 3
+
+        case 10: { // WEEK 3+
             void *p, *q;
 
             p = myalloc(512);

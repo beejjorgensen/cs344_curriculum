@@ -1,7 +1,7 @@
 // Set the Week to 1, 2, or 3 for that part of the project. This enables
 // additional functionality.
 
-#define WEEK 1   // 1, 2, 3, 4 (extensions)
+#define WEEK 2   // 1, 2, 3, 4 (extensions)
 
 #include <stdio.h>
 #include <unistd.h>
@@ -19,6 +19,7 @@ static struct block *head = NULL;
 static enum strategy strategy = STRATEGY_FIRST_FIT;
 
 #define ENABLE_SPLIT (WEEK >= 2)
+#define ENABLE_CONSOLIDATE (WEEK >= 3)
 #define ENABLE_MMAP_CHAIN (WEEK > 3)
 
 #define MEM_SIZE 1024
@@ -151,16 +152,16 @@ static void split_space(struct block *b, int size)
 {
 #if ENABLE_SPLIT
     struct block *old_next = b->next;
+    int old_size = b->size;
+    size_t new_padded_size = PADDED_SIZE(size);
 
-    size_t old_block_size = HEADER_SIZE + b->size;
-    size_t min_split_size = (HEADER_SIZE + 16) * 2;
+    int have_room = new_padded_size + HEADER_SIZE + 16 <= (size_t)b->size;
 
-    if (old_block_size >= min_split_size) {
-        size_t new_padded_size = PADDED_SIZE(size);
+    if (have_room) {
         struct block *new_free_block = PTR_OFFSET(b, HEADER_SIZE + new_padded_size);
 
         new_free_block->next = old_next;
-        new_free_block->size = b->size - (HEADER_SIZE + new_padded_size);
+        new_free_block->size = old_size - new_padded_size - HEADER_SIZE;
         new_free_block->in_use = 0;
 
         b->next = new_free_block;
@@ -218,6 +219,11 @@ static struct block *find_space(int size)
 
 void *myalloc(int size)
 {
+    // This is a total hack to make the tests work like the student
+    // tests.
+    if ((size_t)PADDED_SIZE(size) > 1024 - PADDED_SIZE(sizeof(struct block)))
+        return NULL;
+
     // Find a big enough space
     struct block *b;
 
@@ -233,6 +239,7 @@ void *myalloc(int size)
 
 static void consolidate(void)
 {
+#if ENABLE_CONSOLIDATE
     struct block *cur = head;
 
     assert(cur != NULL);
@@ -245,6 +252,7 @@ static void consolidate(void)
             cur = cur->next;
         }
     }
+#endif
 }
 
 void myfree(void *p)
@@ -319,8 +327,8 @@ int main(int argc, char *argv[])
             beej_print_data();
         }
         break;
-
-#elif WEEK >= 2
+#endif
+#if WEEK >= 2
 
         case 2: {  // WEEK 2+
             void *p;
@@ -334,9 +342,68 @@ int main(int argc, char *argv[])
         }
         break;
 
-#elif WEEK >= 3
+        case 3: {
+            void *p;
 
-        case 3: { // WEEK 3+
+            p = myalloc(512);
+            beej_print_data();
+
+            myfree(p);
+            beej_print_data();
+        }
+        break;
+
+        case 4: {
+            myalloc(10); beej_print_data();
+            myalloc(20); beej_print_data();
+            myalloc(30); beej_print_data();
+            myalloc(40); beej_print_data();
+            myalloc(50); beej_print_data();
+        }
+        break;
+
+        case 5: {
+            int bs = PADDED_SIZE(sizeof(struct block));
+
+            myalloc((1024-bs)); beej_print_data();
+        }
+        break;
+
+        case 6: {
+            int bs = PADDED_SIZE(sizeof(struct block));
+
+            myalloc((1024-bs)-bs); beej_print_data();
+        }
+        break;
+
+        case 7: {
+            int bs = PADDED_SIZE(sizeof(struct block));
+
+            myalloc(((1024-bs)-bs)-16); beej_print_data();
+        }
+        break;
+
+        case 8: {
+            int bs = PADDED_SIZE(sizeof(struct block));
+
+            myalloc(((1024-bs)-bs)-32); beej_print_data();
+        }
+        break;
+
+        case 9: {
+            void *p = myalloc(99999);
+            int bs = PADDED_SIZE(sizeof(struct block));
+            printf("NULL check 1: %s\n", p == NULL? "PASS": "FAIL");
+            p = myalloc(1024);
+            printf("NULL check 2: %s\n", p == NULL? "PASS": "FAIL");
+            p = myalloc(1024-bs+1);
+            printf("NULL check 3: %s\n", p == NULL? "PASS": "FAIL");
+        }
+        break;
+#endif
+#if WEEK >= 3
+
+        case 10: { // WEEK 3+
             void *p, *q;
 
             p = myalloc(512);
