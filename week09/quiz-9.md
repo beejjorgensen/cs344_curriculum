@@ -15,7 +15,9 @@ Maps a process's virtual addresses to other virtual addresses.
 
 ---
 
-The physical pages a process uses must be consecutive and in order. (5)
+[5]
+
+The physical pages a process uses must be consecutive and in order.
 
 False
 

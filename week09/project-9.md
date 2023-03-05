@@ -18,8 +18,8 @@ We're going to issue commands on the command line to do these things.
 
 Download these two files and add them to your project:
 
-* [`Makefile`]( https://canvas.oregonstate.edu/courses/1849663/files/92219564?wrap=1)
-* [`ptsim.c`](https://canvas.oregonstate.edu/courses/1849663/files/92219566?wrap=1)
+* [`Makefile`]()
+* [`ptsim.c`]()
 
 The C file is a skeleton file to be filled out.
 
@@ -130,7 +130,7 @@ You might need to reread that sentence a number of times to get it.
 In the following diagram, we're trying to locate process #12's page
 table.
 
-![Mapping a process to a page table page](https://canvas.oregonstate.edu/courses/1849663/files/92199722/preview)
+![Mapping a process to a page table page]()
 
 The first step is to compute the address that holds process 12's page
 table number.
@@ -261,7 +261,7 @@ page table was in physical page 18.
 And let's have process 12 retrieve the value in memory at virtual
 address 553 (binary `00001000101001`).
 
-![Looking up a Virtual Address](https://canvas.oregonstate.edu/courses/1849663/files/92199723/preview)
+![Looking up a Virtual Address]()
 
 Since we know each page is 256 bytes and 8 bits can represent 256
 different values, we know the low 8 bits of the address is the _offset_.
@@ -516,16 +516,22 @@ submission.
 
 <!-- Rubric
 
-"ptsim pfm" working (5)
+5
+"ptsim pfm" working
 
-"ptsim np 1 2 pfm" working (10)
+10
+"ptsim np 1 2 pfm" working
 
-"ptsim np 1 2 ppt 1" working (10)
+10
+"ptsim np 1 2 ppt 1" working
 
-"ptsim np 1 2 np 2 3 ppt 1 ppt 2 pfm" working (10)
+10
+"ptsim np 1 2 np 2 3 ppt 1 ppt 2 pfm" working
 
-"ptsim np A B ppt A np C D ppt C pfm" working, for arbitrary values of A, B, C, D (20)
+20
+"ptsim np A B ppt A np C D ppt C pfm" working, for arbitrary values of A, B, C, D
 
-"ptsim np A B ppt A np C D np E F ppt E pfm" working, for arbitrary values of A, B, C, D, E, F (20)
+20
+"ptsim np A B ppt A np C D np E F ppt E pfm" working, for arbitrary values of A, B, C, D, E, F
 
 -->
