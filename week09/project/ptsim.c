@@ -74,7 +74,7 @@ void free_page(unsigned char page)
 }
 
 //
-// Get the page table for a given process
+// Get the page table page for a given process
 //
 unsigned char get_page_table(int proc_num)
 {
