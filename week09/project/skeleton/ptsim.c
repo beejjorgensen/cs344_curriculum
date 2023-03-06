@@ -90,7 +90,6 @@ void print_page_table(int proc_num)
         int addr = get_address(page_table, i);
 
         int page = mem[addr];
-        printf("%d\n", addr);
 
         if (page != 0) {
             printf("%02x -> %02x\n", i, page);
