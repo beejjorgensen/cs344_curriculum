@@ -8,8 +8,8 @@
    version="1.1"
    id="svg29073"
    sodipodi:docname="vaddr-lookup.svg"
-   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
-   inkscape:export-filename="/home/beej/src/cs344_curriculum/week09/vaddr-lookup.png"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   inkscape:export-filename="vaddr-lookup.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -27,10 +27,10 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="2"
-     inkscape:cx="228.75"
-     inkscape:cy="356.5"
-     inkscape:window-width="3840"
-     inkscape:window-height="2058"
+     inkscape:cx="229"
+     inkscape:cy="276.75"
+     inkscape:window-width="2880"
+     inkscape:window-height="1547"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -40,7 +40,9 @@
      fit-margin-left="10"
      fit-margin-right="10"
      fit-margin-bottom="10"
-     units="px" />
+     units="px"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1" />
   <defs
      id="defs29070">
     <marker
@@ -413,11 +415,11 @@
        cy="18.32925"
        r="0.042590238" />
     <rect
-       style="fill:#ffffff;stroke:#0000ff;stroke-width:0.264999;stroke-linecap:round;stroke-opacity:1"
+       style="fill:#ffffff;stroke:#0000ff;stroke-width:0.264998;stroke-linecap:round;stroke-opacity:1"
        id="rect32588"
-       width="57.621643"
+       width="70.850342"
        height="6.4597983"
-       x="41.957642"
+       x="36.136803"
        y="14.953384" />
     <text
        xml:space="preserve"
@@ -433,13 +435,13 @@
     <text
        xml:space="preserve"
        style="font-size:4.23333px;line-height:1.25;font-family:Sans;-inkscape-font-specification:'Sans, Normal';font-variant-ligatures:none;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;stroke-width:0.264583"
-       x="43.223911"
+       x="37.403072"
        y="19.724274"
        id="text40808"><tspan
          sodipodi:role="line"
          id="tspan40806"
-         style="stroke-width:0.264583"
-         x="43.223911"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono, Normal';font-variant-ligatures:none;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="37.403072"
          y="19.724274">0 0 0 0 1 0 0 0 1 0 1 0 0 1</tspan></text>
     <path
        style="fill:none;stroke:#0000f9;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.264583, 0.529166;stroke-dashoffset:0;stroke-opacity:1"

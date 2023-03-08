@@ -32,14 +32,14 @@ After the successful completion of this module, you will be able to:
  
 ## Explorations
 
-* [Exploration 10.1](https://canvas.oregonstate.edu/courses/1849663/assignments/8801694)
-* [Exploration 10.2](https://canvas.oregonstate.edu/courses/1849663/assignments/8801695)
+* [Exploration 10.1]()
+* [Exploration 10.2]()
 
 ## Task List
 
 * In the Virtualization section of [the book](https://pages.cs.wisc.edu/~remzi/OSTEP/), read:
   * [Complete VM Systems § 23.1](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-complete.pdf)
   * [Complete VM Systems § 23.2-23.3](https://pages.cs.wisc.edu/~remzi/OSTEP/vm-complete.pdf)
-* Complete [Quiz 10](https://canvas.oregonstate.edu/courses/1849663/assignments/8801697)
-* Complete [Project 10](https://canvas.oregonstate.edu/courses/1849663/assignments/8801696)
+* Complete [Quiz 10]()
+* Complete [Project 10]()
 

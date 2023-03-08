@@ -2,6 +2,10 @@ Signed/unsigned warning on a comparison. `sizeof` returns type `size_t`, and you
 
 # Split only splits if there's the proper amount of room
 
+-5
+
+There needs to be enough room for 16 bytes of data at least in the new block.
+
 -4 
 
 This should only happen if a split occurred:

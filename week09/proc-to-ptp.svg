@@ -7,9 +7,9 @@
    viewBox="0 0 79.374999 130.96875"
    version="1.1"
    id="svg5"
-   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="proc-to-ptp.svg"
-   inkscape:export-filename="/home/beej/src/cs344_curriculum/week09/proc-to-ptp.png"
+   inkscape:export-filename="proc-to-ptp.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -29,10 +29,10 @@
      units="px"
      width="640px"
      inkscape:zoom="3.2035072"
-     inkscape:cx="340.096"
-     inkscape:cy="239.42509"
-     inkscape:window-width="3840"
-     inkscape:window-height="2058"
+     inkscape:cx="339.93993"
+     inkscape:cy="214.60854"
+     inkscape:window-width="2880"
+     inkscape:window-height="1547"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -41,7 +41,9 @@
      fit-margin-left="10"
      fit-margin-right="10"
      fit-margin-bottom="10"
-     lock-margins="true" />
+     lock-margins="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1" />
   <defs
      id="defs2">
     <marker

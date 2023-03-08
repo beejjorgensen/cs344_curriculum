@@ -55,7 +55,7 @@ This is the opposite of what we did to create the process.
 Here's a diagram that shows us getting the page table page for a
 particular process:
 
-![Mapping a process to a page table page](https://canvas.oregonstate.edu/courses/1849663/files/92199722/preview)
+![Mapping a process to a page table page]()
 
 **Remember**: `0` is not a valid page number to find in a page table.
 Zero page is reserved in this system. So when we're going through the
@@ -93,7 +93,7 @@ mapping between virtual and physical pages for this process.
 
 So we'll get that first.
 
-![Looking up a Virtual Address](https://canvas.oregonstate.edu/courses/1849663/files/92199723/preview)
+![Looking up a Virtual Address]()
 
 Then we need to figure out what page we're talking about. We're given an
 address, which is just an index into memory, but we need to pull the
@@ -331,16 +331,37 @@ submission.
 
 <!-- Rubric
 
-./ptsim np 1 2 pfm kp 1 pfm (5)
-./ptsim np 1 2 np 3 4 pfm kp 1 pfm (10)
-./ptsim np 1 2 np 3 4 pfm kp 3 pfm (10)
-./ptsim np 1 2 np 3 4 kp 3 pfm np 4 5 ppt 4 pfm (10)
-./ptsim np 1 2 np 3 4 kp 1 pfm np 4 5 ppt 4 pfm (10)
-./ptsim np 1 2 np 3 4 kp 1 kp 3 pfm np 4 5 ppt 4 pfm (10)
-./ptsim np 1 2 pfm np 2 3 pfm kp 1 pfm np 3 5 pfm ppt 3 kp 3 pfm (10)
+5
+Command works: ./ptsim np 1 2 pfm kp 1 pfm
 
-./ptsim np 1 2 ppt 1 sb 1 10 99 lb 1 10 (5)
-./ptsim np 1 2 ppt 1 sb 1 0 99 lb 1 0 (10)
-./ptsim np 1 2 np 2 3 sb 1 10 99 sb 2 20 100 lb 1 10 lb 2 20 (10)
-./ptsim np 1 2 np 2 3 sb 1 10 99 sb 2 10 100 lb 1 10 lb 2 10 (10)
+10
+Command works: ./ptsim np 1 2 np 3 4 pfm kp 1 pfm
+
+10
+Command works: ./ptsim np 1 2 np 3 4 pfm kp 3 pfm
+
+10
+Command works: ./ptsim np 1 2 np 3 4 kp 3 pfm np 4 5 ppt 4 pfm
+
+10
+Command works: ./ptsim np 1 2 np 3 4 kp 1 pfm np 4 5 ppt 4 pfm
+
+10
+Command works: ./ptsim np 1 2 np 3 4 kp 1 kp 3 pfm np 4 5 ppt 4 pfm
+
+10
+Command works: ./ptsim np 1 2 pfm np 2 3 pfm kp 1 pfm np 3 5 pfm ppt 3 kp 3 pfm
+
+5
+Command works: ./ptsim np 1 2 ppt 1 sb 1 10 99 lb 1 10
+
+10
+Command works: ./ptsim np 1 2 ppt 1 sb 1 0 99 lb 1 0
+
+10
+Command works: ./ptsim np 1 2 np 2 3 sb 1 10 99 sb 2 20 100 lb 1 10 lb 2 20
+
+10
+Command works: ./ptsim np 1 2 np 2 3 sb 1 10 99 sb 2 10 100 lb 1 10 lb 2 10
+
 -->
