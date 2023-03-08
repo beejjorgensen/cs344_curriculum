@@ -4,8 +4,8 @@
 # where you clone their repos.
 
 TEMP=$$.temp
-WEEK=2
-PROJ_NUM=7  # 6, 7, 8
+WEEK=3
+PROJ_NUM=8  # 6, 7, 8
 
 cleanup() {
     rm -f *${TEMP}*
@@ -89,10 +89,14 @@ student=$progdir/$progname
         cp $curdir/new_main.c.txt new_main.c.txt
         cp $progname.c $progname.c.orig
         sed 's/\r$//' $progname.c |
-            sed '/int main \?(.*}$/d' |
-            sed '/void main \?(.*}$/d' |
-            sed '/int main \?(/,/^} *$/d' |
-            sed '/void main \?(/,/^} *$/d' > prog.$TEMP.c
+            sed '/int main(.*}$/d' |
+            sed '/void main(.*}$/d' |
+            sed '/int main(/,/^} *$/d' |
+            sed '/void main(/,/^} *$/d' |
+            sed '/int main (.*}$/d' |
+            sed '/void main (.*}$/d' |
+            sed '/int main (/,/^} *$/d' |
+            sed '/void main (/,/^} *$/d' > prog.$TEMP.c
         cat prog.$TEMP.c new_main.c.txt > $progname.c
         rm -f *.$TEMP.* new_main.c.txt
     fi
@@ -116,6 +120,15 @@ if [ $WEEK -ge 2 ]; then
     compare "$model 7" "$student 7"
     compare "$model 8" "$student 8"
     compare "$model 9" "$student 9"
+fi
+
+if [ $WEEK -ge 3 ]; then
+    compare "$model 10" "$student 10"
+    compare "$model 11" "$student 11"
+    compare "$model 12" "$student 12"
+    compare "$model 13" "$student 13"
+    compare "$model 14" "$student 14"
+    compare "$model 15" "$student 15"
 fi
 
 printf "Press RETURN to edit\n"
