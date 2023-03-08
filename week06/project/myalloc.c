@@ -1,7 +1,7 @@
 // Set the Week to 1, 2, or 3 for that part of the project. This enables
 // additional functionality.
 
-#define WEEK 2   // 1, 2, 3, 4 (extensions)
+#define WEEK 3   // 1, 2, 3, 4 (extensions)
 
 #include <stdio.h>
 #include <unistd.h>
@@ -402,8 +402,53 @@ int main(int argc, char *argv[])
         break;
 #endif
 #if WEEK >= 3
-
         case 10: { // WEEK 3+
+            void *p;
+
+            p = myalloc(10); print_data();
+
+            myfree(p); print_data();
+        }
+        break;
+
+        case 11: {
+            void *p, *q;
+
+            p = myalloc(10); print_data();
+            q = myalloc(20); print_data();
+
+            myfree(p); print_data();
+            myfree(q); print_data();
+        }
+        break;
+
+        case 12: {
+            void *p, *q;
+
+            p = myalloc(10); print_data();
+            q = myalloc(20); print_data();
+
+            myfree(q); print_data();
+            myfree(p); print_data();
+        }
+        break;
+
+        case 13: {
+            void *p, *q, *r, *s;
+
+            p = myalloc(10); print_data();
+            q = myalloc(20); print_data();
+            r = myalloc(30); print_data();
+            s = myalloc(40); print_data();
+
+            myfree(q); print_data();
+            myfree(p); print_data();
+            myfree(s); print_data();
+            myfree(r); print_data();
+        }
+        break;
+
+        case 14: { // WEEK 3+
             void *p, *q;
 
             p = myalloc(512);
@@ -428,6 +473,24 @@ int main(int argc, char *argv[])
             beej_print_data();
 
             myfree(r);
+            beej_print_data();
+        }
+        break;
+
+        case 15: {
+            void *p, *q;
+
+            p = myalloc(600);
+            beej_print_data();
+            q = myalloc(512);
+            beej_print_data();
+            printf("NULL check 1: %s\n", p != NULL? "PASS": "FAIL");
+            printf("NULL check 2: %s\n", q == NULL? "PASS": "FAIL");
+            myfree(p);
+            beej_print_data();
+            p = myalloc(600);
+            beej_print_data();
+            myfree(p);
             beej_print_data();
         }
         break;
