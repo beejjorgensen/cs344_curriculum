@@ -112,18 +112,18 @@ pages as the parent process's do.
 But does this mean that if the child writes to the page, the parent will
 see those changes? No.
 
-After the `fork()`, the parent has read-write access to the page, but
-the child only has read access.
+After the `fork()`, the OS marks the page for the parent and child as
+read-only.
 
 So they can both read from it, no problem.
 
-But if the child tries to write, it doesn't have permission, and the OS
-traps. And _then_ the OS makes a copy of the page for the child to use.
+But if the parent or child tries to write, it doesn't have permission,
+and the OS traps. And _then_ the OS makes a copy of the page for the
+writing process to use.
 
 This is why `fork()` is relatively cheap even though it effectively
-makes a "copy" of the parent process's data. No copy is made until the
-child attempts to write to memory, and even then only the page written
-to is copied.
+makes a "copy" of the parent process's data. No copy is made until a
+process attempts to write to memory.
 
 ## Reading
 
