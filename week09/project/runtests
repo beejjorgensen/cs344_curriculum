@@ -4,8 +4,8 @@
 # where you clone their repos.
 
 TEMP=$$.temp
-WEEK=1
-PROJ_NUM=9
+WEEK=2
+PROJ_NUM=10
 
 cleanup() {
     rm -f *${TEMP}*
@@ -95,11 +95,21 @@ if [ $WEEK -ge 1 ]; then
     compare "$model np 1 2 ppt 1" "$student np 1 2 ppt 1"
     compare "$model np 1 2 np 2 3 ppt 1 ppt 2 pfm" "$student np 1 2 np 2 3 ppt 1 ppt 2 pfm"
     compare "$model np 4 5 ppt 4 np 12 6 ppt 12 pfm" "$student np 4 5 ppt 4 np 12 6 ppt 12 pfm"
-    compare "$model np 20 15 ppt np 1 20 np 5 5 ppt 5 pfm" "$student np 20 15 ppt np 1 20 np 5 5 ppt 5 pfm"
+    compare "$model np 20 15 ppt 20 np 1 20 np 5 5 ppt 5 pfm" "$student np 20 15 ppt 20 np 1 20 np 5 5 ppt 5 pfm"
 fi
 
 if [ $WEEK -ge 2 ]; then
-    :
+    compare "$model np 1 2 pfm kp 1 pfm" "$student np 1 2 pfm kp 1 pfm"
+    compare "$model np 1 2 np 3 4 pfm kp 1 pfm" "$student np 1 2 np 3 4 pfm kp 1 pfm"
+    compare "$model np 1 2 np 3 4 pfm kp 3 pfm" "$student np 1 2 np 3 4 pfm kp 3 pfm"
+    compare "$model np 1 2 np 3 4 kp 3 pfm np 4 5 ppt 4 pfm" "$student np 1 2 np 3 4 kp 3 pfm np 4 5 ppt 4 pfm"
+    compare "$model np 1 2 np 3 4 kp 1 pfm np 4 5 ppt 4 pfm" "$student np 1 2 np 3 4 kp 1 pfm np 4 5 ppt 4 pfm"
+    compare "$model np 1 2 np 3 4 kp 1 kp 3 pfm np 4 5 ppt 4 pfm" "$student np 1 2 np 3 4 kp 1 kp 3 pfm np 4 5 ppt 4 pfm"
+    compare "$model np 1 2 pfm np 2 3 pfm kp 1 pfm np 3 5 pfm ppt 3 kp 3 pfm" "$student np 1 2 pfm np 2 3 pfm kp 1 pfm np 3 5 pfm ppt 3 kp 3 pfm"
+    compare "$model np 1 2 ppt 1 sb 1 10 99 lb 1 10" "$student np 1 2 ppt 1 sb 1 10 99 lb 1 10"
+    compare "$model np 1 2 ppt 1 sb 1 0 99 lb 1 0" "$student np 1 2 ppt 1 sb 1 0 99 lb 1 0"
+    compare "$model np 1 2 np 2 3 sb 1 10 99 sb 2 20 100 lb 1 10 lb 2 20" "$student np 1 2 np 2 3 sb 1 10 99 sb 2 20 100 lb 1 10 lb 2 20"
+    compare "$model np 1 2 np 2 3 sb 1 10 99 sb 2 10 100 lb 1 10 lb 2 10" "$student np 1 2 np 2 3 sb 1 10 99 sb 2 10 100 lb 1 10 lb 2 10"
 fi
 
 printf "Press RETURN to edit\n"
