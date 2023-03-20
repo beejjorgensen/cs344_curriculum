@@ -1,0 +1,109 @@
+#!/bin/sh
+#
+# Copy runtests, Makefile, new_main.c, and ptsim (binary) to ~/tmp
+# where you clone their repos.
+
+TEMP=$$.temp
+WEEK=1
+PROJ_NUM=9
+
+cleanup() {
+    rm -f *${TEMP}*
+}
+
+trap cleanup EXIT
+
+status() {
+    printf "===================\n"
+    printf "%s\n" "$1"
+    printf "===================\n"
+}
+
+compare() {
+    local ctl exp ctl_out exp_out st
+
+    ctl="$1"
+    exp="$2"
+
+    st=$(printf "Running %s" "$exp")
+    status "$st"
+
+    ctl_out=ctl.$TEMP.out
+    exp_out=exp.$TEMP.out
+
+    eval $ctl > ctl.$TEMP.out
+    eval $exp > exp.$TEMP.out
+
+    #echo "----------------"; cat exp.$TEMP.out; echo "----------------"
+
+    diff -w "$ctl_out" "$exp_out"
+
+    cleanup
+}
+
+findsource() {
+    local sourcename
+
+    sourcename=""
+
+    while [ $# -gt 0 ]; do
+        sourcename=$(find . -name $1 2> /dev/null | grep $PROJ_NUM 2> /dev/null)
+
+        if [ -z "$sourcename" ]; then
+            sourcename=$(find . -name $1 2> /dev/null)
+        fi
+
+        if [ ! -z "$sourcename" ]; then
+            echo $sourcename
+            return 0
+        fi
+
+        shift
+    done
+
+    return 1
+}
+
+# Add any possible source file names here:
+sourcename=$(findsource ptsim.c)
+
+if [ $? -ne 0 ]; then
+    printf "%s: can't find the source\n" "$0" 1>&2
+    exit 1
+fi
+
+progdir=$(dirname "$sourcename")
+progname=$(basename "$sourcename" .c)
+
+curdir=$(pwd)
+
+model=$curdir/ptsim   # model solution exe
+student=$progdir/$progname
+
+(
+    cp $curdir/Makefile $progdir
+    cd $progdir
+
+    # Build
+    make clean
+    make
+)
+
+if [ $WEEK -ge 1 ]; then
+    compare "$model pfm" "$student pfm"
+    compare "$model np 1 2 pfm" "$student np 1 2 pfm"
+    compare "$model np 1 2 ppt 1" "$student np 1 2 ppt 1"
+    compare "$model np 1 2 np 2 3 ppt 1 ppt 2 pfm" "$student np 1 2 np 2 3 ppt 1 ppt 2 pfm"
+    compare "$model np 4 5 ppt 4 np 12 6 ppt 12 pfm" "$student np 4 5 ppt 4 np 12 6 ppt 12 pfm"
+    compare "$model np 20 15 ppt np 1 20 np 5 5 ppt 5 pfm" "$student np 20 15 ppt np 1 20 np 5 5 ppt 5 pfm"
+fi
+
+if [ $WEEK -ge 2 ]; then
+    :
+fi
+
+printf "Press RETURN to edit\n"
+
+read dummy
+
+vim $progdir/$progname.c
