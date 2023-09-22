@@ -153,7 +153,7 @@ We know we can write things into the write end of the pipe. How do we
 get `wc` to read out of the read end of the pipe instead of from `stdin`
 (AKA file descriptor `0`)?
 
-What we're going to do is this: we'll rewire the file descriptors fromp
+What we're going to do is this: we'll rewire the file descriptors from
 `wc`'s perspective so that file descriptor `0` **is** the read end of
 the pipe.
 

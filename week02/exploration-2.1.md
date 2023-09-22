@@ -155,7 +155,7 @@ for new processes, numbered `0`, `1`, and `2`.
   another program's input being piped into, or a file being redirected
   as output
 
-* `2`, standard error or stderr -- usually the screen, but could be
+* `2`, standard error or `stderr` -- usually the screen, but could be
   another program's input being piped into, or a file being redirected
   as output
 

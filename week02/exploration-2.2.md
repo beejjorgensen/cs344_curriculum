@@ -18,7 +18,7 @@ And the process keeps control until one of the following things happens:
 
 * The process makes a system call.
 * A timer interrupt occurs--this is how the OS preempts a process when
-  its timeslice if up.
+  its timeslice is up.
 * An I/O or other interrupt occurs.
 
 All of those things transfer control back from the running process to

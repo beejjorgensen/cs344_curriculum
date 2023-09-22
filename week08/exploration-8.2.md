@@ -6,7 +6,7 @@ If you have _n_ pages of memory (e.g. 4 million), and each page table
 entry takes up a certain amount of size (e.g 4 bytes), that's a lot of
 memory (eg 16 megabytes) used for a process's page table.
 
-Multiple by a lot of processes running on your system (e.g. 200) noq
+Multiply by a lot of processes running on your system (e.g. 200) now
 we're talking a _metric ton_ of space used just for page tables (e.g.
 3.2 GB).
 
@@ -62,7 +62,7 @@ use or not. Each entry has a "valid" bit that indicates if any
 particular chunk of the page table exists, and a physical address of
 where that page table chunk is if it does exist.
 
-Since each chunk of the page table can holds many virtual mappings, the
+Since each chunk of the page table can hold many virtual mappings, the
 directory can be smaller by that same factor.
 
 The trade-off is that now we have to do two memory lookups for each

@@ -10,7 +10,7 @@ question:
 
 Deciding how to answer that is a rather human problem, actually. Imagine
 you have a group of 10 children who all want to ride on a single swing.
-How do you choose whp goes next?
+How do you choose who goes next?
 
 You might think, well, we'll go around taking turns in order,
 repeatedly. This way the child who has used the swing least recently
@@ -76,7 +76,7 @@ int main(void)
 }
 ```
 
-Note: since there's no newiine on the prompt, above, we might not see it
+Note: since there's no newline on the prompt, above, we might not see it
 on the output because C is buffering it to minimize the number of
 syscalls to `write()` it has to make. Calling `fflush()` forces the
 output to be sent.

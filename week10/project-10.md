@@ -59,7 +59,7 @@ particular process:
 
 **Remember**: `0` is not a valid page number to find in a page table.
 Zero page is reserved in this system. So when we're going through the
-page table looking for pages to free, we shouldn't a page if the
+page table looking for pages to free, we shouldn't free a page if the
 physical page value is zero.
 
 ```

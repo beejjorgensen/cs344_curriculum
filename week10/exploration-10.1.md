@@ -51,7 +51,7 @@ processes from directly accessing the OS pages.
 
 ### Page Table Size Mitigation
 
-If we have 0x100000000/2 addresses and 512-byte pages, the gives us
+If we have 0x100000000/2 addresses and 512-byte pages, this gives us
 4,194,304 pages, and that many entries in each page table. This is
 unreasonably large, even though we only have to do it for the
 per-process lower half of virtual memory.

@@ -1,7 +1,7 @@
 // Set the Week to 1, 2, or 3 for that part of the project. This enables
 // additional functionality.
 
-#define WEEK 3   // 1, 2, 3, 4 (extensions)
+#define WEEK 3  // 1, 2, 3, 4 (extensions)
 
 #include <stdio.h>
 #include <unistd.h>
@@ -13,6 +13,7 @@ struct block {
     struct block *next;
     int size;        // bytes
     int in_use;      // bool
+    long padding;
 };
 
 static struct block *head = NULL;

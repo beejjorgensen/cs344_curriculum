@@ -57,9 +57,9 @@ We're going to simulate this physical memory with a big global array of
 unsigned char mem[MEM_SIZE];
 ```
 
-(In C, a `unsigned char` type is just a byte--on your system, it's
-certainly 8-bits. It can hold charaters, or small numbers between 0 and 255.
-In this case, we'll use them to hold small numbers.
+(In C, an `unsigned char` type is just a byte--on your system, it's
+certainly 8-bits. It can hold charaters, or small numbers between 0 and
+255\. In this case, we'll use them to hold small numbers.
 
 The memory is logically split up into 64 pages of 256 bytes each.  (`64
 x 256 = 16384`, the total memory size.)
@@ -309,7 +309,7 @@ anything else.
 
 ### Algorithm to Map Page/Offset to Address
 
-We've already see this, but for completeness:
+We've already seen this, but for completeness:
 
 ```
 GetAddress(page, offset):

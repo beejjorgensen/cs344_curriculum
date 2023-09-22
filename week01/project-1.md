@@ -33,7 +33,7 @@ But wait! There's more!
 
 You can take the output of one command and pipe it into another with the `|` symbol.
 
-Lots of commands can be strung together this was. For instance, we know
+Lots of commands can be strung together this way. For instance, we know
 ls -la will give us a long directory listing of all files as output, but
 what if there are so many that they scroll off the screen?
 
@@ -94,7 +94,7 @@ to get output like this:
 43392 catman
 ```
 
-Each step of the pipeline take the output from the previous step as
+Each step of the pipeline takes the output from the previous step as
 input. And it and gives its output to the next step as input. You can
 use this to powerfully transform data. 
 
